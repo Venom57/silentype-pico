@@ -1,0 +1,5 @@
+firmware/build/
+host/pappl-app/silentype-app
+__pycache__/
+*.uf2
+docs/captures/

@@ -1,0 +1,31 @@
+Ref,Qty,Part,Description,Example MPN,Notes,Est USD
+U1,1,Raspberry Pi Pico 2,RP2350 MCU board,SC1632,Pico 2 W later for network printing,5.00
+U2,1,74AHCT245,3.3V->5V level shift for head dot lines; OE driven by U5,SN74AHCT245N,Both options. OE pulled HIGH (off) by R30 when U5 idle,0.80
+U6,1,74AHCT245,3.3V->5V level shift for stepper logic into U3/U4,SN74AHCT245N,Fixes ULN2003A 3.3V input marginality,0.80
+U5,1,74HC123,Dual retriggerable monostable - head enable one-shot (hardware burn ceiling),SN74HC123N,Runs at 3V3. T=0.45*R*C; 33k+100nF = ~1.5ms. Q-bar -> U2 OE. Second half spare,0.60
+U5-alt,0,74HC221,Non-retriggerable alternative to U5 if retrigger-loop residual risk matters,SN74HC221N,Same RC; burn time then hard-capped per strobe,0.60
+Q1-Q7,7,N-FET logic-level,Head element drivers (Option B only),AO3400A (IRLZ44N if >1.5A),Size after head current measured,1.40
+U3,1,ULN2003A,Carriage stepper driver 500mA/ch,ULN2003AN,Driven from U6 at 5V. Upgrade if coil current >400mA,0.60
+U4,1,ULN2003A,Paper-feed driver,ULN2003AN,Omit if single-motor,0.60
+D8-D11,4,Schottky SS34,Flyback - only if stepper on discrete FETs instead of ULN,SS34,Omit with ULN (internal clamps). None on head - resistive,0.40
+R1-R7,7,100R,FET gate series (Option B),generic,,0.10
+R8-R14,7,10k,Head line pulldowns at driver input - MANDATORY both options,generic,Hold head OFF when U2 tri-states or Pico resets,0.10
+R30,1,10k,Pullup on U2 OE to 3V3 (off by default),generic,Mandatory. U5 powered from 3V3 so GP9 can trigger it directly,0.02
+R31,1,33k,U5 timing resistor,generic 1%,,0.02
+C10,1,100nF C0G/X7R,U5 timing cap,generic,C0G preferred for stability,0.10
+R20-R23,4,10k/15k pairs,Sensor dividers 5V->3V,generic,,0.10
+R40,1,0.1R 1W shunt,Head return current sense (Option B only),Vishay WSL,1A -> 100mV -> ~125 ADC LSB,0.60
+R41/C11,1,1k + 10nF,ADC RC filter on shunt,generic,,0.05
+C1-C6,6,100nF,Decoupling per IC + connector,generic,,0.30
+C7,1,470uF 25V,VMOT bulk,Panasonic FC,Resize after current measurement,0.60
+C8,1,100uF 10V,5V bulk,generic,,0.30
+J1,1,2x13 IDC 26-pin,Printer ribbon header,3M 30326-6002HB,Verify pitch against original ribbon,1.50
+J2,1,26-cond ribbon,Carrier-to-printer,3M 3365/26,,3.00
+J3,1,Screw terminals,5V + VMOT input,Phoenix MKDS,,1.20
+J4,1,2x20 sockets,Pico socketing,generic,,1.00
+F1,1,Polyfuse 2A,VMOT rail,Littelfuse 30R200,Resize after head current known,0.50
+F2,1,Polyfuse 500mA,5V rail,Littelfuse 30R050,,0.40
+SW1,1,Tactile,Feed/self-test button,generic,,0.20
+LED1-2,2,LED + 1k,Status/error,generic,,0.20
+TP1-10,10,Test points,Head x7 + strobe + OE + shunt,Keystone 5001,For scope verification of U5 (M2),2.00
+PCB1,1,Proto or 2-layer,Carrier,BusBoard / JLC,,8.00

@@ -1,0 +1,12 @@
+[Unit]
+Description=Silentype PAPPL printer application
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/silentype-app server -o listen-hostname=localhost -o spool-directory=/var/spool/silentype
+Restart=on-failure
+User=silentype
+SupplementaryGroups=dialout
+
+[Install]
+WantedBy=multi-user.target

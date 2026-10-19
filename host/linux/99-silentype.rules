@@ -1,0 +1,2 @@
+# Silentype-Pico CDC device: stable symlink + group access, no sudo for PAPPL
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="0001", SYMLINK+="silentype", MODE="0660", GROUP="dialout"
