@@ -12,7 +12,7 @@ pip install pyserial pillow
 """
 import argparse, glob, struct, sys, time
 
-HEAD_DOTS = 7        # TODO(M1): sync with firmware config.h — UNVERIFIED
+HEAD_DOTS = 7        # ROM-confirmed (docs/firmware-archaeology)
 MAX_COLS  = 480      # TODO(M0): sync with firmware config.h
 CMD = dict(BAND=1, FEED=2, STATUS=3, RESET=4, SETPARAM=5, SELFTEST=6)
 RSP_STATUS, RSP_ACK = 0x83, 0x8F

@@ -1,0 +1,3974 @@
+; .SILENTYPE SOS driver v1.1 (BIG.DRIVER) — linear disassembly, base $0000
+; DIB at $0000-$010A (data). Entry at $010B.
+010B: a5 c0      LDA $c0
+010D: c9 09      CMP #$09
+010F: b0 0b      BCS $011c
+0111: 0a         ASL A
+0112: a8         TAY
+0113: b9 27 01   LDA $0127,Y
+0116: 48         PHA
+0117: b9 26 01   LDA $0126,Y
+011A: 48         PHA
+011B: 60         RTS
+011C: a9 20      LDA #$20
+011E: 20 28 19   JSR $1928
+0121: a9 23      LDA #$23
+0123: 20 28 19   JSR $1928
+0126: 1b         ???
+0127: 01 bc      ORA ($bc,X)
+0129: 01 fa      ORA ($fa,X)
+012B: 01 39      ORA ($39,X)
+012D: 02         ???
+012E: 1b         ???
+012F: 01 1b      ORA ($1b,X)
+0131: 01 64      ORA ($64,X)
+0133: 01 89      ORA ($89,X)
+0135: 01 37      ORA ($37,X)
+0137: 01 a9      ORA ($a9,X)
+0139: 00         BRK
+013A: 8d 3d 00   STA $003d
+013D: a2 10      LDX #$10
+013F: bd 22 00   LDA $0022,X
+0142: 9d 5a 00   STA $005a,X
+0145: ca         DEX
+0146: 10 f7      BPL $013f
+0148: 18         CLC
+0149: 60         RTS
+014A: 09 00      ORA #$00
+014C: 00         BRK
+014D: 00         BRK
+014E: 00         BRK
+014F: 0b         ???
+0150: 00         BRK
+0151: 00         BRK
+0152: 00         BRK
+0153: 00         BRK
+0154: 0c         ???
+0155: 00         BRK
+0156: 00         BRK
+0157: 00         BRK
+0158: 00         BRK
+0159: 0d 00 00   ORA $0000
+015C: 00         BRK
+015D: 00         BRK
+015E: 0e 00 00   ASL $0000
+0161: 00         BRK
+0162: 00         BRK
+0163: 4a         LSR A
+0164: 01 a9      ORA ($a9,X)
+0166: 19 ae 63   ORA $63ae,Y
+0169: 01 ac      ORA ($ac,X)
+016B: 64         ???
+016C: 01 20      ORA ($20,X)
+016E: 13         ???
+016F: 19 90 05   ORA $0590,Y
+0172: a9 25      LDA #$25
+0174: 20 28 19   JSR $1928
+0177: 20 69 02   JSR $0269
+017A: b0 06      BCS $0182
+017C: a9 ff      LDA #$ff
+017E: 8d 3d 00   STA $003d
+0181: 60         RTS
+0182: 20 92 01   JSR $0192
+0185: a9 28      LDA #$28
+0187: 20 28 19   JSR $1928
+018A: 2c 3d 00   BIT $003d
+018D: 10 29      BPL $01b8
+018F: 20 20 04   JSR $0420
+0192: a9 00      LDA #$00
+0194: 8d 3d 00   STA $003d
+0197: 08         PHP
+0198: 78         SEI
+0199: ad db ff   LDA $ffdb
+019C: 29 e3      AND #$e3
+019E: 8d db ff   STA $ffdb
+01A1: ad dc ff   LDA $ffdc
+01A4: 29 01      AND #$01
+01A6: 09 76      ORA #$76
+01A8: 8d dc ff   STA $ffdc
+01AB: 28         PLP
+01AC: a9 19      LDA #$19
+01AE: ae 63 01   LDX $0163
+01B1: ac 64 01   LDY $0164
+01B4: 20 16 19   JSR $1916
+01B7: 60         RTS
+01B8: a9 23      LDA #$23
+01BA: 20 28 19   JSR $1928
+01BD: 2c 3d 00   BIT $003d
+01C0: 10 f6      BPL $01b8
+01C2: a9 00      LDA #$00
+01C4: 85 c8      STA $c8
+01C6: 85 c9      STA $c9
+01C8: 85 f4      STA $f4
+01CA: a5 c9      LDA $c9
+01CC: c5 c5      CMP $c5
+01CE: 90 06      BCC $01d6
+01D0: a5 c8      LDA $c8
+01D2: c5 c4      CMP $c4
+01D4: b0 e1      BCS $01b7
+01D6: a0 00      LDY #$00
+01D8: b1 c2      LDA ($c2),Y
+01DA: 20 35 03   JSR $0335
+01DD: a5 f4      LDA $f4
+01DF: f0 03      BEQ $01e4
+01E1: 20 28 19   JSR $1928
+01E4: e6 c2      INC $c2
+01E6: d0 0b      BNE $01f3
+01E8: e6 c3      INC $c3
+01EA: d0 07      BNE $01f3
+01EC: ee c3 14   INC $14c3
+01EF: a9 80      LDA #$80
+01F1: 85 c3      STA $c3
+01F3: e6 c8      INC $c8
+01F5: d0 d3      BNE $01ca
+01F7: e6 c9      INC $c9
+01F9: d0 cf      BNE $01ca
+01FB: 2c 3d 00   BIT $003d
+01FE: 10 b8      BPL $01b8
+0200: 20 f1 02   JSR $02f1
+0203: a5 c2      LDA $c2
+0205: c9 03      CMP #$03
+0207: b0 0b      BCS $0214
+0209: 0a         ASL A
+020A: a8         TAY
+020B: b9 1a 02   LDA $021a,Y
+020E: 48         PHA
+020F: b9 19 02   LDA $0219,Y
+0212: 48         PHA
+0213: 60         RTS
+0214: a9 21      LDA #$21
+0216: 20 28 19   JSR $1928
+0219: 38         SEC
+021A: 02         ???
+021B: 1e 02 38   ASL $3802,X
+021E: 02         ???
+021F: a0 00      LDY #$00
+0221: b1 c3      LDA ($c3),Y
+0223: c9 11      CMP #$11
+0225: b0 05      BCS $022c
+0227: a9 22      LDA #$22
+0229: 20 28 19   JSR $1928
+022C: a9 11      LDA #$11
+022E: 91 c3      STA ($c3),Y
+0230: a8         TAY
+0231: b9 59 00   LDA $0059,Y
+0234: 91 c3      STA ($c3),Y
+0236: 88         DEY
+0237: d0 f8      BNE $0231
+0239: 60         RTS
+023A: 2c 3d 00   BIT $003d
+023D: 30 03      BMI $0242
+023F: 4c b8 01   JMP $01b8
+0242: 20 f1 02   JSR $02f1
+0245: a5 c2      LDA $c2
+0247: c9 08      CMP #$08
+0249: b0 0b      BCS $0256
+024B: 0a         ASL A
+024C: a8         TAY
+024D: b9 5a 02   LDA $025a,Y
+0250: 48         PHA
+0251: b9 59 02   LDA $0259,Y
+0254: 48         PHA
+0255: 60         RTS
+0256: 4c 14 02   JMP $0214
+0259: 68         PLA
+025A: 02         ???
+025B: 7e 02 7d   ROR $7d02,X
+025E: 02         ???
+025F: 6b         ???
+0260: 02         ???
+0261: ab         ???
+0262: 02         ???
+0263: 95 02      STA $02,X
+0265: a0 02      LDY #$02
+0267: fe 02 20   INC $2002,X
+026A: 3d 01 a9   AND $a901,X
+026D: 40         RTI
+026E: 85 ee      STA $ee
+0270: 20 3f 0c   JSR $0c3f
+0273: 90 05      BCC $027a
+0275: a9 27      LDA #$27
+0277: 85 f4      STA $f4
+0279: 60         RTS
+027A: 20 02 03   JSR $0302
+027D: 18         CLC
+027E: 60         RTS
+027F: a0 00      LDY #$00
+0281: b1 c3      LDA ($c3),Y
+0283: a8         TAY
+0284: c0 11      CPY #$11
+0286: f0 05      BEQ $028d
+0288: a9 22      LDA #$22
+028A: 20 28 19   JSR $1928
+028D: b1 c3      LDA ($c3),Y
+028F: 99 59 00   STA $0059,Y
+0292: 88         DEY
+0293: d0 f8      BNE $028d
+0295: 60         RTS
+0296: a0 05      LDY #$05
+0298: b1 c3      LDA ($c3),Y
+029A: 99 65 00   STA $0065,Y
+029D: 88         DEY
+029E: 10 f8      BPL $0298
+02A0: 60         RTS
+02A1: a0 07      LDY #$07
+02A3: b1 c3      LDA ($c3),Y
+02A5: 99 19 0a   STA $0a19,Y
+02A8: 88         DEY
+02A9: 10 f8      BPL $02a3
+02AB: 60         RTS
+02AC: a0 01      LDY #$01
+02AE: b1 c3      LDA ($c3),Y
+02B0: 85 e5      STA $e5
+02B2: cd 95 0d   CMP $0d95
+02B5: 90 0c      BCC $02c3
+02B7: d0 f2      BNE $02ab
+02B9: 88         DEY
+02BA: b1 c3      LDA ($c3),Y
+02BC: 85 e4      STA $e4
+02BE: cd 94 0d   CMP $0d94
+02C1: b0 e8      BCS $02ab
+02C3: ad 92 0d   LDA $0d92
+02C6: 38         SEC
+02C7: e9 02      SBC #$02
+02C9: 85 e0      STA $e0
+02CB: ad 93 0d   LDA $0d93
+02CE: e9 00      SBC #$00
+02D0: 85 e1      STA $e1
+02D2: a9 00      LDA #$00
+02D4: 8d e1 14   STA $14e1
+02D7: a0 02      LDY #$02
+02D9: b1 c3      LDA ($c3),Y
+02DB: 91 e0      STA ($e0),Y
+02DD: c8         INY
+02DE: d0 04      BNE $02e4
+02E0: e6 c4      INC $c4
+02E2: e6 e1      INC $e1
+02E4: a5 e4      LDA $e4
+02E6: d0 04      BNE $02ec
+02E8: c6 e5      DEC $e5
+02EA: 30 bf      BMI $02ab
+02EC: c6 e4      DEC $e4
+02EE: 4c d9 02   JMP $02d9
+02F1: a5 c4      LDA $c4
+02F3: c9 ff      CMP #$ff
+02F5: d0 07      BNE $02fe
+02F7: a9 7f      LDA #$7f
+02F9: 85 c4      STA $c4
+02FB: ee c4 14   INC $14c4
+02FE: 60         RTS
+02FF: 4c cd 06   JMP $06cd
+0302: 20 df 07   JSR $07df
+0305: a9 00      LDA #$00
+0307: 8d 3e 00   STA $003e
+030A: 20 0f 09   JSR $090f
+030D: 20 9a 09   JSR $099a
+0310: 20 23 04   JSR $0423
+0313: 20 2a 03   JSR $032a
+0316: a9 00      LDA #$00
+0318: 8d 43 00   STA $0043
+031B: a2 07      LDX #$07
+031D: ad 5b 00   LDA $005b
+0320: 4a         LSR A
+0321: 90 03      BCC $0326
+0323: ee 43 00   INC $0043
+0326: ca         DEX
+0327: 10 f7      BPL $0320
+0329: 60         RTS
+032A: a9 20      LDA #$20
+032C: 85 ea      STA $ea
+032E: 20 08 0d   JSR $0d08
+0331: 8d 3f 00   STA $003f
+0334: 60         RTS
+0335: 85 ee      STA $ee
+0337: ad 3e 00   LDA $003e
+033A: 0a         ASL A
+033B: a8         TAY
+033C: b9 48 03   LDA $0348,Y
+033F: 48         PHA
+0340: b9 47 03   LDA $0347,Y
+0343: 48         PHA
+0344: a5 ee      LDA $ee
+0346: 60         RTS
+0347: 4e 03 c6   LSR $c603
+034A: 04         ???
+034B: de 04 ba   DEC $ba04,X
+034E: 04         ???
+034F: 29 7f      AND #$7f
+0351: c9 20      CMP #$20
+0353: 90 03      BCC $0358
+0355: 4c 38 04   JMP $0438
+0358: a2 05      LDX #$05
+035A: dd 74 03   CMP $0374,X
+035D: f0 09      BEQ $0368
+035F: ca         DEX
+0360: 10 f8      BPL $035a
+0362: cd 64 00   CMP $0064
+0365: f0 1f      BEQ $0386
+0367: 60         RTS
+0368: 8a         TXA
+0369: 0a         ASL A
+036A: aa         TAX
+036B: bd 7b 03   LDA $037b,X
+036E: 48         PHA
+036F: bd 7a 03   LDA $037a,X
+0372: 48         PHA
+0373: 60         RTS
+0374: 0d 0a 0c   ORA $0c0a
+0377: 08         PHP
+0378: 0e 06 89   ASL $8906
+037B: 03         ???
+037C: a3         ???
+037D: 03         ???
+037E: 94 03      STY $03,X
+0380: ed 03 b1   SBC $b103
+0383: 03         ???
+0384: 03         ???
+0385: 04         ???
+0386: ee 3e 00   INC $003e
+0389: 60         RTS
+038A: 20 20 04   JSR $0420
+038D: a9 02      LDA #$02
+038F: 2c 62 00   BIT $0062
+0392: d0 0d      BNE $03a1
+0394: 60         RTS
+0395: 20 06 07   JSR $0706
+0398: 20 28 09   JSR $0928
+039B: 4c 23 04   JMP $0423
+039E: 20 20 04   JSR $0420
+03A1: 4c 0f 09   JMP $090f
+03A4: ad 42 00   LDA $0042
+03A7: f0 f8      BEQ $03a1
+03A9: ad 61 00   LDA $0061
+03AC: 8d 40 00   STA $0040
+03AF: 4c 61 06   JMP $0661
+03B2: ad 42 00   LDA $0042
+03B5: f0 0c      BEQ $03c3
+03B7: ad 61 00   LDA $0061
+03BA: 20 09 09   JSR $0909
+03BD: 8d 40 00   STA $0040
+03C0: 4c 61 06   JMP $0661
+03C3: 4c 1f 09   JMP $091f
+03C6: ad 44 00   LDA $0044
+03C9: 38         SEC
+03CA: ed 3f 00   SBC $003f
+03CD: 08         PHP
+03CE: 38         SEC
+03CF: ed 60 00   SBC $0060
+03D2: 8d 44 00   STA $0044
+03D5: b0 03      BCS $03da
+03D7: ce 45 00   DEC $0045
+03DA: 28         PLP
+03DB: 20 e8 03   JSR $03e8
+03DE: 38         SEC
+03DF: ad 44 00   LDA $0044
+03E2: ed 43 00   SBC $0043
+03E5: 8d 44 00   STA $0044
+03E8: b0 03      BCS $03ed
+03EA: ce 45 00   DEC $0045
+03ED: 60         RTS
+03EE: 20 c6 03   JSR $03c6
+03F1: ad 45 00   LDA $0045
+03F4: 30 05      BMI $03fb
+03F6: a9 08      LDA #$08
+03F8: 4c 9f 04   JMP $049f
+03FB: a9 00      LDA #$00
+03FD: 8d 44 00   STA $0044
+0400: 8d 45 00   STA $0045
+0403: 60         RTS
+0404: ad 44 00   LDA $0044
+0407: 48         PHA
+0408: ad 45 00   LDA $0045
+040B: 48         PHA
+040C: 20 06 07   JSR $0706
+040F: 68         PLA
+0410: 8d 45 00   STA $0045
+0413: 8d 47 00   STA $0047
+0416: 68         PLA
+0417: 8d 44 00   STA $0044
+041A: 8d 46 00   STA $0046
+041D: 4c 35 04   JMP $0435
+0420: 20 06 07   JSR $0706
+0423: ad 5c 00   LDA $005c
+0426: 8d 44 00   STA $0044
+0429: 8d 46 00   STA $0046
+042C: ad 5d 00   LDA $005d
+042F: 8d 45 00   STA $0045
+0432: 8d 47 00   STA $0047
+0435: 4c 99 0a   JMP $0a99
+0438: cd 64 00   CMP $0064
+043B: d0 04      BNE $0441
+043D: ee 3e 00   INC $003e
+0440: 60         RTS
+0441: 48         PHA
+0442: ad 5f 00   LDA $005f
+0445: cd 45 00   CMP $0045
+0448: 90 0a      BCC $0454
+044A: d0 1f      BNE $046b
+044C: ad 5e 00   LDA $005e
+044F: cd 44 00   CMP $0044
+0452: b0 17      BCS $046b
+0454: ad 62 00   LDA $0062
+0457: 29 04      AND #$04
+0459: f0 0a      BEQ $0465
+045B: ad 62 00   LDA $0062
+045E: 09 01      ORA #$01
+0460: 8d 62 00   STA $0062
+0463: 68         PLA
+0464: 60         RTS
+0465: 20 20 04   JSR $0420
+0468: 20 0f 09   JSR $090f
+046B: ad 62 00   LDA $0062
+046E: 29 01      AND #$01
+0470: f0 02      BEQ $0474
+0472: 68         PLA
+0473: 60         RTS
+0474: 68         PLA
+0475: 48         PHA
+0476: 20 08 0d   JSR $0d08
+0479: 18         CLC
+047A: 6d 44 00   ADC $0044
+047D: 08         PHP
+047E: 6d 60 00   ADC $0060
+0481: 8d 44 00   STA $0044
+0484: 90 03      BCC $0489
+0486: ee 45 00   INC $0045
+0489: 28         PLP
+048A: 90 03      BCC $048f
+048C: ee 45 00   INC $0045
+048F: ad 44 00   LDA $0044
+0492: 18         CLC
+0493: 6d 43 00   ADC $0043
+0496: 8d 44 00   STA $0044
+0499: 90 03      BCC $049e
+049B: ee 45 00   INC $0045
+049E: 68         PLA
+049F: ac 42 00   LDY $0042
+04A2: 99 6b 00   STA $006b,Y
+04A5: c8         INY
+04A6: 8c 42 00   STY $0042
+04A9: c0 97      CPY #$97
+04AB: b0 01      BCS $04ae
+04AD: 60         RTS
+04AE: 4c 04 04   JMP $0404
+04B1: ac 42 00   LDY $0042
+04B4: 99 6b 00   STA $006b,Y
+04B7: ee 42 00   INC $0042
+04BA: 60         RTS
+04BB: 85 ee      STA $ee
+04BD: 20 3f 0c   JSR $0c3f
+04C0: 90 eb      BCC $04ad
+04C2: a9 27      LDA #$27
+04C4: 85 f4      STA $f4
+04C6: 60         RTS
+04C7: a2 14      LDX #$14
+04C9: 29 7f      AND #$7f
+04CB: dd f9 04   CMP $04f9,X
+04CE: f0 07      BEQ $04d7
+04D0: ca         DEX
+04D1: 10 f8      BPL $04cb
+04D3: ce 3e 00   DEC $003e
+04D6: 60         RTS
+04D7: 8e 41 00   STX $0041
+04DA: bd 38 05   LDA $0538,X
+04DD: d0 16      BNE $04f5
+04DF: 8d 40 00   STA $0040
+04E2: a9 00      LDA #$00
+04E4: 8d 3e 00   STA $003e
+04E7: ad 41 00   LDA $0041
+04EA: 0a         ASL A
+04EB: aa         TAX
+04EC: bd 0f 05   LDA $050f,X
+04EF: 48         PHA
+04F0: bd 0e 05   LDA $050e,X
+04F3: 48         PHA
+04F4: 60         RTS
+04F5: ee 3e 00   INC $003e
+04F8: 60         RTS
+04F9: 3c         ???
+04FA: 3e 45 65   ROL $6545,X
+04FD: 46 4a      LSR $4a
+04FF: 4b         ???
+0500: 4c 2e 5e   JMP $5e2e
+0503: 43         ???
+0504: 63         ???
+0505: 48         PHA
+0506: 56 3d      LSR $3d,X
+0508: 57         ???
+0509: 77         ???
+050A: 42         ???
+050B: 62         ???
+050C: 47         ???
+050D: 3f         ???
+050E: 52         ???
+050F: 05 4b      ORA $4b
+0511: 05 59      ORA $59
+0513: 05 60      ORA $60
+0515: 05 69      ORA $69
+0517: 05 91      ORA $91
+0519: 05 c0      ORA $c0
+051B: 05 08      ORA $08
+051D: 06 ed      ASL $ed
+051F: 05 11      ORA $11
+0521: 06 d5      ASL $d5
+0523: 06 dc      ASL $dc
+0525: 06 1a      ASL $1a
+0527: 06 60      ASL $60
+0529: 06 68      ASL $68
+052B: 02         ???
+052C: 87         ???
+052D: 06 98      ASL $98
+052F: 06 a0      ASL $a0
+0531: 06 c3      ASL $c3
+0533: 06 cc      ASL $cc
+0535: 06 e5      ASL $e5
+0537: 06 00      ASL $00
+0539: 00         BRK
+053A: 00         BRK
+053B: 00         BRK
+053C: 80         ???
+053D: 80         ???
+053E: 80         ???
+053F: 80         ???
+0540: 80         ???
+0541: 80         ???
+0542: 00         BRK
+0543: 00         BRK
+0544: 80         ???
+0545: 80         ???
+0546: 00         BRK
+0547: 80         ???
+0548: 00         BRK
+0549: 00         BRK
+054A: 00         BRK
+054B: 80         ???
+054C: ad 62 00   LDA $0062
+054F: 09 80      ORA #$80
+0551: d0 13      BNE $0566
+0553: ad 62 00   LDA $0062
+0556: 29 7f      AND #$7f
+0558: 10 0c      BPL $0566
+055A: ad 62 00   LDA $0062
+055D: 09 02      ORA #$02
+055F: d0 05      BNE $0566
+0561: ad 62 00   LDA $0062
+0564: 29 fd      AND #$fd
+0566: 8d 62 00   STA $0062
+0569: 60         RTS
+056A: ad 40 00   LDA $0040
+056D: 29 07      AND #$07
+056F: cd 96 0d   CMP $0d96
+0572: b0 f5      BCS $0569
+0574: a9 82      LDA #$82
+0576: 20 b1 04   JSR $04b1
+0579: ad 5a 00   LDA $005a
+057C: 20 b1 04   JSR $04b1
+057F: ad 40 00   LDA $0040
+0582: 29 07      AND #$07
+0584: 8d 5a 00   STA $005a
+0587: 20 b1 04   JSR $04b1
+058A: 20 2a 03   JSR $032a
+058D: a9 82      LDA #$82
+058F: 4c 9f 04   JMP $049f
+0592: ad 40 00   LDA $0040
+0595: 85 e6      STA $e6
+0597: ad 3f 00   LDA $003f
+059A: 18         CLC
+059B: 6d 60 00   ADC $0060
+059E: 85 e7      STA $e7
+05A0: 20 ed 06   JSR $06ed
+05A3: a5 e9      LDA $e9
+05A5: cd 5f 00   CMP $005f
+05A8: 90 0a      BCC $05b4
+05AA: d0 07      BNE $05b3
+05AC: a5 e8      LDA $e8
+05AE: cd 5e 00   CMP $005e
+05B1: 90 01      BCC $05b4
+05B3: 60         RTS
+05B4: a5 e8      LDA $e8
+05B6: 8d 5c 00   STA $005c
+05B9: a5 e9      LDA $e9
+05BB: 8d 5d 00   STA $005d
+05BE: 4c 9e 03   JMP $039e
+05C1: ad 40 00   LDA $0040
+05C4: 85 e6      STA $e6
+05C6: ad 3f 00   LDA $003f
+05C9: 18         CLC
+05CA: 6d 60 00   ADC $0060
+05CD: 85 e7      STA $e7
+05CF: 20 ed 06   JSR $06ed
+05D2: a5 e9      LDA $e9
+05D4: c9 01      CMP #$01
+05D6: 90 09      BCC $05e1
+05D8: d0 d9      BNE $05b3
+05DA: a5 e8      LDA $e8
+05DC: c9 f0      CMP #$f0
+05DE: 90 01      BCC $05e1
+05E0: 60         RTS
+05E1: a5 e8      LDA $e8
+05E3: 8d 5e 00   STA $005e
+05E6: a5 e9      LDA $e9
+05E8: 8d 5f 00   STA $005f
+05EB: 4c 9e 03   JMP $039e
+05EE: a9 81      LDA #$81
+05F0: 20 b1 04   JSR $04b1
+05F3: ad 60 00   LDA $0060
+05F6: 20 b1 04   JSR $04b1
+05F9: ad 40 00   LDA $0040
+05FC: 29 0f      AND #$0f
+05FE: 8d 60 00   STA $0060
+0601: 20 b1 04   JSR $04b1
+0604: a9 81      LDA #$81
+0606: 4c 9f 04   JMP $049f
+0609: ad 40 00   LDA $0040
+060C: 29 0f      AND #$0f
+060E: 8d 63 00   STA $0063
+0611: 60         RTS
+0612: ad 40 00   LDA $0040
+0615: 29 0f      AND #$0f
+0617: 8d 61 00   STA $0061
+061A: 60         RTS
+061B: 18         CLC
+061C: ad 40 00   LDA $0040
+061F: 48         PHA
+0620: ac 45 00   LDY $0045
+0623: 6d 44 00   ADC $0044
+0626: aa         TAX
+0627: 68         PLA
+0628: 30 10      BMI $063a
+062A: 90 01      BCC $062d
+062C: c8         INY
+062D: cc 5f 00   CPY $005f
+0630: 90 19      BCC $064b
+0632: d0 05      BNE $0639
+0634: ec 5e 00   CPX $005e
+0637: 90 12      BCC $064b
+0639: 60         RTS
+063A: b0 03      BCS $063f
+063C: 88         DEY
+063D: 30 fa      BMI $0639
+063F: cc 5d 00   CPY $005d
+0642: 90 f5      BCC $0639
+0644: d0 05      BNE $064b
+0646: ec 5c 00   CPX $005c
+0649: 90 ee      BCC $0639
+064B: 8e 44 00   STX $0044
+064E: 8c 45 00   STY $0045
+0651: a9 84      LDA #$84
+0653: 48         PHA
+0654: 20 b1 04   JSR $04b1
+0657: ad 40 00   LDA $0040
+065A: 20 b1 04   JSR $04b1
+065D: 68         PLA
+065E: 4c 9f 04   JMP $049f
+0661: ad 42 00   LDA $0042
+0664: f0 1c      BEQ $0682
+0666: a9 85      LDA #$85
+0668: 20 b1 04   JSR $04b1
+066B: ad 40 00   LDA $0040
+066E: 30 02      BMI $0672
+0670: 29 0f      AND #$0f
+0672: 48         PHA
+0673: 18         CLC
+0674: 6d 48 00   ADC $0048
+0677: 8d 48 00   STA $0048
+067A: 68         PLA
+067B: 20 b1 04   JSR $04b1
+067E: a9 85      LDA #$85
+0680: d0 dc      BNE $065e
+0682: ad 40 00   LDA $0040
+0685: 4c ce 08   JMP $08ce
+0688: ad 40 00   LDA $0040
+068B: 29 07      AND #$07
+068D: aa         TAX
+068E: ad 5b 00   LDA $005b
+0691: 29 80      AND #$80
+0693: 1d 19 0a   ORA $0a19,X
+0696: 4c a8 06   JMP $06a8
+0699: ad 5b 00   LDA $005b
+069C: 29 80      AND #$80
+069E: 4c a8 06   JMP $06a8
+06A1: ad 5b 00   LDA $005b
+06A4: 30 1d      BMI $06c3
+06A6: 09 80      ORA #$80
+06A8: 48         PHA
+06A9: a9 83      LDA #$83
+06AB: 20 b1 04   JSR $04b1
+06AE: ad 5b 00   LDA $005b
+06B1: 20 b1 04   JSR $04b1
+06B4: 68         PLA
+06B5: 8d 5b 00   STA $005b
+06B8: 20 b1 04   JSR $04b1
+06BB: a9 83      LDA #$83
+06BD: 20 9f 04   JSR $049f
+06C0: 20 16 03   JSR $0316
+06C3: 60         RTS
+06C4: ad 5b 00   LDA $005b
+06C7: 10 fa      BPL $06c3
+06C9: 29 7f      AND #$7f
+06CB: 10 db      BPL $06a8
+06CD: 20 04 04   JSR $0404
+06D0: a9 03      LDA #$03
+06D2: 8d 3e 00   STA $003e
+06D5: 60         RTS
+06D6: ad 62 00   LDA $0062
+06D9: 09 04      ORA #$04
+06DB: d0 05      BNE $06e2
+06DD: ad 62 00   LDA $0062
+06E0: 29 fb      AND #$fb
+06E2: 8d 62 00   STA $0062
+06E5: 60         RTS
+06E6: ad 40 00   LDA $0040
+06E9: 8d 64 00   STA $0064
+06EC: 60         RTS
+06ED: a9 00      LDA #$00
+06EF: 85 e8      STA $e8
+06F1: 85 e9      STA $e9
+06F3: a6 e6      LDX $e6
+06F5: f0 0e      BEQ $0705
+06F7: 18         CLC
+06F8: a5 e7      LDA $e7
+06FA: 65 e8      ADC $e8
+06FC: 85 e8      STA $e8
+06FE: 90 02      BCC $0702
+0700: e6 e9      INC $e9
+0702: ca         DEX
+0703: d0 f2      BNE $06f7
+0705: 60         RTS
+0706: ac 42 00   LDY $0042
+0709: c0 00      CPY #$00
+070B: f0 4e      BEQ $075b
+070D: 88         DEY
+070E: b9 6b 00   LDA $006b,Y
+0711: c9 20      CMP #$20
+0713: d0 09      BNE $071e
+0715: 8c 42 00   STY $0042
+0718: 20 c6 03   JSR $03c6
+071B: 4c 09 07   JMP $0709
+071E: a9 00      LDA #$00
+0720: 8d 3b 00   STA $003b
+0723: a9 03      LDA #$03
+0725: 8d 3c 00   STA $003c
+0728: a9 80      LDA #$80
+072A: 2c 62 00   BIT $0062
+072D: f0 3d      BEQ $076c
+072F: 20 95 09   JSR $0995
+0732: 20 02 08   JSR $0802
+0735: ad 39 00   LDA $0039
+0738: 0d 3a 00   ORA $003a
+073B: d0 03      BNE $0740
+073D: 20 9a 09   JSR $099a
+0740: ad 46 00   LDA $0046
+0743: 8d 44 00   STA $0044
+0746: ad 47 00   LDA $0047
+0749: 8d 45 00   STA $0045
+074C: 20 3f 09   JSR $093f
+074F: 20 bc 0c   JSR $0cbc
+0752: a0 00      LDY #$00
+0754: 84 fe      STY $fe
+0756: cc 42 00   CPY $0042
+0759: 90 03      BCC $075e
+075B: 4c df 07   JMP $07df
+075E: b9 6b 00   LDA $006b,Y
+0761: 85 ea      STA $ea
+0763: 20 32 08   JSR $0832
+0766: e6 fe      INC $fe
+0768: a4 fe      LDY $fe
+076A: d0 ea      BNE $0756
+076C: ad 45 00   LDA $0045
+076F: cd 3a 00   CMP $003a
+0772: 90 0a      BCC $077e
+0774: d0 2d      BNE $07a3
+0776: ad 44 00   LDA $0044
+0779: cd 39 00   CMP $0039
+077C: b0 25      BCS $07a3
+077E: 20 3f 09   JSR $093f
+0781: 20 15 08   JSR $0815
+0784: 20 ef 07   JSR $07ef
+0787: 20 b3 0c   JSR $0cb3
+078A: a9 12      LDA #$12
+078C: 20 bb 04   JSR $04bb
+078F: ac 42 00   LDY $0042
+0792: f0 40      BEQ $07d4
+0794: 88         DEY
+0795: 8c 42 00   STY $0042
+0798: b9 6b 00   LDA $006b,Y
+079B: 85 ea      STA $ea
+079D: 20 32 08   JSR $0832
+07A0: 4c 8f 07   JMP $078f
+07A3: 38         SEC
+07A4: ad 44 00   LDA $0044
+07A7: ed 39 00   SBC $0039
+07AA: 85 e6      STA $e6
+07AC: ad 45 00   LDA $0045
+07AF: ed 3a 00   SBC $003a
+07B2: 85 e7      STA $e7
+07B4: ad 39 00   LDA $0039
+07B7: 38         SEC
+07B8: ed 46 00   SBC $0046
+07BB: 85 e8      STA $e8
+07BD: ad 3a 00   LDA $003a
+07C0: ed 47 00   SBC $0047
+07C3: 30 0c      BMI $07d1
+07C5: c5 e7      CMP $e7
+07C7: 90 08      BCC $07d1
+07C9: d0 b3      BNE $077e
+07CB: a5 e8      LDA $e8
+07CD: c5 e6      CMP $e6
+07CF: b0 ad      BCS $077e
+07D1: 4c 32 07   JMP $0732
+07D4: a9 41      LDA #$41
+07D6: 20 bb 04   JSR $04bb
+07D9: 20 15 08   JSR $0815
+07DC: 20 02 08   JSR $0802
+07DF: a9 00      LDA #$00
+07E1: 8d 42 00   STA $0042
+07E4: 8d 48 00   STA $0048
+07E7: ad 62 00   LDA $0062
+07EA: 29 fe      AND #$fe
+07EC: 8d 62 00   STA $0062
+07EF: ad 5a 00   LDA $005a
+07F2: 8d 49 00   STA $0049
+07F5: ad 5b 00   LDA $005b
+07F8: 8d 4a 00   STA $004a
+07FB: ad 60 00   LDA $0060
+07FE: 8d 4b 00   STA $004b
+0801: 60         RTS
+0802: ad 49 00   LDA $0049
+0805: 8d 5a 00   STA $005a
+0808: ad 4a 00   LDA $004a
+080B: 8d 5b 00   STA $005b
+080E: ad 4b 00   LDA $004b
+0811: 8d 60 00   STA $0060
+0814: 60         RTS
+0815: a9 00      LDA #$00
+0817: 85 e5      STA $e5
+0819: a9 20      LDA #$20
+081B: 85 ec      STA $ec
+081D: ad 48 00   LDA $0048
+0820: 85 e4      STA $e4
+0822: f0 dd      BEQ $0801
+0824: 10 09      BPL $082f
+0826: 20 09 09   JSR $0909
+0829: 85 e4      STA $e4
+082B: a9 30      LDA #$30
+082D: 85 ec      STA $ec
+082F: 4c 6d 09   JMP $096d
+0832: a5 ea      LDA $ea
+0834: 30 36      BMI $086c
+0836: c9 08      CMP #$08
+0838: f0 1c      BEQ $0856
+083A: 2c 38 00   BIT $0038
+083D: 08         PHP
+083E: 10 0d      BPL $084d
+0840: ad 60 00   LDA $0060
+0843: f0 05      BEQ $084a
+0845: 09 10      ORA #$10
+0847: 20 bb 04   JSR $04bb
+084A: 28         PLP
+084B: 10 08      BPL $0855
+084D: 20 b9 09   JSR $09b9
+0850: 2c 38 00   BIT $0038
+0853: 10 eb      BPL $0840
+0855: 60         RTS
+0856: 20 60 08   JSR $0860
+0859: a9 20      LDA #$20
+085B: 85 ea      STA $ea
+085D: 20 3a 08   JSR $083a
+0860: 20 99 0a   JSR $0a99
+0863: 20 ba 0a   JSR $0aba
+0866: 20 ba 0a   JSR $0aba
+0869: 4c c3 0c   JMP $0cc3
+086C: 0a         ASL A
+086D: a8         TAY
+086E: b9 87 08   LDA $0887,Y
+0871: 48         PHA
+0872: b9 86 08   LDA $0886,Y
+0875: 48         PHA
+0876: 20 7a 08   JSR $087a
+0879: 60         RTS
+087A: 2c 38 00   BIT $0038
+087D: 30 03      BMI $0882
+087F: e6 fe      INC $fe
+0881: 60         RTS
+0882: ce 42 00   DEC $0042
+0885: 60         RTS
+0886: 91 08      STA ($08),Y
+0888: 92         ???
+0889: 08         PHP
+088A: 99 08 a0   STA $a008,Y
+088D: 08         PHP
+088E: a7         ???
+088F: 08         PHP
+0890: c7         ???
+0891: 08         PHP
+0892: 60         RTS
+0893: 20 ee 08   JSR $08ee
+0896: 8d 60 00   STA $0060
+0899: 60         RTS
+089A: 20 ee 08   JSR $08ee
+089D: 8d 5a 00   STA $005a
+08A0: 60         RTS
+08A1: 20 ee 08   JSR $08ee
+08A4: 8d 5b 00   STA $005b
+08A7: 60         RTS
+08A8: a9 00      LDA #$00
+08AA: 85 e5      STA $e5
+08AC: a9 10      LDA #$10
+08AE: 85 ec      STA $ec
+08B0: 20 f1 08   JSR $08f1
+08B3: a8         TAY
+08B4: 85 e4      STA $e4
+08B6: 10 0d      BPL $08c5
+08B8: 20 99 0a   JSR $0a99
+08BB: 20 c0 0a   JSR $0ac0
+08BE: c6 e5      DEC $e5
+08C0: a5 e5      LDA $e5
+08C2: 4c 59 09   JMP $0959
+08C5: 4c 6d 09   JMP $096d
+08C8: 20 99 0a   JSR $0a99
+08CB: 20 01 09   JSR $0901
+08CE: a8         TAY
+08CF: 30 10      BMI $08e1
+08D1: 29 0f      AND #$0f
+08D3: f0 39      BEQ $090e
+08D5: 85 e6      STA $e6
+08D7: a9 20      LDA #$20
+08D9: 05 e6      ORA $e6
+08DB: 20 bb 04   JSR $04bb
+08DE: 4c ae 0a   JMP $0aae
+08E1: 20 09 09   JSR $0909
+08E4: 29 0f      AND #$0f
+08E6: f0 26      BEQ $090e
+08E8: 85 e6      STA $e6
+08EA: a9 30      LDA #$30
+08EC: d0 eb      BNE $08d9
+08EE: 20 7a 08   JSR $087a
+08F1: a4 fe      LDY $fe
+08F3: 2c 38 00   BIT $0038
+08F6: 10 03      BPL $08fb
+08F8: ac 42 00   LDY $0042
+08FB: b9 6b 00   LDA $006b,Y
+08FE: 4c 7a 08   JMP $087a
+0901: 20 f1 08   JSR $08f1
+0904: 2c 38 00   BIT $0038
+0907: 10 05      BPL $090e
+0909: 49 ff      EOR #$ff
+090B: 18         CLC
+090C: 69 01      ADC #$01
+090E: 60         RTS
+090F: ad 61 00   LDA $0061
+0912: f0 fa      BEQ $090e
+0914: a9 20      LDA #$20
+0916: 0d 61 00   ORA $0061
+0919: 20 bb 04   JSR $04bb
+091C: 4c ae 0a   JMP $0aae
+091F: ad 61 00   LDA $0061
+0922: f0 ea      BEQ $090e
+0924: a9 30      LDA #$30
+0926: d0 ee      BNE $0916
+0928: ad 63 00   LDA $0063
+092B: f0 e1      BEQ $090e
+092D: 85 e4      STA $e4
+092F: ad 61 00   LDA $0061
+0932: f0 da      BEQ $090e
+0934: 09 20      ORA #$20
+0936: 20 bb 04   JSR $04bb
+0939: c6 e4      DEC $e4
+093B: d0 f2      BNE $092f
+093D: f0 dd      BEQ $091c
+093F: 20 bc 0c   JSR $0cbc
+0942: a9 10      LDA #$10
+0944: 85 ec      STA $ec
+0946: 38         SEC
+0947: ad 44 00   LDA $0044
+094A: ed 39 00   SBC $0039
+094D: 85 e4      STA $e4
+094F: ad 45 00   LDA $0045
+0952: ed 3a 00   SBC $003a
+0955: 85 e5      STA $e5
+0957: 10 14      BPL $096d
+0959: 49 ff      EOR #$ff
+095B: 85 e5      STA $e5
+095D: a5 e4      LDA $e4
+095F: 49 ff      EOR #$ff
+0961: 85 e4      STA $e4
+0963: e6 e4      INC $e4
+0965: d0 02      BNE $0969
+0967: e6 e5      INC $e5
+0969: a9 00      LDA #$00
+096B: 85 ec      STA $ec
+096D: a5 e5      LDA $e5
+096F: d0 06      BNE $0977
+0971: a5 e4      LDA $e4
+0973: c9 10      CMP #$10
+0975: 90 14      BCC $098b
+0977: a5 ec      LDA $ec
+0979: 09 0f      ORA #$0f
+097B: 20 bb 04   JSR $04bb
+097E: 38         SEC
+097F: a5 e4      LDA $e4
+0981: e9 0f      SBC #$0f
+0983: 85 e4      STA $e4
+0985: b0 e6      BCS $096d
+0987: c6 e5      DEC $e5
+0989: 10 e2      BPL $096d
+098B: a5 e4      LDA $e4
+098D: f0 05      BEQ $0994
+098F: 05 ec      ORA $ec
+0991: 20 bb 04   JSR $04bb
+0994: 60         RTS
+0995: a9 41      LDA #$41
+0997: 20 bb 04   JSR $04bb
+099A: ad 5c 00   LDA $005c
+099D: 85 e4      STA $e4
+099F: ad 5d 00   LDA $005d
+09A2: 85 e5      STA $e5
+09A4: 20 bc 0c   JSR $0cbc
+09A7: a9 10      LDA #$10
+09A9: 85 ec      STA $ec
+09AB: 20 6d 09   JSR $096d
+09AE: a9 00      LDA #$00
+09B0: 8d 36 00   STA $0036
+09B3: 8d 37 00   STA $0037
+09B6: 4c 99 0a   JMP $0a99
+09B9: a5 ea      LDA $ea
+09BB: 20 08 0d   JSR $0d08
+09BE: 85 eb      STA $eb
+09C0: ad 5b 00   LDA $005b
+09C3: 85 e2      STA $e2
+09C5: a0 00      LDY #$00
+09C7: 84 e3      STY $e3
+09C9: 2c 38 00   BIT $0038
+09CC: 10 03      BPL $09d1
+09CE: a4 eb      LDY $eb
+09D0: 88         DEY
+09D1: 84 ed      STY $ed
+09D3: 20 44 0d   JSR $0d44
+09D6: a5 fb      LDA $fb
+09D8: 85 e4      STA $e4
+09DA: 2c 5b 00   BIT $005b
+09DD: 10 0a      BPL $09e9
+09DF: 05 e3      ORA $e3
+09E1: 48         PHA
+09E2: a5 e4      LDA $e4
+09E4: 85 e3      STA $e3
+09E6: 68         PLA
+09E7: 85 e4      STA $e4
+09E9: 09 80      ORA #$80
+09EB: 20 bb 04   JSR $04bb
+09EE: 46 e2      LSR $e2
+09F0: 90 07      BCC $09f9
+09F2: a5 e4      LDA $e4
+09F4: 09 80      ORA #$80
+09F6: 20 bb 04   JSR $04bb
+09F9: 2c 38 00   BIT $0038
+09FC: 10 06      BPL $0a04
+09FE: c6 ed      DEC $ed
+0A00: 10 d1      BPL $09d3
+0A02: 30 08      BMI $0a0c
+0A04: e6 ed      INC $ed
+0A06: a5 ed      LDA $ed
+0A08: c5 eb      CMP $eb
+0A0A: d0 c7      BNE $09d3
+0A0C: 2c 5b 00   BIT $005b
+0A0F: 10 07      BPL $0a18
+0A11: a5 e3      LDA $e3
+0A13: 09 80      ORA #$80
+0A15: 20 bb 04   JSR $04bb
+0A18: 60         RTS
+0A19: 00         BRK
+0A1A: 04         ???
+0A1B: 11 0a      ORA ($0a),Y
+0A1D: 0e 15 1b   ASL $1b15
+0A20: 1f         ???
+0A21: ad 5e c0   LDA $c05e
+0A24: ad df ff   LDA $ffdf
+0A27: 48         PHA
+0A28: 09 80      ORA #$80
+0A2A: 8d df ff   STA $ffdf
+0A2D: a5 f1      LDA $f1
+0A2F: 8d da ff   STA $ffda
+0A32: ad dd ff   LDA $ffdd
+0A35: 29 04      AND #$04
+0A37: f0 f9      BEQ $0a32
+0A39: a5 f2      LDA $f2
+0A3B: 8d da ff   STA $ffda
+0A3E: ad dd ff   LDA $ffdd
+0A41: 29 04      AND #$04
+0A43: f0 f9      BEQ $0a3e
+0A45: ad 5b c0   LDA $c05b
+0A48: ad 5f c0   LDA $c05f
+0A4B: ea         NOP
+0A4C: ad 5e c0   LDA $c05e
+0A4F: ea         NOP
+0A50: ad 5a c0   LDA $c05a
+0A53: 68         PLA
+0A54: 8d df ff   STA $ffdf
+0A57: 60         RTS
+0A58: ad 33 00   LDA $0033
+0A5B: 4a         LSR A
+0A5C: 90 02      BCC $0a60
+0A5E: 09 08      ORA #$08
+0A60: 8d 33 00   STA $0033
+0A63: 85 f2      STA $f2
+0A65: a9 00      LDA #$00
+0A67: 85 f1      STA $f1
+0A69: 4c 21 0a   JMP $0a21
+0A6C: ad 33 00   LDA $0033
+0A6F: 0a         ASL A
+0A70: c9 10      CMP #$10
+0A72: 90 ec      BCC $0a60
+0A74: 29 0f      AND #$0f
+0A76: 09 01      ORA #$01
+0A78: d0 e6      BNE $0a60
+0A7A: ad 34 00   LDA $0034
+0A7D: 4a         LSR A
+0A7E: 90 02      BCC $0a82
+0A80: 09 08      ORA #$08
+0A82: 8d 34 00   STA $0034
+0A85: 0a         ASL A
+0A86: 0a         ASL A
+0A87: 0a         ASL A
+0A88: 0a         ASL A
+0A89: d0 d8      BNE $0a63
+0A8B: ad 34 00   LDA $0034
+0A8E: 0a         ASL A
+0A8F: c9 10      CMP #$10
+0A91: 90 ef      BCC $0a82
+0A93: 29 0f      AND #$0f
+0A95: 09 01      ORA #$01
+0A97: d0 e9      BNE $0a82
+0A99: ad 33 00   LDA $0033
+0A9C: 20 63 0a   JSR $0a63
+0A9F: ce 35 00   DEC $0035
+0AA2: 20 c0 0a   JSR $0ac0
+0AA5: a9 00      LDA #$00
+0AA7: 85 f2      STA $f2
+0AA9: 85 f1      STA $f1
+0AAB: 4c 21 0a   JMP $0a21
+0AAE: ad 34 00   LDA $0034
+0AB1: 20 85 0a   JSR $0a85
+0AB4: 20 ba 0a   JSR $0aba
+0AB7: 4c a5 0a   JMP $0aa5
+0ABA: 20 c0 0a   JSR $0ac0
+0ABD: 20 c0 0a   JSR $0ac0
+0AC0: a9 0f      LDA #$0f
+0AC2: 85 f7      STA $f7
+0AC4: a9 c0      LDA #$c0
+0AC6: 85 f6      STA $f6
+0AC8: a5 f6      LDA $f6
+0ACA: 8d d8 ff   STA $ffd8
+0ACD: a5 f7      LDA $f7
+0ACF: 8d d9 ff   STA $ffd9
+0AD2: ad dd ff   LDA $ffdd
+0AD5: 29 20      AND #$20
+0AD7: f0 f9      BEQ $0ad2
+0AD9: 60         RTS
+0ADA: a9 16      LDA #$16
+0ADC: 85 ef      STA $ef
+0ADE: 20 b3 0c   JSR $0cb3
+0AE1: a9 00      LDA #$00
+0AE3: 85 fb      STA $fb
+0AE5: a0 24      LDY #$24
+0AE7: 20 7b 0b   JSR $0b7b
+0AEA: ad 61 c0   LDA $c061
+0AED: 30 0d      BMI $0afc
+0AEF: 88         DEY
+0AF0: d0 f5      BNE $0ae7
+0AF2: c6 ef      DEC $ef
+0AF4: d0 ef      BNE $0ae5
+0AF6: a9 27      LDA #$27
+0AF8: 85 f4      STA $f4
+0AFA: 38         SEC
+0AFB: 60         RTS
+0AFC: 20 7b 0b   JSR $0b7b
+0AFF: 20 c0 0a   JSR $0ac0
+0B02: ad 61 c0   LDA $c061
+0B05: 10 e0      BPL $0ae7
+0B07: 20 c0 0a   JSR $0ac0
+0B0A: ad 61 c0   LDA $c061
+0B0D: 10 d8      BPL $0ae7
+0B0F: 20 ba 0a   JSR $0aba
+0B12: a0 10      LDY #$10
+0B14: 20 bc 0c   JSR $0cbc
+0B17: ad 61 c0   LDA $c061
+0B1A: 10 08      BPL $0b24
+0B1C: 20 7b 0b   JSR $0b7b
+0B1F: 88         DEY
+0B20: 10 f5      BPL $0b17
+0B22: 30 d2      BMI $0af6
+0B24: 20 c0 0a   JSR $0ac0
+0B27: ad 61 c0   LDA $c061
+0B2A: 30 eb      BMI $0b17
+0B2C: 20 c0 0a   JSR $0ac0
+0B2F: ad 61 c0   LDA $c061
+0B32: 30 e3      BMI $0b17
+0B34: 20 c0 0a   JSR $0ac0
+0B37: ad 61 c0   LDA $c061
+0B3A: 30 db      BMI $0b17
+0B3C: 20 7b 0b   JSR $0b7b
+0B3F: 20 99 0a   JSR $0a99
+0B42: a9 00      LDA #$00
+0B44: 8d 39 00   STA $0039
+0B47: 8d 3a 00   STA $003a
+0B4A: 18         CLC
+0B4B: 60         RTS
+0B4C: ad 59 c0   LDA $c059
+0B4F: ad dd c0   LDA $c0dd
+0B52: ad df c0   LDA $c0df
+0B55: ad 5f c0   LDA $c05f
+0B58: ad 5a c0   LDA $c05a
+0B5B: 08         PHP
+0B5C: 78         SEI
+0B5D: ad db ff   LDA $ffdb
+0B60: 29 e3      AND #$e3
+0B62: 09 18      ORA #$18
+0B64: 8d db ff   STA $ffdb
+0B67: ad dc ff   LDA $ffdc
+0B6A: 29 01      AND #$01
+0B6C: 09 04      ORA #$04
+0B6E: 8d dc ff   STA $ffdc
+0B71: a9 3d      LDA #$3d
+0B73: 8d de ff   STA $ffde
+0B76: 8d dd ff   STA $ffdd
+0B79: 28         PLP
+0B7A: 60         RTS
+0B7B: 98         TYA
+0B7C: 48         PHA
+0B7D: ad 36 00   LDA $0036
+0B80: 48         PHA
+0B81: 0d 37 00   ORA $0037
+0B84: 49 ff      EOR #$ff
+0B86: 25 fb      AND $fb
+0B88: 85 f5      STA $f5
+0B8A: 68         PLA
+0B8B: 8d 37 00   STA $0037
+0B8E: a5 fb      LDA $fb
+0B90: 8d 36 00   STA $0036
+0B93: ad 38 00   LDA $0038
+0B96: 30 0e      BMI $0ba6
+0B98: 20 58 0a   JSR $0a58
+0B9B: ee 39 00   INC $0039
+0B9E: d0 03      BNE $0ba3
+0BA0: ee 3a 00   INC $003a
+0BA3: 4c c6 0b   JMP $0bc6
+0BA6: 20 6c 0a   JSR $0a6c
+0BA9: ad 39 00   LDA $0039
+0BAC: d0 03      BNE $0bb1
+0BAE: ce 3a 00   DEC $003a
+0BB1: ce 39 00   DEC $0039
+0BB4: a5 fb      LDA $fb
+0BB6: f0 0e      BEQ $0bc6
+0BB8: 38         SEC
+0BB9: ad 3b 00   LDA $003b
+0BBC: e9 04      SBC #$04
+0BBE: 8d 3b 00   STA $003b
+0BC1: b0 03      BCS $0bc6
+0BC3: ce 3c 00   DEC $003c
+0BC6: a5 f5      LDA $f5
+0BC8: 85 f1      STA $f1
+0BCA: ad 33 00   LDA $0033
+0BCD: 85 f2      STA $f2
+0BCF: ad 69 00   LDA $0069
+0BD2: 85 f6      STA $f6
+0BD4: ad 6a 00   LDA $006a
+0BD7: 85 f7      STA $f7
+0BD9: 20 c8 0a   JSR $0ac8
+0BDC: 20 21 0a   JSR $0a21
+0BDF: ad 33 00   LDA $0033
+0BE2: 85 f2      STA $f2
+0BE4: a5 fb      LDA $fb
+0BE6: 85 f1      STA $f1
+0BE8: f0 17      BEQ $0c01
+0BEA: ad 67 00   LDA $0067
+0BED: 85 f6      STA $f6
+0BEF: ad 68 00   LDA $0068
+0BF2: 85 f7      STA $f7
+0BF4: ad 35 00   LDA $0035
+0BF7: 10 02      BPL $0bfb
+0BF9: e6 f7      INC $f7
+0BFB: 20 c8 0a   JSR $0ac8
+0BFE: 20 21 0a   JSR $0a21
+0C01: a9 00      LDA #$00
+0C03: 8d 35 00   STA $0035
+0C06: 85 f1      STA $f1
+0C08: ad 33 00   LDA $0033
+0C0B: 85 f2      STA $f2
+0C0D: 18         CLC
+0C0E: ad 65 00   LDA $0065
+0C11: 2c 3c 00   BIT $003c
+0C14: 30 03      BMI $0c19
+0C16: 6d 3b 00   ADC $003b
+0C19: 85 f6      STA $f6
+0C1B: ad 66 00   LDA $0066
+0C1E: 2c 3c 00   BIT $003c
+0C21: 30 03      BMI $0c26
+0C23: 6d 3c 00   ADC $003c
+0C26: 85 f7      STA $f7
+0C28: 20 c8 0a   JSR $0ac8
+0C2B: 20 21 0a   JSR $0a21
+0C2E: ad 69 00   LDA $0069
+0C31: 85 f6      STA $f6
+0C33: ad 6a 00   LDA $006a
+0C36: 85 f7      STA $f7
+0C38: 20 c8 0a   JSR $0ac8
+0C3B: 68         PLA
+0C3C: a8         TAY
+0C3D: 18         CLC
+0C3E: 60         RTS
+0C3F: a5 ee      LDA $ee
+0C41: 0a         ASL A
+0C42: 90 07      BCC $0c4b
+0C44: 85 fb      STA $fb
+0C46: 20 7b 0b   JSR $0b7b
+0C49: 18         CLC
+0C4A: 60         RTS
+0C4B: 30 3e      BMI $0c8b
+0C4D: 48         PHA
+0C4E: 0a         ASL A
+0C4F: 85 f3      STA $f3
+0C51: a9 00      LDA #$00
+0C53: 85 fb      STA $fb
+0C55: 68         PLA
+0C56: 4a         LSR A
+0C57: 29 0f      AND #$0f
+0C59: d0 02      BNE $0c5d
+0C5B: a9 40      LDA #$40
+0C5D: 85 f0      STA $f0
+0C5F: 24 f3      BIT $f3
+0C61: 30 14      BMI $0c77
+0C63: 50 06      BVC $0c6b
+0C65: 20 7b 0b   JSR $0b7b
+0C68: 4c 7f 0c   JMP $0c7f
+0C6B: 20 c3 0c   JSR $0cc3
+0C6E: 20 7b 0b   JSR $0b7b
+0C71: 20 c3 0c   JSR $0cc3
+0C74: 4c 7f 0c   JMP $0c7f
+0C77: 50 0c      BVC $0c85
+0C79: 20 8b 0a   JSR $0a8b
+0C7C: 20 ba 0a   JSR $0aba
+0C7F: c6 f0      DEC $f0
+0C81: d0 dc      BNE $0c5f
+0C83: f0 c4      BEQ $0c49
+0C85: 20 7a 0a   JSR $0a7a
+0C88: 4c 7c 0c   JMP $0c7c
+0C8B: 0a         ASL A
+0C8C: 10 02      BPL $0c90
+0C8E: 18         CLC
+0C8F: 60         RTS
+0C90: 4a         LSR A
+0C91: a8         TAY
+0C92: c0 12      CPY #$12
+0C94: b0 1b      BCS $0cb1
+0C96: b9 a0 0c   LDA $0ca0,Y
+0C99: 48         PHA
+0C9A: b9 9f 0c   LDA $0c9f,Y
+0C9D: 48         PHA
+0C9E: 60         RTS
+0C9F: f8         SED
+0CA0: 0c         ???
+0CA1: d4         ???
+0CA2: 0c         ???
+0CA3: e9 0c      SBC #$0c
+0CA5: ee 0c f3   INC $f30c
+0CA8: 0c         ???
+0CA9: 05 0d      ORA $0d
+0CAB: df         ???
+0CAC: 0c         ???
+0CAD: e4 0c      CPX $0c
+0CAF: ca         DEX
+0CB0: 0c         ???
+0CB1: 38         SEC
+0CB2: 60         RTS
+0CB3: ad 38 00   LDA $0038
+0CB6: 09 80      ORA #$80
+0CB8: 8d 38 00   STA $0038
+0CBB: 60         RTS
+0CBC: ad 38 00   LDA $0038
+0CBF: 29 7f      AND #$7f
+0CC1: 10 f5      BPL $0cb8
+0CC3: ad 38 00   LDA $0038
+0CC6: 49 80      EOR #$80
+0CC8: 4c b8 0c   JMP $0cb8
+0CCB: a9 00      LDA #$00
+0CCD: 8d 3e 00   STA $003e
+0CD0: 20 95 09   JSR $0995
+0CD3: 18         CLC
+0CD4: 60         RTS
+0CD5: 20 da 0a   JSR $0ada
+0CD8: a9 00      LDA #$00
+0CDA: 8d 38 00   STA $0038
+0CDD: b0 d2      BCS $0cb1
+0CDF: 60         RTS
+0CE0: 20 99 0a   JSR $0a99
+0CE3: 18         CLC
+0CE4: 60         RTS
+0CE5: 20 ae 0a   JSR $0aae
+0CE8: 18         CLC
+0CE9: 60         RTS
+0CEA: 20 b3 0c   JSR $0cb3
+0CED: 18         CLC
+0CEE: 60         RTS
+0CEF: 20 bc 0c   JSR $0cbc
+0CF2: 18         CLC
+0CF3: 60         RTS
+0CF4: 20 c3 0c   JSR $0cc3
+0CF7: 18         CLC
+0CF8: 60         RTS
+0CF9: 20 4c 0b   JSR $0b4c
+0CFC: a9 03      LDA #$03
+0CFE: 8d 33 00   STA $0033
+0D01: 8d 34 00   STA $0034
+0D04: d0 cf      BNE $0cd5
+0D06: 38         SEC
+0D07: 60         RTS
+0D08: 85 e4      STA $e4
+0D0A: ad 5a 00   LDA $005a
+0D0D: 0a         ASL A
+0D0E: 0a         ASL A
+0D0F: a8         TAY
+0D10: b9 98 0d   LDA $0d98,Y
+0D13: c9 ff      CMP #$ff
+0D15: d0 04      BNE $0d1b
+0D17: b9 97 0d   LDA $0d97,Y
+0D1A: 60         RTS
+0D1B: 18         CLC
+0D1C: ad 92 0d   LDA $0d92
+0D1F: 79 97 0d   ADC $0d97,Y
+0D22: 85 e0      STA $e0
+0D24: ad 93 0d   LDA $0d93
+0D27: 79 98 0d   ADC $0d98,Y
+0D2A: 85 e1      STA $e1
+0D2C: a9 00      LDA #$00
+0D2E: 8d e1 14   STA $14e1
+0D31: a5 e4      LDA $e4
+0D33: 38         SEC
+0D34: e9 20      SBC #$20
+0D36: 4a         LSR A
+0D37: a8         TAY
+0D38: b1 e0      LDA ($e0),Y
+0D3A: b0 03      BCS $0d3f
+0D3C: 29 0f      AND #$0f
+0D3E: 60         RTS
+0D3F: 4a         LSR A
+0D40: 4a         LSR A
+0D41: 4a         LSR A
+0D42: 4a         LSR A
+0D43: 60         RTS
+0D44: ad 5a 00   LDA $005a
+0D47: 0a         ASL A
+0D48: 0a         ASL A
+0D49: a8         TAY
+0D4A: 18         CLC
+0D4B: b9 99 0d   LDA $0d99,Y
+0D4E: 6d 92 0d   ADC $0d92
+0D51: 85 e0      STA $e0
+0D53: b9 9a 0d   LDA $0d9a,Y
+0D56: 6d 93 0d   ADC $0d93
+0D59: 85 e1      STA $e1
+0D5B: a5 ed      LDA $ed
+0D5D: 0a         ASL A
+0D5E: a8         TAY
+0D5F: 18         CLC
+0D60: a5 e0      LDA $e0
+0D62: 79 7e 0d   ADC $0d7e,Y
+0D65: 85 e0      STA $e0
+0D67: a5 e1      LDA $e1
+0D69: 79 7f 0d   ADC $0d7f,Y
+0D6C: 85 e1      STA $e1
+0D6E: a5 ea      LDA $ea
+0D70: 38         SEC
+0D71: e9 20      SBC #$20
+0D73: a8         TAY
+0D74: a9 00      LDA #$00
+0D76: 8d e1 14   STA $14e1
+0D79: b1 e0      LDA ($e0),Y
+0D7B: 85 fb      STA $fb
+0D7D: 60         RTS
+0D7E: 00         BRK
+0D7F: 00         BRK
+0D80: 60         RTS
+0D81: 00         BRK
+0D82: c0 00      CPY #$00
+0D84: 20 01 80   JSR $8001
+0D87: 01 e0      ORA ($e0,X)
+0D89: 01 40      ORA ($40,X)
+0D8B: 02         ???
+0D8C: a0 02      LDY #$02
+0D8E: 00         BRK
+0D8F: 03         ???
+0D90: 60         RTS
+0D91: 03         ???
+0D92: 96 0d      STX $0d,Y
+0D94: 40         RTI
+0D95: 06 03      ASL $03
+0D97: 05 ff      ORA $ff
+0D99: 0d 00 04   ORA $0400
+0D9C: ff         ???
+0D9D: ed 01 07   SBC $0701
+0DA0: ff         ???
+0DA1: 6d 03 00   ADC $0003
+0DA4: 00         BRK
+0DA5: 00         BRK
+0DA6: 14         ???
+0DA7: 12         ???
+0DA8: 62         ???
+0DA9: 36 00      ROL $00,X
+0DAB: 1c         ???
+0DAC: 00         BRK
+0DAD: 08         PHP
+0DAE: 08         PHP
+0DAF: 00         BRK
+0DB0: 08         PHP
+0DB1: 00         BRK
+0DB2: 02         ???
+0DB3: 3e 00 23   ROL $2300,X
+0DB6: 42         ???
+0DB7: 0c         ???
+0DB8: 72         ???
+0DB9: 3e 40 36   ROL $3640,X
+0DBC: 32         ???
+0DBD: 00         BRK
+0DBE: 00         BRK
+0DBF: 08         PHP
+0DC0: 14         ???
+0DC1: 00         BRK
+0DC2: 20 3e 3f   JSR $3f3e
+0DC5: 7f         ???
+0DC6: 3e 7f 7f   ROL $7f7f,X
+0DC9: 7f         ???
+0DCA: 3e 7f 00   ROL $007f,X
+0DCD: 02         ???
+0DCE: 7f         ???
+0DCF: 7f         ???
+0DD0: 7f         ???
+0DD1: 7f         ???
+0DD2: 3e 7f 3e   ROL $3e7f,X
+0DD5: 7f         ???
+0DD6: 32         ???
+0DD7: 40         RTI
+0DD8: 7e 7c 7f   ROR $7f7c,X
+0DDB: 63         ???
+0DDC: 70 43      BVS $0e21
+0DDE: 00         BRK
+0DDF: 20 00 04   JSR $0400
+0DE2: 01 00      ORA ($00,X)
+0DE4: 02         ???
+0DE5: 7f         ???
+0DE6: 0e 0e 0e   ASL $0e0e
+0DE9: 08         PHP
+0DEA: 08         PHP
+0DEB: 7f         ???
+0DEC: 00         BRK
+0DED: 02         ???
+0DEE: 7f         ???
+0DEF: 00         BRK
+0DF0: 0f         ???
+0DF1: 1f         ???
+0DF2: 0e 1f 08   ASL $081f
+0DF5: 1f         ???
+0DF6: 08         PHP
+0DF7: 10 1e      BPL $0e17
+0DF9: 1c         ???
+0DFA: 1e 11 18   ASL $1811,X
+0DFD: 11 08      ORA ($08),Y
+0DFF: 00         BRK
+0E00: 00         BRK
+0E01: 08         PHP
+0E02: 7f         ???
+0E03: 00         BRK
+0E04: 00         BRK
+0E05: 70 7f      BVS $0e86
+0E07: 2a         ROL A
+0E08: 64         ???
+0E09: 49 10      EOR #$10
+0E0B: 22         ???
+0E0C: 00         BRK
+0E0D: 2a         ROL A
+0E0E: 08         PHP
+0E0F: 01 08      ORA ($08,X)
+0E11: 03         ???
+0E12: 04         ???
+0E13: 45 21      EOR $21
+0E15: 45 41      EOR $41
+0E17: 14         ???
+0E18: 51 49      EOR ($49),Y
+0E1A: 47         ???
+0E1B: 49 49      EOR #$49
+0E1D: 1b         ???
+0E1E: 01 14      ORA ($14,X)
+0E20: 14         ???
+0E21: 41 40      EOR ($40,X)
+0E23: 41 44      EOR ($44,X)
+0E25: 49 41      EOR #$41
+0E27: 41 49      EOR ($49,X)
+0E29: 48         PHA
+0E2A: 41 08      EOR ($08,X)
+0E2C: 41 01      EOR ($01,X)
+0E2E: 08         PHP
+0E2F: 01 10      ORA ($10,X)
+0E31: 10 41      BPL $0e74
+0E33: 48         PHA
+0E34: 41 48      EOR ($48,X)
+0E36: 49 40      EOR #$40
+0E38: 01 02      ORA ($02,X)
+0E3A: 04         ???
+0E3B: 14         ???
+0E3C: 08         PHP
+0E3D: 45 7f      EOR $7f
+0E3F: 10 41      BPL $0e82
+0E41: 08         PHP
+0E42: 01 40      ORA ($40,X)
+0E44: 15 11      ORA $11,X
+0E46: 11 11      ORA ($11),Y
+0E48: 15 3f      ORA $3f,X
+0E4A: 15 08      ORA $08,X
+0E4C: 11 01      ORA ($01),Y
+0E4E: 04         ???
+0E4F: 41 10      EOR ($10,X)
+0E51: 08         PHP
+0E52: 11 14      ORA ($14),Y
+0E54: 14         ???
+0E55: 08         PHP
+0E56: 15 3e      ORA $3e,X
+0E58: 01 02      ORA ($02,X)
+0E5A: 01 0a      ORA ($0a,X)
+0E5C: 05 13      ORA $13
+0E5E: 36 00      ROL $00,X
+0E60: 41 10      EOR ($10,X)
+0E62: 7f         ???
+0E63: 00         BRK
+0E64: 7d 00 14   ADC $1400,X
+0E67: 7f         ???
+0E68: 08         PHP
+0E69: 35 20      AND $20,X
+0E6B: 41 41      EOR ($41,X)
+0E6D: 1c         ???
+0E6E: 3e 07 08   ROL $0807,X
+0E71: 03         ???
+0E72: 08         PHP
+0E73: 49 7f      EOR #$7f
+0E75: 49 49      EOR #$49
+0E77: 24 51      BIT $51
+0E79: 49 48      EOR #$48
+0E7B: 49 49      EOR #$49
+0E7D: 1b         ???
+0E7E: 17         ???
+0E7F: 22         ???
+0E80: 14         ???
+0E81: 22         ???
+0E82: 4d 5d 44   EOR $445d
+0E85: 49 41      EOR #$41
+0E87: 41 49      EOR ($49,X)
+0E89: 48         PHA
+0E8A: 49 08      EOR #$08
+0E8C: 7f         ???
+0E8D: 01 14      ORA ($14,X)
+0E8F: 01 08      ORA ($08,X)
+0E91: 08         PHP
+0E92: 41 48      EOR ($48,X)
+0E94: 45 48      EOR $48
+0E96: 49 7f      EOR #$7f
+0E98: 01 01      ORA ($01,X)
+0E9A: 08         PHP
+0E9B: 08         PHP
+0E9C: 0f         ???
+0E9D: 49 41      EOR #$41
+0E9F: 08         PHP
+0EA0: 41 10      EOR ($10,X)
+0EA2: 01 20      ORA ($20,X)
+0EA4: 15 11      ORA $11,X
+0EA6: 11 11      ORA ($11),Y
+0EA8: 15 48      ORA $48,X
+0EAA: 15 10      ORA $10,X
+0EAC: 5f         ???
+0EAD: 01 0a      ORA ($0a,X)
+0EAF: 7f         ???
+0EB0: 0e 10 11   ASL $1110
+0EB3: 14         ???
+0EB4: 14         ???
+0EB5: 10 15      BPL $0ecc
+0EB7: 11 01      ORA ($01),Y
+0EB9: 01 0e      ORA ($0e,X)
+0EBB: 04         ???
+0EBC: 05 15      ORA $15
+0EBE: 41 7f      EOR ($7f,X)
+0EC0: 41 08      EOR ($08,X)
+0EC2: 7f         ???
+0EC3: 00         BRK
+0EC4: 00         BRK
+0EC5: 70 7f      BVS $0f46
+0EC7: 2a         ROL A
+0EC8: 13         ???
+0EC9: 02         ???
+0ECA: 40         RTI
+0ECB: 00         BRK
+0ECC: 22         ???
+0ECD: 2a         ROL A
+0ECE: 08         PHP
+0ECF: 06 08      ASL $08
+0ED1: 00         BRK
+0ED2: 10 51      BPL $0f25
+0ED4: 01 49      ORA ($49,X)
+0ED6: 59 7f 51   EOR $517f,Y
+0ED9: 49 50      EOR #$50
+0EDB: 49 49      EOR #$49
+0EDD: 00         BRK
+0EDE: 16 41      ASL $41,X
+0EE0: 14         ???
+0EE1: 14         ???
+0EE2: 50 49      BVC $0f2d
+0EE4: 44         ???
+0EE5: 49 41      EOR #$41
+0EE7: 41 49      EOR ($49,X)
+0EE9: 48         PHA
+0EEA: 49 08      EOR #$08
+0EEC: 41 01      EOR ($01,X)
+0EEE: 22         ???
+0EEF: 01 10      ORA ($10,X)
+0EF1: 04         ???
+0EF2: 41 48      EOR ($48,X)
+0EF4: 42         ???
+0EF5: 4c 49 40   JMP $4049
+0EF8: 01 02      ORA ($02,X)
+0EFA: 04         ???
+0EFB: 14         ???
+0EFC: 08         PHP
+0EFD: 51 41      EOR ($41),Y
+0EFF: 04         ???
+0F00: 7f         ???
+0F01: 08         PHP
+0F02: 01 10      ORA ($10,X)
+0F04: 15 11      ORA $11,X
+0F06: 11 11      ORA ($11),Y
+0F08: 15 40      ORA $40,X
+0F0A: 15 10      ORA $10,X
+0F0C: 01 5e      ORA ($5e,X)
+0F0E: 11 01      ORA ($01),Y
+0F10: 10 10      BPL $0f22
+0F12: 11 14      ORA ($14),Y
+0F14: 14         ???
+0F15: 10 15      BPL $0f2c
+0F17: 01 01      ORA ($01,X)
+0F19: 02         ???
+0F1A: 01 0a      ORA ($0a,X)
+0F1C: 05 19      ORA $19
+0F1E: 41 00      EOR ($00,X)
+0F20: 36 04      ROL $04,X
+0F22: 7f         ???
+0F23: 00         BRK
+0F24: 00         BRK
+0F25: 00         BRK
+0F26: 14         ???
+0F27: 24 23      BIT $23
+0F29: 05 00      ORA $00
+0F2B: 00         BRK
+0F2C: 1c         ???
+0F2D: 08         PHP
+0F2E: 08         PHP
+0F2F: 00         BRK
+0F30: 08         PHP
+0F31: 00         BRK
+0F32: 20 3e 00   JSR $003e
+0F35: 31 66      AND ($66),Y
+0F37: 04         ???
+0F38: 4e 26 60   LSR $6026
+0F3B: 36 3e      ROL $3e,X
+0F3D: 00         BRK
+0F3E: 00         BRK
+0F3F: 00         BRK
+0F40: 14         ???
+0F41: 08         PHP
+0F42: 20 39 3f   JSR $3f39
+0F45: 36 22      ROL $22,X
+0F47: 3e 41 40   ROL $4041,X
+0F4A: 2e 7f 00   ROL $007f
+0F4D: 7e 41 01   ROR $0141,X
+0F50: 7f         ???
+0F51: 7f         ???
+0F52: 3e 30 3d   ROL $3d30,X
+0F55: 33         ???
+0F56: 26 40      ROL $40
+0F58: 7e 7c 7f   ROR $7f7c,X
+0F5B: 63         ???
+0F5C: 70 61      BVS $0fbf
+0F5E: 00         BRK
+0F5F: 02         ???
+0F60: 00         BRK
+0F61: 04         ???
+0F62: 01 00      ORA ($00,X)
+0F64: 0f         ???
+0F65: 0e 00 7f   ASL $7f00
+0F68: 08         PHP
+0F69: 20 1e 0f   JSR $0f1e
+0F6C: 00         BRK
+0F6D: 00         BRK
+0F6E: 00         BRK
+0F6F: 00         BRK
+0F70: 0f         ???
+0F71: 0f         ???
+0F72: 0e 08 1f   ASL $1f08
+0F75: 08         PHP
+0F76: 02         ???
+0F77: 02         ???
+0F78: 1e 1c 1e   ASL $1e1c,X
+0F7B: 11 1e      ORA ($1e),Y
+0F7D: 11 00      ORA ($00),Y
+0F7F: 00         BRK
+0F80: 08         PHP
+0F81: 08         PHP
+0F82: 7f         ???
+0F83: 00         BRK
+0F84: 00         BRK
+0F85: 70 7f      BVS $1006
+0F87: 2a         ROL A
+0F88: 64         ???
+0F89: 36 10      ROL $10,X
+0F8B: 3e 00 2a   ROL $2a00,X
+0F8E: 08         PHP
+0F8F: 02         ???
+0F90: 08         PHP
+0F91: 03         ???
+0F92: 04         ???
+0F93: 3e 21 47   ROL $4721,X
+0F96: 41 7c      EOR ($7c,X)
+0F98: 72         ???
+0F99: 3e 47 36   ROL $3647,X
+0F9C: 39 1b 01   AND $011b,Y
+0F9F: 08         PHP
+0FA0: 14         ???
+0FA1: 41 40      EOR ($40,X)
+0FA3: 3e 3f 7f   ROL $7f3f,X
+0FA6: 3e 7f 7f   ROL $7f7f,X
+0FA9: 7f         ???
+0FAA: 3e 7f 41   ROL $417f,X
+0FAD: 02         ???
+0FAE: 7f         ???
+0FAF: 7f         ???
+0FB0: 7f         ???
+0FB1: 7f         ???
+0FB2: 3e 7f 3e   ROL $3e7f,X
+0FB5: 7f         ???
+0FB6: 31 40      AND ($40),Y
+0FB8: 7e 7e 7f   ROR $7f7e,X
+0FBB: 77         ???
+0FBC: 70 47      BVS $1005
+0FBE: 7f         ???
+0FBF: 10 41      BPL $1002
+0FC1: 08         PHP
+0FC2: 01 40      ORA ($40,X)
+0FC4: 17         ???
+0FC5: 7f         ???
+0FC6: 0e 0e 0e   ASL $0e0e
+0FC9: 3f         ???
+0FCA: 1d 7f 11   ORA $117f,X
+0FCD: 01 7f      ORA ($7f,X)
+0FCF: 41 0f      EOR ($0f,X)
+0FD1: 1f         ???
+0FD2: 0e 1f 1c   ASL $1c1f
+0FD5: 1f         ???
+0FD6: 0d 3e 1e   ORA $1e3e
+0FD9: 1e 1e 1b   ASL $1b1e,X
+0FDC: 18         CLC
+0FDD: 13         ???
+0FDE: 08         PHP
+0FDF: 00         BRK
+0FE0: 41 10      EOR ($10,X)
+0FE2: 7f         ???
+0FE3: 00         BRK
+0FE4: 7d 00 14   ADC $1400,X
+0FE7: 7f         ???
+0FE8: 68         PLA
+0FE9: 3d 20 41   AND $4120,X
+0FEC: 41 1c      EOR ($1c,X)
+0FEE: 3e 0e 08   ROL $080e,X
+0FF1: 03         ???
+0FF2: 08         PHP
+0FF3: 49 7f      EOR #$7f
+0FF5: 49 49      EOR #$49
+0FF7: 04         ???
+0FF8: 51 49      EOR ($49),Y
+0FFA: 48         PHA
+0FFB: 49 49      EOR #$49
+0FFD: 1b         ???
+0FFE: 17         ???
+0FFF: 14         ???
+1000: 14         ???
+1001: 22         ???
+1002: 4d 5d 44   EOR $445d
+1005: 49 41      EOR #$41
+1007: 41 49      EOR ($49,X)
+1009: 48         PHA
+100A: 41 08      EOR ($08,X)
+100C: 7f         ???
+100D: 01 14      ORA ($14,X)
+100F: 01 20      ORA ($20,X)
+1011: 08         PHP
+1012: 41 48      EOR ($48,X)
+1014: 45 48      EOR $48
+1016: 49 7f      EOR #$7f
+1018: 01 01      ORA ($01,X)
+101A: 02         ???
+101B: 08         PHP
+101C: 0f         ???
+101D: 49 41      EOR #$41
+101F: 08         PHP
+1020: 41 10      EOR ($10,X)
+1022: 01 20      ORA ($20,X)
+1024: 15 11      ORA $11,X
+1026: 11 11      ORA ($11),Y
+1028: 15 48      ORA $48,X
+102A: 15 10      ORA $10,X
+102C: 5f         ???
+102D: 01 0a      ORA ($0a,X)
+102F: 7f         ???
+1030: 0c         ???
+1031: 10 11      BPL $1044
+1033: 14         ???
+1034: 14         ???
+1035: 10 15      BPL $104c
+1037: 11 01      ORA ($01),Y
+1039: 01 06      ORA ($06,X)
+103B: 04         ???
+103C: 05 15      ORA $15
+103E: 36 7f      ROL $7f,X
+1040: 41 08      EOR ($08,X)
+1042: 7f         ???
+1043: 00         BRK
+1044: 00         BRK
+1045: 70 7f      BVS $10c6
+1047: 2a         ROL A
+1048: 13         ???
+1049: 02         ???
+104A: 40         RTI
+104B: 00         BRK
+104C: 3e 2a 08   ROL $082a,X
+104F: 0c         ???
+1050: 08         PHP
+1051: 00         BRK
+1052: 10 51      BPL $10a5
+1054: 01 49      ORA ($49,X)
+1056: 59 7f 51   EOR $517f,Y
+1059: 49 50      EOR #$50
+105B: 49 49      EOR #$49
+105D: 00         BRK
+105E: 16 22      ASL $22,X
+1060: 14         ???
+1061: 14         ???
+1062: 50 49      BVC $10ad
+1064: 44         ???
+1065: 49 41      EOR #$41
+1067: 41 49      EOR ($49,X)
+1069: 48         PHA
+106A: 49 08      EOR #$08
+106C: 41 01      EOR ($01,X)
+106E: 22         ???
+106F: 01 20      ORA ($20,X)
+1071: 04         ???
+1072: 41 48      EOR ($48,X)
+1074: 42         ???
+1075: 4c 49 40   JMP $4049
+1078: 01 02      ORA ($02,X)
+107A: 02         ???
+107B: 08         PHP
+107C: 08         PHP
+107D: 51 41      EOR ($41),Y
+107F: 04         ???
+1080: 7f         ???
+1081: 08         PHP
+1082: 01 10      ORA ($10,X)
+1084: 15 11      ORA $11,X
+1086: 11 11      ORA ($11),Y
+1088: 15 40      ORA $40,X
+108A: 15 10      ORA $10,X
+108C: 01 2e      ORA ($2e,X)
+108E: 11 01      ORA ($01),Y
+1090: 10 10      BPL $10a2
+1092: 11 14      ORA ($14),Y
+1094: 14         ???
+1095: 10 15      BPL $10ac
+1097: 01 01      ORA ($01,X)
+1099: 02         ???
+109A: 01 1b      ORA ($1b,X)
+109C: 05 19      ORA $19
+109E: 41 00      EOR ($00,X)
+10A0: 36 04      ROL $04,X
+10A2: 7f         ???
+10A3: 00         BRK
+10A4: 00         BRK
+10A5: 00         BRK
+10A6: 14         ???
+10A7: 24 23      BIT $23
+10A9: 05 00      ORA $00
+10AB: 00         BRK
+10AC: 00         BRK
+10AD: 08         PHP
+10AE: 08         PHP
+10AF: 00         BRK
+10B0: 08         PHP
+10B1: 00         BRK
+10B2: 20 3e 00   JSR $003e
+10B5: 31 66      AND ($66),Y
+10B7: 04         ???
+10B8: 4e 26 60   LSR $6026
+10BB: 36 3e      ROL $3e,X
+10BD: 00         BRK
+10BE: 00         BRK
+10BF: 41 14      EOR ($14,X)
+10C1: 08         PHP
+10C2: 20 39 3f   JSR $3f39
+10C5: 36 22      ROL $22,X
+10C7: 3e 41 40   ROL $4041,X
+10CA: 2e 7f 00   ROL $007f
+10CD: 7e 41 01   ROR $0141,X
+10D0: 7f         ???
+10D1: 7f         ???
+10D2: 3e 30 3d   ROL $3d30,X
+10D5: 33         ???
+10D6: 26 40      ROL $40
+10D8: 7e 7c 7f   ROR $7f7c,X
+10DB: 77         ???
+10DC: 70 61      BVS $113f
+10DE: 00         BRK
+10DF: 02         ???
+10E0: 00         BRK
+10E1: 04         ???
+10E2: 01 00      ORA ($00,X)
+10E4: 0f         ???
+10E5: 0e 00 7f   ASL $7f00
+10E8: 08         PHP
+10E9: 20 1e 0f   JSR $0f1e
+10EC: 00         BRK
+10ED: 00         BRK
+10EE: 00         BRK
+10EF: 00         BRK
+10F0: 0f         ???
+10F1: 0f         ???
+10F2: 0e 08 1f   ASL $1f08
+10F5: 08         PHP
+10F6: 12         ???
+10F7: 02         ???
+10F8: 1e 1c 1e   ASL $1e1c,X
+10FB: 00         BRK
+10FC: 1f         ???
+10FD: 11 41      ORA ($41),Y
+10FF: 00         BRK
+1100: 08         PHP
+1101: 08         PHP
+1102: 7f         ???
+1103: 00         BRK
+1104: 00         BRK
+1105: 00         BRK
+1106: 00         BRK
+1107: 00         BRK
+1108: 31 00      AND ($00),Y
+110A: 00         BRK
+110B: 00         BRK
+110C: 00         BRK
+110D: 00         BRK
+110E: 00         BRK
+110F: 00         BRK
+1110: 00         BRK
+1111: 00         BRK
+1112: 01 00      ORA ($00,X)
+1114: 00         BRK
+1115: 00         BRK
+1116: 00         BRK
+1117: 00         BRK
+1118: 00         BRK
+1119: 00         BRK
+111A: 00         BRK
+111B: 00         BRK
+111C: 00         BRK
+111D: 00         BRK
+111E: 00         BRK
+111F: 00         BRK
+1120: 00         BRK
+1121: 00         BRK
+1122: 00         BRK
+1123: 3e 01 41   ROL $4101,X
+1126: 00         BRK
+1127: 41 41      EOR ($41,X)
+1129: 41 00      EOR ($00,X)
+112B: 41 00      EOR ($00,X)
+112D: 04         ???
+112E: 41 41      EOR ($41,X)
+1130: 41 41      EOR ($41,X)
+1132: 00         BRK
+1133: 41 00      EOR ($00,X)
+1135: 41 32      EOR ($32,X)
+1137: 60         RTS
+1138: 40         RTI
+1139: 40         RTI
+113A: 40         RTI
+113B: 41 40      EOR ($40,X)
+113D: 00         BRK
+113E: 00         BRK
+113F: 20 00 00   JSR $0000
+1142: 02         ???
+1143: 00         BRK
+1144: 02         ???
+1145: 41 00      EOR ($00,X)
+1147: 00         BRK
+1148: 00         BRK
+1149: 00         BRK
+114A: 00         BRK
+114B: 41 00      EOR ($00,X)
+114D: 00         BRK
+114E: 41 00      EOR ($00,X)
+1150: 11 11      ORA ($11),Y
+1152: 00         BRK
+1153: 21 18      AND ($18,X)
+1155: 11 00      ORA ($00),Y
+1157: 10 10      BPL $1169
+1159: 10 10      BPL $116b
+115B: 11 00      ORA ($00),Y
+115D: 00         BRK
+115E: 00         BRK
+115F: 00         BRK
+1160: 00         BRK
+1161: 00         BRK
+1162: 7e 00 00   ROR $0000,X
+1165: 00         BRK
+1166: 14         ???
+1167: 12         ???
+1168: 32         ???
+1169: 06 00      ASL $00
+116B: 00         BRK
+116C: 00         BRK
+116D: 2a         ROL A
+116E: 08         PHP
+116F: 00         BRK
+1170: 08         PHP
+1171: 00         BRK
+1172: 02         ???
+1173: 3e 01 23   ROL $2301,X
+1176: 22         ???
+1177: 04         ???
+1178: 7a         ???
+1179: 3e 60 36   ROL $3660,X
+117C: 32         ???
+117D: 00         BRK
+117E: 00         BRK
+117F: 08         PHP
+1180: 14         ???
+1181: 41 20      EOR ($20,X)
+1183: 49 1f      EOR #$1f
+1185: 7f         ???
+1186: 3e 7f 7f   ROL $7f7f,X
+1189: 7f         ???
+118A: 3e 7f 63   ROL $637f,X
+118D: 06 7f      ASL $7f
+118F: 7f         ???
+1190: 7f         ???
+1191: 7f         ???
+1192: 3e 7f 3e   ROL $3e7f,X
+1195: 7f         ???
+1196: 4b         ???
+1197: 40         RTI
+1198: 7e 7c 7f   ROR $7f7c,X
+119B: 63         ???
+119C: 70 63      BVS $1201
+119E: 7f         ???
+119F: 10 41      BPL $11e2
+11A1: 10 02      BPL $11a5
+11A3: 00         BRK
+11A4: 15 7f      ORA $7f,X
+11A6: 0e 0e 0e   ASL $0e0e
+11A9: 09 18      ORA #$18
+11AB: 7f         ???
+11AC: 00         BRK
+11AD: 02         ???
+11AE: 7f         ???
+11AF: 00         BRK
+11B0: 1f         ???
+11B1: 1f         ???
+11B2: 0e 3f 24   ASL $243f
+11B5: 1f         ???
+11B6: 09 10      ORA #$10
+11B8: 1e 1c 1f   ASL $1f1c,X
+11BB: 11 38      ORA ($38),Y
+11BD: 19 08 00   ORA $0008,Y
+11C0: 41 20      EOR ($20,X)
+11C2: 7e 00 00   ROR $0000,X
+11C5: 70 7f      BVS $1246
+11C7: 2a         ROL A
+11C8: 04         ???
+11C9: 39 10 1c   AND $1c10,Y
+11CC: 41 1c      EOR ($1c,X)
+11CE: 08         PHP
+11CF: 01 08      ORA ($08,X)
+11D1: 03         ???
+11D2: 04         ???
+11D3: 45 41      EOR $41
+11D5: 45 41      EOR $41
+11D7: 0c         ???
+11D8: 49 49      EOR #$49
+11DA: 40         RTI
+11DB: 49 49      EOR #$49
+11DD: 00         BRK
+11DE: 01 14      ORA ($14,X)
+11E0: 14         ???
+11E1: 41 40      EOR ($40,X)
+11E3: 55 29      EOR $29,X
+11E5: 49 41      EOR #$41
+11E7: 41 49      EOR ($49,X)
+11E9: 49 41      EOR #$41
+11EB: 49 41      EOR #$41
+11ED: 01 09      ORA ($09,X)
+11EF: 41 21      EOR ($21,X)
+11F1: 21 41      AND ($41,X)
+11F3: 49 41      EOR #$41
+11F5: 49 49      EOR #$49
+11F7: 41 41      EOR ($41,X)
+11F9: 42         ???
+11FA: 02         ???
+11FB: 14         ???
+11FC: 49 45      EOR #$45
+11FE: 41 08      EOR ($08,X)
+1200: 41 20      EOR ($20,X)
+1202: 02         ???
+1203: 40         RTI
+1204: 15 0a      ORA $0a,X
+1206: 11 11      ORA ($11),Y
+1208: 15 3f      ORA $3f,X
+120A: 25 09      AND $09
+120C: 11 01      ORA ($01),Y
+120E: 02         ???
+120F: 41 10      EOR ($10,X)
+1211: 08         PHP
+1212: 11 19      ORA ($19),Y
+1214: 24 09      BIT $09
+1216: 15 7e      ORA $7e,X
+1218: 11 12      ORA ($12),Y
+121A: 01 0a      ORA ($0a,X)
+121C: 05 13      ORA $13
+121E: 36 00      ROL $00,X
+1220: 41 40      EOR ($40,X)
+1222: 7e 00 79   ROR $7900,X
+1225: 00         BRK
+1226: 14         ???
+1227: 7f         ???
+1228: 08         PHP
+1229: 45 60      EOR $60
+122B: 22         ???
+122C: 22         ???
+122D: 7f         ???
+122E: 3e 0d 08   ROL $080d,X
+1231: 03         ???
+1232: 08         PHP
+1233: 49 7f      EOR #$7f
+1235: 49 49      EOR #$49
+1237: 14         ???
+1238: 49 49      EOR #$49
+123A: 4f         ???
+123B: 49 49      EOR #$49
+123D: 12         ???
+123E: 15 22      ORA $22,X
+1240: 14         ???
+1241: 22         ???
+1242: 45 55      EOR $55
+1244: 48         PHA
+1245: 49 41      EOR #$41
+1247: 41 5d      EOR ($5d,X)
+1249: 48         PHA
+124A: 41 08      EOR ($08,X)
+124C: 7f         ???
+124D: 01 14      ORA ($14,X)
+124F: 01 18      ORA ($18,X)
+1251: 10 41      BPL $1294
+1253: 48         PHA
+1254: 45 48      EOR $48
+1256: 49 7f      EOR #$7f
+1258: 01 01      ORA ($01,X)
+125A: 0c         ???
+125B: 08         PHP
+125C: 07         ???
+125D: 49 41      EOR #$41
+125F: 04         ???
+1260: 41 40      EOR ($40,X)
+1262: 02         ???
+1263: 20 15 11   JSR $1115
+1266: 11 11      ORA ($11),Y
+1268: 15 49      ORA $49,X
+126A: 25 10      AND $10
+126C: 5f         ???
+126D: 01 04      ORA ($04,X)
+126F: 7f         ???
+1270: 1f         ???
+1271: 10 11      BPL $1284
+1273: 24 18      BIT $18
+1275: 10 15      BPL $128c
+1277: 11 01      ORA ($01),Y
+1279: 01 0e      ORA ($0e,X)
+127B: 04         ???
+127C: 05 15      ORA $15
+127E: 41 7e      EOR ($7e,X)
+1280: 41 20      EOR ($20,X)
+1282: 7e 00 00   ROR $0000,X
+1285: 00         BRK
+1286: 7f         ???
+1287: 2a         ROL A
+1288: 13         ???
+1289: 32         ???
+128A: 00         BRK
+128B: 41 1c      EOR ($1c,X)
+128D: 1c         ???
+128E: 08         PHP
+128F: 0e 08 00   ASL $0008
+1292: 10 51      BPL $12e5
+1294: 01 49      ORA ($49,X)
+1296: 49 25      EOR #$25
+1298: 49 49      EOR #$49
+129A: 50 49      BVC $12e5
+129C: 49 00      EOR #$00
+129E: 16 41      ASL $41,X
+12A0: 14         ???
+12A1: 14         ???
+12A2: 48         PHA
+12A3: 4d 29 49   EOR $4929
+12A6: 41 41      EOR ($41,X)
+12A8: 41 5c      EOR ($5c,X)
+12AA: 49 49      EOR #$49
+12AC: 41 41      EOR ($41,X)
+12AE: 22         ???
+12AF: 01 21      ORA ($21,X)
+12B1: 49 41      EOR #$41
+12B3: 48         PHA
+12B4: 42         ???
+12B5: 4d 69 41   EOR $4169
+12B8: 41 42      EOR ($42,X)
+12BA: 02         ???
+12BB: 14         ???
+12BC: 49 51      EOR #$51
+12BE: 41 02      EOR ($02,X)
+12C0: 7f         ???
+12C1: 20 02 10   JSR $1002
+12C4: 0e 11 11   ASL $1111
+12C7: 0a         ASL A
+12C8: 15 48      ORA $48,X
+12CA: 1e 11 01   ASL $0111,X
+12CD: 5e 1a 01   LSR $011a,X
+12D0: 10 10      BPL $12e2
+12D2: 11 24      ORA ($24),Y
+12D4: 3f         ???
+12D5: 10 15      BPL $12ec
+12D7: 11 02      ORA ($02),Y
+12D9: 12         ???
+12DA: 01 0a      ORA ($0a,X)
+12DC: 05 19      ORA $19
+12DE: 41 00      EOR ($00,X)
+12E0: 36 40      ROL $40,X
+12E2: 7e 00 00   ROR $0000,X
+12E5: 70 14      BVS $12fb
+12E7: 24 23      BIT $23
+12E9: 05 00      ORA $00
+12EB: 00         BRK
+12EC: 00         BRK
+12ED: 2a         ROL A
+12EE: 08         PHP
+12EF: 00         BRK
+12F0: 08         PHP
+12F1: 00         BRK
+12F2: 20 3e 01   JSR $013e
+12F5: 33         ???
+12F6: 36 7f      ROL $7f,X
+12F8: 66 26      ROR $26
+12FA: 60         RTS
+12FB: 36 3e      ROL $3e,X
+12FD: 00         BRK
+12FE: 00         BRK
+12FF: 41 14      EOR ($14,X)
+1301: 08         PHP
+1302: 30 39      BMI $133d
+1304: 1f         ???
+1305: 36 22      ROL $22,X
+1307: 3e 63 60   ROL $6063,X
+130A: 2e 7f 63   ROL $637f
+130D: 7e 41 03   ROR $0341,X
+1310: 7f         ???
+1311: 7f         ???
+1312: 3e 30 3d   ROL $3d30,X
+1315: 33         ???
+1316: 26 40      ROL $40
+1318: 7e 7c 7f   ROR $7f7c,X
+131B: 63         ???
+131C: 70 63      BVS $1381
+131E: 00         BRK
+131F: 01 00      ORA ($00,X)
+1321: 10 02      BPL $1325
+1323: 00         BRK
+1324: 01 0e      ORA ($0e,X)
+1326: 0a         ASL A
+1327: 7f         ???
+1328: 0d 20 00   ORA $0020
+132B: 0f         ???
+132C: 00         BRK
+132D: 00         BRK
+132E: 11 00      ORA ($00),Y
+1330: 0f         ???
+1331: 0f         ???
+1332: 0e 18 21   ASL $2118
+1335: 08         PHP
+1336: 12         ???
+1337: 02         ???
+1338: 1f         ???
+1339: 1c         ???
+133A: 1f         ???
+133B: 11 3e      ORA ($3e),Y
+133D: 13         ???
+133E: 41 00      EOR ($00,X)
+1340: 08         PHP
+1341: 00         BRK
+1342: 7e 00 00   ROR $0000,X
+1345: 00         BRK
+1346: 00         BRK
+1347: 00         BRK
+1348: 00         BRK
+1349: 00         BRK
+134A: 00         BRK
+134B: 00         BRK
+134C: 00         BRK
+134D: 00         BRK
+134E: 00         BRK
+134F: 00         BRK
+1350: 00         BRK
+1351: 00         BRK
+1352: 00         BRK
+1353: 00         BRK
+1354: 00         BRK
+1355: 00         BRK
+1356: 00         BRK
+1357: 05 00      ORA $00
+1359: 00         BRK
+135A: 00         BRK
+135B: 00         BRK
+135C: 00         BRK
+135D: 00         BRK
+135E: 00         BRK
+135F: 00         BRK
+1360: 00         BRK
+1361: 00         BRK
+1362: 00         BRK
+1363: 00         BRK
+1364: 01 00      ORA ($00,X)
+1366: 00         BRK
+1367: 00         BRK
+1368: 00         BRK
+1369: 00         BRK
+136A: 08         PHP
+136B: 41 00      EOR ($00,X)
+136D: 40         RTI
+136E: 41 00      EOR ($00,X)
+1370: 41 41      EOR ($41,X)
+1372: 00         BRK
+1373: 00         BRK
+1374: 00         BRK
+1375: 01 00      ORA ($00,X)
+1377: 60         RTS
+1378: 40         RTI
+1379: 40         RTI
+137A: 40         RTI
+137B: 41 40      EOR ($40,X)
+137D: 00         BRK
+137E: 00         BRK
+137F: 00         BRK
+1380: 00         BRK
+1381: 00         BRK
+1382: 02         ???
+1383: 00         BRK
+1384: 00         BRK
+1385: 00         BRK
+1386: 00         BRK
+1387: 41 00      EOR ($00,X)
+1389: 00         BRK
+138A: 00         BRK
+138B: 01 00      ORA ($00,X)
+138D: 00         BRK
+138E: 00         BRK
+138F: 00         BRK
+1390: 00         BRK
+1391: 00         BRK
+1392: 00         BRK
+1393: 00         BRK
+1394: 00         BRK
+1395: 00         BRK
+1396: 00         BRK
+1397: 00         BRK
+1398: 11 10      ORA ($10),Y
+139A: 10 11      BPL $13ad
+139C: 00         BRK
+139D: 00         BRK
+139E: 00         BRK
+139F: 00         BRK
+13A0: 00         BRK
+13A1: 00         BRK
+13A2: 7e 00 00   ROR $0000,X
+13A5: 00         BRK
+13A6: a4 13      LDY $13
+13A8: 94 12      STY $12,X
+13AA: 92         ???
+13AB: 12         ???
+13AC: 86 12      STX $12
+13AE: 86 12      STX $12
+13B0: 86 12      STX $12
+13B2: 86 12      STX $12
+13B4: 86 12      STX $12
+13B6: 86 12      STX $12
+13B8: 86 12      STX $12
+13BA: 86 12      STX $12
+13BC: 86 12      STX $12
+13BE: 83         ???
+13BF: 12         ???
+13C0: 80         ???
+13C1: 12         ???
+13C2: 7f         ???
+13C3: 12         ???
+13C4: 61 12      ADC ($12,X)
+13C6: 5e 12 5d   LSR $5d12,X
+13C9: 12         ???
+13CA: 52         ???
+13CB: 12         ???
+13CC: 4d 12 4b   EOR $4b12
+13CF: 12         ???
+13D0: 45 12      EOR $12
+13D2: 42         ???
+13D3: 12         ???
+13D4: 3f         ???
+13D5: 12         ???
+13D6: 27         ???
+13D7: 12         ???
+13D8: 26 12      ROL $12
+13DA: 1c         ???
+13DB: 12         ???
+13DC: 01 12      ORA ($12,X)
+13DE: e2         ???
+13DF: 11 df      ORA ($df),Y
+13E1: 11 d6      ORA ($d6),Y
+13E3: 11 d4      ORA ($d4),Y
+13E5: 11 cd      ORA ($cd),Y
+13E7: 11 cd      ORA ($cd),Y
+13E9: 11 cd      ORA ($cd),Y
+13EB: 11 ba      ORA ($ba),Y
+13ED: 11 b3      ORA ($b3),Y
+13EF: 11 b0      ORA ($b0),Y
+13F1: 11 af      ORA ($af),Y
+13F3: 11 a6      ORA ($a6),Y
+13F5: 11 a4      ORA ($a4),Y
+13F7: 11 a1      ORA ($a1),Y
+13F9: 11 a1      ORA ($a1),Y
+13FB: 11 a1      ORA ($a1),Y
+13FD: 11 a1      ORA ($a1),Y
+13FF: 11 a1      ORA ($a1),Y
+1401: 11 a1      ORA ($a1),Y
+1403: 11 a1      ORA ($a1),Y
+1405: 11 a1      ORA ($a1),Y
+1407: 11 a1      ORA ($a1),Y
+1409: 11 a0      ORA ($a0),Y
+140B: 11 9b      ORA ($9b),Y
+140D: 11 93      ORA ($93),Y
+140F: 11 80      ORA ($80),Y
+1411: 11 77      ORA ($77),Y
+1413: 11 6e      ORA ($6e),Y
+1415: 11 63      ORA ($63),Y
+1417: 11 59      ORA ($59),Y
+1419: 11 56      ORA ($56),Y
+141B: 11 50      ORA ($50),Y
+141D: 11 2f      ORA ($2f),Y
+141F: 11 20      ORA ($20),Y
+1421: 11 1f      ORA ($1f),Y
+1423: 11 1c      ORA ($1c),Y
+1425: 11 1b      ORA ($1b),Y
+1427: 11 1a      ORA ($1a),Y
+1429: 11 19      ORA ($19),Y
+142B: 11 18      ORA ($18),Y
+142D: 11 15      ORA ($15),Y
+142F: 11 12      ORA ($12),Y
+1431: 11 0e      ORA ($0e),Y
+1433: 11 05      ORA ($05),Y
+1435: 11 04      ORA ($04),Y
+1437: 11 00      ORA ($00),Y
+1439: 11 fd      ORA ($fd),Y
+143B: 10 fb      BPL $1438
+143D: 10 f7      BPL $1436
+143F: 10 f7      BPL $1438
+1441: 10 f7      BPL $143a
+1443: 10 f7      BPL $143c
+1445: 10 f0      BPL $1437
+1447: 10 ed      BPL $1436
+1449: 10 e7      BPL $1432
+144B: 10 e0      BPL $142d
+144D: 10 de      BPL $142d
+144F: 10 d6      BPL $1427
+1451: 10 d6      BPL $1429
+1453: 10 d6      BPL $142b
+1455: 10 d6      BPL $142d
+1457: 10 d6      BPL $142f
+1459: 10 d6      BPL $1431
+145B: 10 d5      BPL $1432
+145D: 10 d3      BPL $1432
+145F: 10 d0      BPL $1431
+1461: 10 cc      BPL $142f
+1463: 10 cb      BPL $1430
+1465: 10 ca      BPL $1431
+1467: 10 c9      BPL $1432
+1469: 10 c8      BPL $1433
+146B: 10 c7      BPL $1434
+146D: 10 c4      BPL $1433
+146F: 10 c3      BPL $1434
+1471: 10 c2      BPL $1435
+1473: 10 c1      BPL $1436
+1475: 10 be      BPL $1435
+1477: 10 bd      BPL $1436
+1479: 10 bc      BPL $1437
+147B: 10 bb      BPL $1438
+147D: 10 ba      BPL $1439
+147F: 10 b9      BPL $143a
+1481: 10 b7      BPL $143a
+1483: 10 b4      BPL $1439
+1485: 10 b3      BPL $143a
+1487: 10 b0      BPL $1439
+1489: 10 ae      BPL $1439
+148B: 10 ac      BPL $1439
+148D: 10 ab      BPL $143a
+148F: 10 aa      BPL $143b
+1491: 10 a7      BPL $143a
+1493: 10 a5      BPL $143a
+1495: 10 a4      BPL $143b
+1497: 10 9f      BPL $1438
+1499: 10 9c      BPL $1437
+149B: 10 9b      BPL $1438
+149D: 10 99      BPL $1438
+149F: 10 97      BPL $1438
+14A1: 10 95      BPL $1438
+14A3: 10 93      BPL $1438
+14A5: 10 92      BPL $1439
+14A7: 10 90      BPL $1439
+14A9: 10 8f      BPL $143a
+14AB: 10 8e      BPL $143b
+14AD: 10 8d      BPL $143c
+14AF: 10 8c      BPL $143d
+14B1: 10 8b      BPL $143e
+14B3: 10 8a      BPL $143f
+14B5: 10 89      BPL $1440
+14B7: 10 88      BPL $1441
+14B9: 10 87      BPL $1442
+14BB: 10 86      BPL $1443
+14BD: 10 85      BPL $1444
+14BF: 10 82      BPL $1443
+14C1: 10 7f      BPL $1542
+14C3: 10 7e      BPL $1543
+14C5: 10 79      BPL $1540
+14C7: 10 78      BPL $1541
+14C9: 10 75      BPL $1540
+14CB: 10 70      BPL $153d
+14CD: 10 6d      BPL $153c
+14CF: 10 6a      BPL $153b
+14D1: 10 69      BPL $153c
+14D3: 10 68      BPL $153d
+14D5: 10 5f      BPL $1536
+14D7: 10 5d      BPL $1536
+14D9: 10 5b      BPL $1536
+14DB: 10 5a      BPL $1537
+14DD: 10 57      BPL $1536
+14DF: 10 53      BPL $1534
+14E1: 10 52      BPL $1535
+14E3: 10 50      BPL $1535
+14E5: 10 4f      BPL $1536
+14E7: 10 4c      BPL $1535
+14E9: 10 4a      BPL $1535
+14EB: 10 49      BPL $1536
+14ED: 10 47      BPL $1536
+14EF: 10 41      BPL $1532
+14F1: 10 40      BPL $1533
+14F3: 10 3f      BPL $1534
+14F5: 10 3e      BPL $1535
+14F7: 10 3a      BPL $1533
+14F9: 10 2e      BPL $1529
+14FB: 10 28      BPL $1525
+14FD: 10 26      BPL $1525
+14FF: 10 25      BPL $1526
+1501: 10 22      BPL $1525
+1503: 10 1f      BPL $1524
+1505: 10 1e      BPL $1525
+1507: 10 1b      BPL $1524
+1509: 10 19      BPL $1524
+150B: 10 16      BPL $1523
+150D: 10 00      BPL $150f
+150F: 10 00      BPL $1511
+1511: 10 00      BPL $1513
+1513: 10 00      BPL $1515
+1515: 10 00      BPL $1517
+1517: 10 00      BPL $1519
+1519: 10 00      BPL $151b
+151B: 10 00      BPL $151d
+151D: 10 00      BPL $151f
+151F: 10 00      BPL $1521
+1521: 10 00      BPL $1523
+1523: 10 00      BPL $1525
+1525: 10 00      BPL $1527
+1527: 10 00      BPL $1529
+1529: 10 00      BPL $152b
+152B: 10 00      BPL $152d
+152D: 10 00      BPL $152f
+152F: 10 00      BPL $1531
+1531: 10 00      BPL $1533
+1533: 10 00      BPL $1535
+1535: 10 00      BPL $1537
+1537: 10 eb      BPL $1524
+1539: 0f         ???
+153A: e6 0f      INC $0f
+153C: e1 0f      SBC ($0f,X)
+153E: dc         ???
+153F: 0f         ???
+1540: d9 0f d7   CMP $d70f,Y
+1543: 0f         ???
+1544: d4         ???
+1545: 0f         ???
+1546: cf         ???
+1547: 0f         ???
+1548: ce 0f cd   DEC $cd0f
+154B: 0f         ???
+154C: cc 0f c9   CPY $c90f
+154F: 0f         ???
+1550: c8         INY
+1551: 0f         ???
+1552: c7         ???
+1553: 0f         ???
+1554: c4 0f      CPY $0f
+1556: c3         ???
+1557: 0f         ???
+1558: c0 0f      CPY #$0f
+155A: be 0f bb   LDX $bb0f,Y
+155D: 0f         ???
+155E: b8         CLV
+155F: 0f         ???
+1560: b1 0f      LDA ($0f),Y
+1562: ab         ???
+1563: 0f         ???
+1564: a8         TAY
+1565: 0f         ???
+1566: a7         ???
+1567: 0f         ???
+1568: a6 0f      LDX $0f
+156A: a3         ???
+156B: 0f         ???
+156C: a1 0f      LDA ($0f,X)
+156E: 9e         ???
+156F: 0f         ???
+1570: 8c 0f 89   STY $890f
+1573: 0f         ???
+1574: 88         DEY
+1575: 0f         ???
+1576: 85 0f      STA $0f
+1578: 84 0f      STY $0f
+157A: 83         ???
+157B: 0f         ???
+157C: 82         ???
+157D: 0f         ???
+157E: 7f         ???
+157F: 0f         ???
+1580: 7e 0f 7b   ROR $7b0f,X
+1583: 0f         ???
+1584: 7a         ???
+1585: 0f         ???
+1586: 77         ???
+1587: 0f         ???
+1588: 75 0f      ADC $0f,X
+158A: 72         ???
+158B: 0f         ???
+158C: 6f         ???
+158D: 0f         ???
+158E: 6d 0f 6c   ADC $6c0f
+1591: 0f         ???
+1592: 64         ???
+1593: 0f         ???
+1594: 5f         ???
+1595: 0f         ???
+1596: 56 0f      LSR $0f,X
+1598: 51 0f      EOR ($0f),Y
+159A: 4e 0f 4d   LSR $4d0f
+159D: 0f         ???
+159E: 49 0f      EOR #$0f
+15A0: 48         PHA
+15A1: 0f         ???
+15A2: 47         ???
+15A3: 0f         ???
+15A4: 45 0f      EOR $0f
+15A6: 44         ???
+15A7: 0f         ???
+15A8: 3f         ???
+15A9: 0f         ???
+15AA: 3e 0f 37   ROL $370f,X
+15AD: 0f         ???
+15AE: 36 0f      ROL $0f,X
+15B0: 34         ???
+15B1: 0f         ???
+15B2: 2f         ???
+15B3: 0f         ???
+15B4: 2e 0f 2d   ROL $2d0f
+15B7: 0f         ???
+15B8: 29 0f      AND #$0f
+15BA: 26 0f      ROL $0f
+15BC: 25 0f      AND $0f
+15BE: 24 0f      BIT $0f
+15C0: 21 0f      AND ($0f,X)
+15C2: 20 0f 18   JSR $180f
+15C5: 0f         ???
+15C6: 17         ???
+15C7: 0f         ???
+15C8: 16 0f      ASL $0f,X
+15CA: 14         ???
+15CB: 0f         ???
+15CC: 13         ???
+15CD: 0f         ???
+15CE: 10 0f      BPL $15df
+15D0: 0f         ???
+15D1: 0f         ???
+15D2: 0d 0f 06   ORA $060f
+15D5: 0f         ???
+15D6: 03         ???
+15D7: 0f         ???
+15D8: 01 0f      ORA ($0f,X)
+15DA: fc         ???
+15DB: 0e f9 0e   ASL $0ef9
+15DE: f7         ???
+15DF: 0e f6 0e   ASL $0ef6
+15E2: db         ???
+15E3: 0e d5 0e   ASL $0ed5
+15E6: d0 0e      BNE $15f6
+15E8: cf         ???
+15E9: 0e ce 0e   ASL $0ece
+15EC: cb         ???
+15ED: 0e c8 0e   ASL $0ec8
+15F0: c5 0e      CMP $0e
+15F2: c2         ???
+15F3: 0e c1 0e   ASL $0ec1
+15F6: c0 0e      CPY #$0e
+15F8: bf         ???
+15F9: 0e bc 0e   ASL $0ebc
+15FC: bb         ???
+15FD: 0e ba 0e   ASL $0eba
+1600: b9 0e b8   LDA $b80e,Y
+1603: 0e b7 0e   ASL $0eb7
+1606: b6 0e      LDX $0e,Y
+1608: b1 0e      LDA ($0e),Y
+160A: ae 0e ad   LDX $ad0e
+160D: 0e aa 0e   ASL $0eaa
+1610: a3         ???
+1611: 0e a2 0e   ASL $0ea2
+1614: 9d 0e 9c   STA $9c0e,X
+1617: 0e 99 0e   ASL $0e99
+161A: 98         TYA
+161B: 0e 97 0e   ASL $0e97
+161E: 96 0e      STX $0e,Y
+1620: 93         ???
+1621: 0e 92 0e   ASL $0e92
+1624: 8e 0e 8d   STX $8d0e
+1627: 0e 8a 0e   ASL $0e8a
+162A: 89         ???
+162B: 0e 87 0e   ASL $0e87
+162E: 86 0e      STX $0e
+1630: 83         ???
+1631: 0e 82 0e   ASL $0e82
+1634: 7f         ???
+1635: 0e 7d 0e   ASL $0e7d
+1638: 7a         ???
+1639: 0e 79 0e   ASL $0e79
+163C: 6a         ROR A
+163D: 0e 67 0e   ASL $0e67
+1640: 66 0e      ROR $0e
+1642: 65 0e      ADC $0e
+1644: 62         ???
+1645: 0e 61 0e   ASL $0e61
+1648: 60         RTS
+1649: 0e 5d 0e   ASL $0e5d
+164C: 5c         ???
+164D: 0e 5b 0e   ASL $0e5b
+1650: 5a         ???
+1651: 0e 59 0e   ASL $0e59
+1654: 58         CLI
+1655: 0e 57 0e   ASL $0e57
+1658: 55 0e      EOR $0e,X
+165A: 54         ???
+165B: 0e 53 0e   ASL $0e53
+165E: 52         ???
+165F: 0e 51 0e   ASL $0e51
+1662: 50 0e      BVC $1672
+1664: 46 0e      LSR $0e
+1666: 3f         ???
+1667: 0e 38 0e   ASL $0e38
+166A: 2f         ???
+166B: 0e 2b 0e   ASL $0e2b
+166E: 26 0e      ROL $0e
+1670: 22         ???
+1671: 0e 21 0e   ASL $0e21
+1674: 1d 0e 18   ORA $180e,X
+1677: 0e 17 0e   ASL $0e17
+167A: 16 0e      ASL $0e,X
+167C: 15 0e      ORA $0e,X
+167E: 14         ???
+167F: 0e 11 0e   ASL $0e11
+1682: 0f         ???
+1683: 0e 0d 0e   ASL $0e0d
+1686: 0b         ???
+1687: 0e 05 0e   ASL $0e05
+168A: 04         ???
+168B: 0e 04 0e   ASL $0e04
+168E: 04         ???
+168F: 0e 04 0e   ASL $0e04
+1692: 04         ???
+1693: 0e 04 0e   ASL $0e04
+1696: 02         ???
+1697: 0e 01 0e   ASL $0e01
+169A: ff         ???
+169B: 0d fe 0d   ORA $0dfe
+169E: fc         ???
+169F: 0d fb 0d   ORA $0dfb
+16A2: f1 0d      SBC ($0d),Y
+16A4: eb         ???
+16A5: 0d ea 0d   ORA $0dea
+16A8: e5 0d      SBC $0d
+16AA: e4 0d      CPX $0d
+16AC: e3         ???
+16AD: 0d e2 0d   ORA $0de2
+16B0: d4         ???
+16B1: 0d d3 0d   ORA $0dd3
+16B4: d2         ???
+16B5: 0d c7 0d   ORA $0dc7
+16B8: c4 0d      CPY $0d
+16BA: c1 0d      CMP ($0d,X)
+16BC: c0 0d      CPY #$0d
+16BE: bf         ???
+16BF: 0d be 0d   ORA $0dbe
+16C2: bd 0d b4   LDA $b40d,X
+16C5: 0d af 0d   ORA $0daf
+16C8: ae 0d ad   LDX $ad0d
+16CB: 0d ac 0d   ORA $0dac
+16CE: a5 0d      LDA $0d
+16D0: a0 0d      LDY #$0d
+16D2: 9b         ???
+16D3: 0d 94 0d   ORA $0d94
+16D6: 8e 0d 8d   STX $8d0d
+16D9: 0d 8a 0d   ORA $0d8a
+16DC: 89         ???
+16DD: 0d 62 0d   ORA $0d62
+16E0: 4e 0d 4a   LSR $4a0d
+16E3: 0d 49 0d   ORA $0d49
+16E6: 46 0d      LSR $0d
+16E8: 43         ???
+16E9: 0d 3e 0d   ORA $0d3e
+16EC: 3b         ???
+16ED: 0d 3a 0d   ORA $0d3a
+16F0: 39 0d 36   AND $360d,Y
+16F3: 0d 33 0d   ORA $0d33
+16F6: 2c 0d 24   BIT $240d
+16F9: 0d 1f 0d   ORA $0d1f
+16FC: 10 0d      BPL $170b
+16FE: 07         ???
+16FF: 0d 06 0d   ORA $0d06
+1702: f5 0c      SBC $0c,X
+1704: ee 0c ad   INC $ad0c
+1707: 0c         ???
+1708: a7         ???
+1709: 0c         ???
+170A: a0 0c      LDY #$0c
+170C: 9f         ???
+170D: 0c         ???
+170E: 93         ???
+170F: 0c         ???
+1710: 8d 0c 86   STA $860c
+1713: 0c         ???
+1714: 7a         ???
+1715: 0c         ???
+1716: 79 0c 78   ADC $780c,Y
+1719: 0c         ???
+171A: 77         ???
+171B: 0c         ???
+171C: 70 0c      BVS $172a
+171E: 6f         ???
+171F: 0c         ???
+1720: 6e 0c 6d   ROR $6d0c
+1723: 0c         ???
+1724: 6c 0c 6b   JMP ($6b0c)
+1727: 0c         ???
+1728: 6a         ROR A
+1729: 0c         ???
+172A: 4b         ???
+172B: 0c         ???
+172C: 44         ???
+172D: 0c         ???
+172E: 31 0c      AND ($0c),Y
+1730: 30 0c      BMI $173e
+1732: 2a         ROL A
+1733: 0c         ???
+1734: 24 0c      BIT $0c
+1736: 21 0c      AND ($0c,X)
+1738: 1b         ???
+1739: 0c         ???
+173A: 15 0c      ORA $0c,X
+173C: 0f         ???
+173D: 0c         ???
+173E: 09 0c      ORA #$0c
+1740: 03         ???
+1741: 0c         ???
+1742: 02         ???
+1743: 0c         ???
+1744: ff         ???
+1745: 0b         ???
+1746: fe 0b ca   INC $ca0b,X
+1749: 0b         ???
+174A: c8         INY
+174B: 0b         ???
+174C: c0 0b      CPY #$0b
+174E: bd 0b bc   LDA $bc0b,X
+1751: 0b         ???
+1752: b9 0b b8   LDA $b80b,Y
+1755: 0b         ???
+1756: b5 0b      LDA $0b,X
+1758: b4 0b      LDY $0b,X
+175A: b3         ???
+175B: 0b         ???
+175C: b2         ???
+175D: 0b         ???
+175E: af         ???
+175F: 0b         ???
+1760: ae 0b a8   LDX $a80b
+1763: 0b         ???
+1764: a5 0b      LDA $0b
+1766: a2 0b      LDX #$0b
+1768: 9d 0b 9a   STA $9a0b,X
+176B: 0b         ???
+176C: 97         ???
+176D: 0b         ???
+176E: 94 0b      STY $0b,X
+1770: 93         ???
+1771: 0b         ???
+1772: 92         ???
+1773: 0b         ???
+1774: 89         ???
+1775: 0b         ???
+1776: 86 0b      STX $0b
+1778: 83         ???
+1779: 0b         ???
+177A: 7e 0b 7d   ROR $7d0b,X
+177D: 0b         ???
+177E: 7a         ???
+177F: 0b         ???
+1780: 77         ???
+1781: 0b         ???
+1782: 73         ???
+1783: 0b         ???
+1784: 72         ???
+1785: 0b         ???
+1786: 6f         ???
+1787: 0b         ???
+1788: 6c 0b 6b   JMP ($6b0b)
+178B: 0b         ???
+178C: 68         PLA
+178D: 0b         ???
+178E: 65 0b      ADC $0b
+1790: 64         ???
+1791: 0b         ???
+1792: 63         ???
+1793: 0b         ???
+1794: 60         RTS
+1795: 0b         ???
+1796: 5d 0b 51   EOR $510b,X
+1799: 0b         ???
+179A: 34         ???
+179B: 0b         ???
+179C: 33         ???
+179D: 0b         ???
+179E: 32         ???
+179F: 0b         ???
+17A0: 31 0b      AND ($0b),Y
+17A2: 30 0b      BMI $17af
+17A4: 2f         ???
+17A5: 0b         ???
+17A6: 2c 0b 2b   BIT $2b0b
+17A9: 0b         ???
+17AA: 24 0b      BIT $0b
+17AC: 23         ???
+17AD: 0b         ???
+17AE: 17         ???
+17AF: 0b         ???
+17B0: 15 0b      ORA $0b,X
+17B2: 13         ???
+17B3: 0b         ???
+17B4: 13         ???
+17B5: 0b         ???
+17B6: 13         ???
+17B7: 0b         ???
+17B8: 13         ???
+17B9: 0b         ???
+17BA: 13         ???
+17BB: 0b         ???
+17BC: 13         ???
+17BD: 0b         ???
+17BE: 13         ???
+17BF: 0b         ???
+17C0: 13         ???
+17C1: 0b         ???
+17C2: 13         ???
+17C3: 0b         ???
+17C4: 10 0b      BPL $17d1
+17C6: 0d 0b 0b   ORA $0b0b
+17C9: 0b         ???
+17CA: 06 0b      ASL $0b
+17CC: 03         ???
+17CD: 0b         ???
+17CE: 00         BRK
+17CF: 0b         ???
+17D0: ff         ???
+17D1: 0a         ASL A
+17D2: fc         ???
+17D3: 0a         ASL A
+17D4: f9 0a f5   SBC $f50a,Y
+17D7: 0a         ASL A
+17D8: f2         ???
+17D9: 0a         ASL A
+17DA: ef         ???
+17DB: 0a         ASL A
+17DC: ec 0a e9   CPX $e90a
+17DF: 0a         ASL A
+17E0: e6 0a      INC $0a
+17E2: e3         ???
+17E3: 0a         ASL A
+17E4: e2         ???
+17E5: 0a         ASL A
+17E6: db         ???
+17E7: 0a         ASL A
+17E8: d7         ???
+17E9: 0a         ASL A
+17EA: d2         ???
+17EB: 0a         ASL A
+17EC: cf         ???
+17ED: 0a         ASL A
+17EE: ce 0a cb   DEC $cb0a
+17F1: 0a         ASL A
+17F2: ca         DEX
+17F3: 0a         ASL A
+17F4: af         ???
+17F5: 0a         ASL A
+17F6: aa         TAX
+17F7: 0a         ASL A
+17F8: a9 0a      LDA #$0a
+17FA: a6 0a      LDX $0a
+17FC: a5 0a      LDA $0a
+17FE: 9b         ???
+17FF: 0a         ASL A
+1800: 96 0a      STX $0a,Y
+1802: 70 0a      BVS $180e
+1804: 2f         ???
+1805: 02         ???
+1806: 00         BRK
+1807: 00         BRK
+1808: 00         BRK
+1809: 00         BRK
+180A: 0a         ASL A
+180B: 18         CLC
+180C: 00         BRK
+180D: 00         BRK
+180E: 02         ???
+180F: 00         BRK
+1810: 01 01      ORA ($01,X)
+1812: a2 0e      LDX #$0e
+1814: 9d 0e 9c   STA $9c0e,X
+1817: 0e 99 0e   ASL $0e99
+181A: 98         TYA
+181B: 0e 97 0e   ASL $0e97
+181E: 96 0e      STX $0e,Y
+1820: 93         ???
+1821: 0e 92 0e   ASL $0e92
+1824: 8e 0e 8d   STX $8d0e
+1827: 0e 8a 0e   ASL $0e8a
+182A: 89         ???
+182B: 0e 87 0e   ASL $0e87
+182E: 86 0e      STX $0e
+1830: 83         ???
+1831: 0e 82 0e   ASL $0e82
+1834: 7f         ???
+1835: 0e 7d 0e   ASL $0e7d
+1838: 7a         ???
+1839: 0e 79 0e   ASL $0e79
+183C: 6a         ROR A
+183D: 0e 67 0e   ASL $0e67
+1840: 66 0e      ROR $0e
+1842: 65 0e      ADC $0e
+1844: 62         ???
+1845: 0e 61 0e   ASL $0e61
+1848: 60         RTS
+1849: 0e 5d 0e   ASL $0e5d
+184C: 5c         ???
+184D: 0e 5b 0e   ASL $0e5b
+1850: 5a         ???
+1851: 0e 59 0e   ASL $0e59
+1854: 58         CLI
+1855: 0e 57 0e   ASL $0e57
+1858: 55 0e      EOR $0e,X
+185A: 54         ???
+185B: 0e 53 0e   ASL $0e53
+185E: 52         ???
+185F: 0e 51 0e   ASL $0e51
+1862: 50 0e      BVC $1872
+1864: 46 0e      LSR $0e
+1866: 3f         ???
+1867: 0e 38 0e   ASL $0e38
+186A: 2f         ???
+186B: 0e 2b 0e   ASL $0e2b
+186E: 26 0e      ROL $0e
+1870: 22         ???
+1871: 0e 21 0e   ASL $0e21
+1874: 1d 0e 18   ORA $180e,X
+1877: 0e 17 0e   ASL $0e17
+187A: 16 0e      ASL $0e,X
+187C: 15 0e      ORA $0e,X
+187E: 14         ???
+187F: 0e 11 0e   ASL $0e11
+1882: 0f         ???
+1883: 0e 0d 0e   ASL $0e0d
+1886: 0b         ???
+1887: 0e 05 0e   ASL $0e05
+188A: 04         ???
+188B: 0e 04 0e   ASL $0e04
+188E: 04         ???
+188F: 0e 04 0e   ASL $0e04
+1892: 04         ???
+1893: 0e 04 0e   ASL $0e04
+1896: 02         ???
+1897: 0e 01 0e   ASL $0e01
+189A: ff         ???
+189B: 0d fe 0d   ORA $0dfe
+189E: fc         ???
+189F: 0d fb 0d   ORA $0dfb
+18A2: f1 0d      SBC ($0d),Y
+18A4: eb         ???
+18A5: 0d ea 0d   ORA $0dea
+18A8: e5 0d      SBC $0d
+18AA: e4 0d      CPX $0d
+18AC: e3         ???
+18AD: 0d e2 0d   ORA $0de2
+18B0: d4         ???
+18B1: 0d d3 0d   ORA $0dd3
+18B4: d2         ???
+18B5: 0d c7 0d   ORA $0dc7
+18B8: c4 0d      CPY $0d
+18BA: c1 0d      CMP ($0d,X)
+18BC: c0 0d      CPY #$0d
+18BE: bf         ???
+18BF: 0d be 0d   ORA $0dbe
+18C2: bd 0d b4   LDA $b40d,X
+18C5: 0d af 0d   ORA $0daf
+18C8: ae 0d ad   LDX $ad0d
+18CB: 0d ac 0d   ORA $0dac
+18CE: a5 0d      LDA $0d
+18D0: a0 0d      LDY #$0d
+18D2: 9b         ???
+18D3: 0d 94 0d   ORA $0d94
+18D6: 8e 0d 8d   STX $8d0d
+18D9: 0d 8a 0d   ORA $0d8a
+18DC: 89         ???
+18DD: 0d 62 0d   ORA $0d62
+18E0: 4e 0d 4a   LSR $4a0d
+18E3: 0d 49 0d   ORA $0d49
+18E6: 46 0d      LSR $0d
+18E8: 43         ???
+18E9: 0d 3e 0d   ORA $0d3e
+18EC: 3b         ???
+18ED: 0d 3a 0d   ORA $0d3a
+18F0: 39 0d 36   AND $360d,Y
+18F3: 0d 33 0d   ORA $0d33
+18F6: 2c 0d 24   BIT $240d
+18F9: 0d 1f 0d   ORA $0d1f
+18FC: 10 0d      BPL $190b
+18FE: 07         ???
+18FF: 0d 06 0d   ORA $0d06
+1902: f5 0c      SBC $0c,X
+1904: ee 0c ad   INC $ad0c
+1907: 0c         ???
+1908: a7         ???
+1909: 0c         ???
+190A: a0 0c      LDY #$0c
+190C: 9f         ???
+190D: 0c         ???
+190E: 93         ???
+190F: 0c         ???
+1910: 8d 0c 86   STA $860c
+1913: 0c         ???
+1914: 7a         ???
+1915: 0c         ???
+1916: 79 0c 78   ADC $780c,Y
+1919: 0c         ???
+191A: 77         ???
+191B: 0c         ???
+191C: 70 0c      BVS $192a
+191E: 6f         ???
+191F: 0c         ???
+1920: 6e 0c 6d   ROR $6d0c
+1923: 0c         ???
+1924: 6c 0c 6b   JMP ($6b0c)
+1927: 0c         ???
+1928: 6a         ROR A
+1929: 0c         ???
+192A: 4b         ???
+192B: 0c         ???
+192C: 44         ???
+192D: 0c         ???
+192E: 31 0c      AND ($0c),Y
+1930: 30 0c      BMI $193e
+1932: 2a         ROL A
+1933: 0c         ???
+1934: 24 0c      BIT $0c
+1936: 21 0c      AND ($0c,X)
+1938: 1b         ???
+1939: 0c         ???
+193A: 15 0c      ORA $0c,X
+193C: 0f         ???
+193D: 0c         ???
+193E: 09 0c      ORA #$0c
+1940: 03         ???
+1941: 0c         ???
+1942: 02         ???
+1943: 0c         ???
+1944: ff         ???
+1945: 0b         ???
+1946: fe 0b ca   INC $ca0b,X
+1949: 0b         ???
+194A: c8         INY
+194B: 0b         ???
+194C: c0 0b      CPY #$0b
+194E: bd 0b bc   LDA $bc0b,X
+1951: 0b         ???
+1952: b9 0b b8   LDA $b80b,Y
+1955: 0b         ???
+1956: b5 0b      LDA $0b,X
+1958: b4 0b      LDY $0b,X
+195A: b3         ???
+195B: 0b         ???
+195C: b2         ???
+195D: 0b         ???
+195E: af         ???
+195F: 0b         ???
+1960: ae 0b a8   LDX $a80b
+1963: 0b         ???
+1964: a5 0b      LDA $0b
+1966: a2 0b      LDX #$0b
+1968: 9d 0b 9a   STA $9a0b,X
+196B: 0b         ???
+196C: 97         ???
+196D: 0b         ???
+196E: 94 0b      STY $0b,X
+1970: 93         ???
+1971: 0b         ???
+1972: 92         ???
+1973: 0b         ???
+1974: 89         ???
+1975: 0b         ???
+1976: 86 0b      STX $0b
+1978: 83         ???
+1979: 0b         ???
+197A: 7e 0b 7d   ROR $7d0b,X
+197D: 0b         ???
+197E: 7a         ???
+197F: 0b         ???
+1980: 77         ???
+1981: 0b         ???
+1982: 73         ???
+1983: 0b         ???
+1984: 72         ???
+1985: 0b         ???
+1986: 6f         ???
+1987: 0b         ???
+1988: 6c 0b 6b   JMP ($6b0b)
+198B: 0b         ???
+198C: 68         PLA
+198D: 0b         ???
+198E: 65 0b      ADC $0b
+1990: 64         ???
+1991: 0b         ???
+1992: 63         ???
+1993: 0b         ???
+1994: 60         RTS
+1995: 0b         ???
+1996: 5d 0b 51   EOR $510b,X
+1999: 0b         ???
+199A: 34         ???
+199B: 0b         ???
+199C: 33         ???
+199D: 0b         ???
+199E: 32         ???
+199F: 0b         ???
+19A0: 31 0b      AND ($0b),Y
+19A2: 30 0b      BMI $19af
+19A4: 2f         ???
+19A5: 0b         ???
+19A6: 2c 0b 2b   BIT $2b0b
+19A9: 0b         ???
+19AA: 24 0b      BIT $0b
+19AC: 23         ???
+19AD: 0b         ???
+19AE: 17         ???
+19AF: 0b         ???
+19B0: 15 0b      ORA $0b,X
+19B2: 13         ???
+19B3: 0b         ???
+19B4: 13         ???
+19B5: 0b         ???
+19B6: 13         ???
+19B7: 0b         ???
+19B8: 13         ???
+19B9: 0b         ???
+19BA: 13         ???
+19BB: 0b         ???
+19BC: 13         ???
+19BD: 0b         ???
+19BE: 13         ???
+19BF: 0b         ???
+19C0: 13         ???
+19C1: 0b         ???
+19C2: 13         ???
+19C3: 0b         ???
+19C4: 10 0b      BPL $19d1
+19C6: 0d 0b 0b   ORA $0b0b
+19C9: 0b         ???
+19CA: 06 0b      ASL $0b
+19CC: 03         ???
+19CD: 0b         ???
+19CE: 00         BRK
+19CF: 0b         ???
+19D0: ff         ???
+19D1: 0a         ASL A
+19D2: fc         ???
+19D3: 0a         ASL A
+19D4: f9 0a f5   SBC $f50a,Y
+19D7: 0a         ASL A
+19D8: f2         ???
+19D9: 0a         ASL A
+19DA: ef         ???
+19DB: 0a         ASL A
+19DC: ec 0a e9   CPX $e90a
+19DF: 0a         ASL A
+19E0: e6 0a      INC $0a
+19E2: e3         ???
+19E3: 0a         ASL A
+19E4: e2         ???
+19E5: 0a         ASL A
+19E6: db         ???
+19E7: 0a         ASL A
+19E8: d7         ???
+19E9: 0a         ASL A
+19EA: d2         ???
+19EB: 0a         ASL A
+19EC: cf         ???
+19ED: 0a         ASL A
+19EE: ce 0a cb   DEC $cb0a
+19F1: 0a         ASL A
+19F2: ca         DEX
+19F3: 0a         ASL A
+19F4: af         ???
+19F5: 0a         ASL A
+19F6: aa         TAX
+19F7: 0a         ASL A
+19F8: a9 0a      LDA #$0a
+19FA: a6 0a      LDX $0a
+19FC: a5 0a      LDA $0a
+19FE: 9b         ???
+19FF: 0a         ASL A
+1A00: 53         ???
+1A01: 49 4c      EOR #$4c
+1A03: 45 4e      EOR $4e
+1A05: 54         ???
+1A06: 59 50 0b   EOR $0b50,Y
+1A09: 00         BRK
+1A0A: 01 00      ORA ($00,X)
+1A0C: 00         BRK
+1A0D: 00         BRK
+1A0E: 00         BRK
+1A0F: 00         BRK
+1A10: 53         ???
+1A11: 49 4c      EOR #$4c
+1A13: 45 4e      EOR $4e
+1A15: 54         ???
+1A16: 59 50 06   EOR $0650,Y
+1A19: 00         BRK
+1A1A: 01 00      ORA ($00,X)
+1A1C: 00         BRK
+1A1D: 00         BRK
+1A1E: 00         BRK
+1A1F: 00         BRK
+1A20: 20 20 20   JSR $2020
+1A23: 20 20 20   JSR $2020
+1A26: 20 20 00   JSR $0020
+1A29: 00         BRK
+1A2A: 00         BRK
+1A2B: 00         BRK
+1A2C: 00         BRK
+1A2D: 00         BRK
+1A2E: 00         BRK
+1A2F: 00         BRK
+1A30: 00         BRK
+1A31: 00         BRK
+1A32: 00         BRK
+1A33: 00         BRK
+1A34: 00         BRK
+1A35: 00         BRK
+1A36: 00         BRK
+1A37: 00         BRK
+1A38: 00         BRK
+1A39: 00         BRK
+1A3A: 00         BRK
+1A3B: 00         BRK
+1A3C: 00         BRK
+1A3D: 00         BRK
+1A3E: 00         BRK
+1A3F: 00         BRK
+1A40: 00         BRK
+1A41: 00         BRK
+1A42: 00         BRK
+1A43: 00         BRK
+1A44: 00         BRK
+1A45: 00         BRK
+1A46: 00         BRK
+1A47: 00         BRK
+1A48: 00         BRK
+1A49: 00         BRK
+1A4A: 00         BRK
+1A4B: 00         BRK
+1A4C: 00         BRK
+1A4D: 00         BRK
+1A4E: 00         BRK
+1A4F: 00         BRK
+1A50: 00         BRK
+1A51: 00         BRK
+1A52: 00         BRK
+1A53: 00         BRK
+1A54: 00         BRK
+1A55: 00         BRK
+1A56: 00         BRK
+1A57: 00         BRK
+1A58: 00         BRK
+1A59: 00         BRK
+1A5A: 00         BRK
+1A5B: 00         BRK
+1A5C: 00         BRK
+1A5D: 00         BRK
+1A5E: 00         BRK
+1A5F: 00         BRK
+1A60: 00         BRK
+1A61: 00         BRK
+1A62: 00         BRK
+1A63: 00         BRK
+1A64: 00         BRK
+1A65: 00         BRK
+1A66: 00         BRK
+1A67: 00         BRK
+1A68: 00         BRK
+1A69: 00         BRK
+1A6A: 00         BRK
+1A6B: 00         BRK
+1A6C: 00         BRK
+1A6D: 00         BRK
+1A6E: 00         BRK
+1A6F: 00         BRK
+1A70: 00         BRK
+1A71: 00         BRK
+1A72: 00         BRK
+1A73: 00         BRK
+1A74: 00         BRK
+1A75: 00         BRK
+1A76: 00         BRK
+1A77: 00         BRK
+1A78: 00         BRK
+1A79: 00         BRK
+1A7A: 00         BRK
+1A7B: 00         BRK
+1A7C: 00         BRK
+1A7D: 00         BRK
+1A7E: 00         BRK
+1A7F: 00         BRK
+1A80: 00         BRK
+1A81: 00         BRK
+1A82: 00         BRK
+1A83: 00         BRK
+1A84: 00         BRK
+1A85: 00         BRK
+1A86: 00         BRK
+1A87: 00         BRK
+1A88: 00         BRK
+1A89: 00         BRK
+1A8A: 00         BRK
+1A8B: 00         BRK
+1A8C: 00         BRK
+1A8D: 00         BRK
+1A8E: 00         BRK
+1A8F: 00         BRK
+1A90: 00         BRK
+1A91: 00         BRK
+1A92: 00         BRK
+1A93: 00         BRK
+1A94: 00         BRK
+1A95: 00         BRK
+1A96: 00         BRK
+1A97: 00         BRK
+1A98: 00         BRK
+1A99: 00         BRK
+1A9A: 00         BRK
+1A9B: 00         BRK
+1A9C: 00         BRK
+1A9D: 00         BRK
+1A9E: 00         BRK
+1A9F: 00         BRK
+1AA0: 00         BRK
+1AA1: 00         BRK
+1AA2: 00         BRK
+1AA3: 00         BRK
+1AA4: 00         BRK
+1AA5: 00         BRK
+1AA6: 00         BRK
+1AA7: 00         BRK
+1AA8: 00         BRK
+1AA9: 00         BRK
+1AAA: 00         BRK
+1AAB: 00         BRK
+1AAC: 00         BRK
+1AAD: 00         BRK
+1AAE: 00         BRK
+1AAF: 00         BRK
+1AB0: 00         BRK
+1AB1: 00         BRK
+1AB2: 00         BRK
+1AB3: 00         BRK
+1AB4: 00         BRK
+1AB5: 00         BRK
+1AB6: 00         BRK
+1AB7: 00         BRK
+1AB8: 00         BRK
+1AB9: 00         BRK
+1ABA: 00         BRK
+1ABB: 00         BRK
+1ABC: 00         BRK
+1ABD: 00         BRK
+1ABE: 00         BRK
+1ABF: 00         BRK
+1AC0: 00         BRK
+1AC1: 00         BRK
+1AC2: 00         BRK
+1AC3: 00         BRK
+1AC4: 00         BRK
+1AC5: 00         BRK
+1AC6: 00         BRK
+1AC7: 00         BRK
+1AC8: 00         BRK
+1AC9: 00         BRK
+1ACA: 00         BRK
+1ACB: 00         BRK
+1ACC: 00         BRK
+1ACD: 00         BRK
+1ACE: 00         BRK
+1ACF: 00         BRK
+1AD0: 00         BRK
+1AD1: 00         BRK
+1AD2: 00         BRK
+1AD3: 00         BRK
+1AD4: 00         BRK
+1AD5: 00         BRK
+1AD6: 00         BRK
+1AD7: 00         BRK
+1AD8: 00         BRK
+1AD9: 00         BRK
+1ADA: 00         BRK
+1ADB: 00         BRK
+1ADC: 00         BRK
+1ADD: 00         BRK
+1ADE: 00         BRK
+1ADF: 00         BRK
+1AE0: 00         BRK
+1AE1: 00         BRK
+1AE2: 00         BRK
+1AE3: 00         BRK
+1AE4: 00         BRK
+1AE5: 00         BRK
+1AE6: 00         BRK
+1AE7: 00         BRK
+1AE8: 00         BRK
+1AE9: 00         BRK
+1AEA: 00         BRK
+1AEB: 00         BRK
+1AEC: 00         BRK
+1AED: 00         BRK
+1AEE: 00         BRK
+1AEF: 00         BRK
+1AF0: 00         BRK
+1AF1: 00         BRK
+1AF2: 00         BRK
+1AF3: 00         BRK
+1AF4: 00         BRK
+1AF5: 00         BRK
+1AF6: 00         BRK
+1AF7: 00         BRK
+1AF8: 00         BRK
+1AF9: 00         BRK
+1AFA: 00         BRK
+1AFB: 00         BRK
+1AFC: 00         BRK
+1AFD: 00         BRK
+1AFE: 00         BRK
+1AFF: 00         BRK
+1B00: 00         BRK
+1B01: 00         BRK
+1B02: 00         BRK
+1B03: 00         BRK
+1B04: 00         BRK
+1B05: 00         BRK
+1B06: 00         BRK
+1B07: 00         BRK
+1B08: 00         BRK
+1B09: 00         BRK
+1B0A: 00         BRK
+1B0B: 00         BRK
+1B0C: 00         BRK
+1B0D: 00         BRK
+1B0E: 00         BRK
+1B0F: 00         BRK
+1B10: 00         BRK
+1B11: 00         BRK
+1B12: 00         BRK
+1B13: 00         BRK
+1B14: 00         BRK
+1B15: 00         BRK
+1B16: 00         BRK
+1B17: 00         BRK
+1B18: 00         BRK
+1B19: 00         BRK
+1B1A: 00         BRK
+1B1B: 00         BRK
+1B1C: 00         BRK
+1B1D: 00         BRK
+1B1E: 00         BRK
+1B1F: 00         BRK
+1B20: 00         BRK
+1B21: 00         BRK
+1B22: 00         BRK
+1B23: 00         BRK
+1B24: 00         BRK
+1B25: 00         BRK
+1B26: 00         BRK
+1B27: 00         BRK
+1B28: 00         BRK
+1B29: 00         BRK
+1B2A: 00         BRK
+1B2B: 00         BRK
+1B2C: 00         BRK
+1B2D: 00         BRK
+1B2E: 00         BRK
+1B2F: 00         BRK
+1B30: 00         BRK
+1B31: 00         BRK
+1B32: 00         BRK
+1B33: 00         BRK
+1B34: 00         BRK
+1B35: 00         BRK
+1B36: 00         BRK
+1B37: 00         BRK
+1B38: 00         BRK
+1B39: 00         BRK
+1B3A: 00         BRK
+1B3B: 00         BRK
+1B3C: 00         BRK
+1B3D: 00         BRK
+1B3E: 00         BRK
+1B3F: 00         BRK
+1B40: 00         BRK
+1B41: 00         BRK
+1B42: 00         BRK
+1B43: 00         BRK
+1B44: 00         BRK
+1B45: 00         BRK
+1B46: 00         BRK
+1B47: 00         BRK
+1B48: 00         BRK
+1B49: 00         BRK
+1B4A: 00         BRK
+1B4B: 00         BRK
+1B4C: 00         BRK
+1B4D: 00         BRK
+1B4E: 00         BRK
+1B4F: 00         BRK
+1B50: 00         BRK
+1B51: 00         BRK
+1B52: 00         BRK
+1B53: 00         BRK
+1B54: 00         BRK
+1B55: 00         BRK
+1B56: 00         BRK
+1B57: 00         BRK
+1B58: 00         BRK
+1B59: 00         BRK
+1B5A: 00         BRK
+1B5B: 00         BRK
+1B5C: 00         BRK
+1B5D: 00         BRK
+1B5E: 00         BRK
+1B5F: 00         BRK
+1B60: 00         BRK
+1B61: 00         BRK
+1B62: 00         BRK
+1B63: 00         BRK
+1B64: 00         BRK
+1B65: 00         BRK
+1B66: 00         BRK
+1B67: 00         BRK
+1B68: 00         BRK
+1B69: 00         BRK
+1B6A: 00         BRK
+1B6B: 00         BRK
+1B6C: 00         BRK
+1B6D: 00         BRK
+1B6E: 00         BRK
+1B6F: 00         BRK
+1B70: 00         BRK
+1B71: 00         BRK
+1B72: 00         BRK
+1B73: 00         BRK
+1B74: 00         BRK
+1B75: 00         BRK
+1B76: 00         BRK
+1B77: 00         BRK
+1B78: 00         BRK
+1B79: 00         BRK
+1B7A: 00         BRK
+1B7B: 00         BRK
+1B7C: 00         BRK
+1B7D: 00         BRK
+1B7E: 00         BRK
+1B7F: 00         BRK
+1B80: 00         BRK
+1B81: 00         BRK
+1B82: 00         BRK
+1B83: 00         BRK
+1B84: 00         BRK
+1B85: 00         BRK
+1B86: 00         BRK
+1B87: 00         BRK
+1B88: 00         BRK
+1B89: 00         BRK
+1B8A: 00         BRK
+1B8B: 00         BRK
+1B8C: 00         BRK
+1B8D: 00         BRK
+1B8E: 00         BRK
+1B8F: 00         BRK
+1B90: 00         BRK
+1B91: 00         BRK
+1B92: 00         BRK
+1B93: 00         BRK
+1B94: 00         BRK
+1B95: 00         BRK
+1B96: 00         BRK
+1B97: 00         BRK
+1B98: 00         BRK
+1B99: 00         BRK
+1B9A: 00         BRK
+1B9B: 00         BRK
+1B9C: 00         BRK
+1B9D: 00         BRK
+1B9E: 00         BRK
+1B9F: 00         BRK
+1BA0: 00         BRK
+1BA1: 00         BRK
+1BA2: 00         BRK
+1BA3: 00         BRK
+1BA4: 00         BRK
+1BA5: 00         BRK
+1BA6: 00         BRK
+1BA7: 00         BRK
+1BA8: 00         BRK
+1BA9: 00         BRK
+1BAA: 00         BRK
+1BAB: 00         BRK
+1BAC: 00         BRK
+1BAD: 00         BRK
+1BAE: 00         BRK
+1BAF: 00         BRK
+1BB0: 00         BRK
+1BB1: 00         BRK
+1BB2: 00         BRK
+1BB3: 00         BRK
+1BB4: 00         BRK
+1BB5: 00         BRK
+1BB6: 00         BRK
+1BB7: 00         BRK
+1BB8: 00         BRK
+1BB9: 00         BRK
+1BBA: 00         BRK
+1BBB: 00         BRK
+1BBC: 00         BRK
+1BBD: 00         BRK
+1BBE: 00         BRK
+1BBF: 00         BRK
+1BC0: 00         BRK
+1BC1: 00         BRK
+1BC2: 00         BRK
+1BC3: 00         BRK
+1BC4: 00         BRK
+1BC5: 00         BRK
+1BC6: 00         BRK
+1BC7: 00         BRK
+1BC8: 00         BRK
+1BC9: 00         BRK
+1BCA: 00         BRK
+1BCB: 00         BRK
+1BCC: 00         BRK
+1BCD: 00         BRK
+1BCE: 00         BRK
+1BCF: 00         BRK
+1BD0: 00         BRK
+1BD1: 00         BRK
+1BD2: 00         BRK
+1BD3: 00         BRK
+1BD4: 00         BRK
+1BD5: 00         BRK
+1BD6: 00         BRK
+1BD7: 00         BRK
+1BD8: 00         BRK
+1BD9: 00         BRK
+1BDA: 00         BRK
+1BDB: 00         BRK
+1BDC: 00         BRK
+1BDD: 00         BRK
+1BDE: 00         BRK
+1BDF: 00         BRK
+1BE0: 00         BRK
+1BE1: 00         BRK
+1BE2: 00         BRK
+1BE3: 00         BRK
+1BE4: 00         BRK
+1BE5: 00         BRK
+1BE6: 00         BRK
+1BE7: 00         BRK
+1BE8: 00         BRK
+1BE9: 00         BRK
+1BEA: 00         BRK
+1BEB: 00         BRK
+1BEC: 00         BRK
+1BED: 00         BRK
+1BEE: 00         BRK
+1BEF: 00         BRK
+1BF0: 00         BRK
+1BF1: 00         BRK
+1BF2: 00         BRK
+1BF3: 00         BRK
+1BF4: 00         BRK
+1BF5: 00         BRK
+1BF6: 00         BRK
+1BF7: 00         BRK
+1BF8: 00         BRK
+1BF9: 00         BRK
+1BFA: 00         BRK
+1BFB: 00         BRK
+1BFC: 00         BRK
+1BFD: 00         BRK
+1BFE: 00         BRK
+1BFF: 00         BRK

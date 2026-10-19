@@ -23,7 +23,7 @@
 #include <poll.h>
 
 // ---- geometry: keep in sync with firmware/src/config.h ---------------------------
-#define HEAD_DOTS        7      // UNVERIFIED (M1)
+#define HEAD_DOTS        7      // ROM-confirmed (docs/firmware-archaeology)
 #define ST_MAX_COLS      480    // TBD (M0)
 #define ST_XDPI          60     // TBD (M0): columns per inch
 #define ST_YDPI          60     // TBD (M0): dot rows per inch

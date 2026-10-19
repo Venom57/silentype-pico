@@ -79,21 +79,39 @@ static inline void heat_update(uint8_t col_bits) {
     }
 }
 
-static bool head_burn(uint8_t col_bits, uint16_t burn) {
-    burn = heat_adjust(col_bits, burn);
-    if (burn > BURN_HARD_LIMIT_US) burn = BURN_HARD_LIMIT_US;
-    uint32_t bits = ((uint32_t)(col_bits & ((1u << HEAD_DOTS) - 1u))) << PIN_HEAD_FIRST;
+// ROM column sequence (SOS driver $0B7B): pre-heat cold elements 512 µs, burn all
+// elements BURN_US, then INTER_COL_COOLDOWN_US off. "Cold" = off for the previous two
+// columns. prev1/prev2 persist across columns within a pass and reset at band start.
+static uint8_t prev1, prev2;
 
+static inline bool pulse(uint32_t bits, uint16_t us, uint16_t *mA_out) {
+    if (!bits || !us) { if (mA_out) *mA_out = 0; return true; }
+    if (us > BURN_HARD_LIMIT_US) us = BURN_HARD_LIMIT_US;
     gpio_put(PIN_HEAD_STROBE, 1);                                 // re-arm U5
     guard_id = add_alarm_in_us(BURN_HARD_LIMIT_US, guard_cb, NULL, true);
     gpio_set_mask(bits);
-    busy_wait_us(burn / 2);
+    busy_wait_us(us / 2);
     uint16_t mA = read_head_mA();
-    busy_wait_us(burn - burn / 2);
+    busy_wait_us(us - us / 2);
     gpio_clr_mask(HEAD_MASK);
     cancel_alarm(guard_id);
     gpio_put(PIN_HEAD_STROBE, 0);
+    if (mA_out) *mA_out = mA;
+    return true;
+}
 
+static bool head_burn(uint8_t col_bits, uint16_t burn) {
+    col_bits &= (1u << HEAD_DOTS) - 1u;
+    burn = heat_adjust(col_bits, burn);
+    uint8_t  cold = col_bits & (uint8_t)~(prev1 | prev2);
+    uint32_t sh   = PIN_HEAD_FIRST;
+    uint16_t mA   = 0;
+
+    pulse((uint32_t)cold << sh, PREHEAT_US, NULL);                // word 1: pre-heat
+    pulse((uint32_t)col_bits << sh, burn, &mA);                   // word 2: main burn
+    // word 3 (head off) is the inter-column cooldown, applied by the caller.
+
+    prev2 = prev1; prev1 = col_bits;
     head_mA_last = mA;
     heat_update(col_bits);
     int nd = __builtin_popcount(col_bits);
@@ -101,6 +119,7 @@ static bool head_burn(uint8_t col_bits, uint16_t burn) {
     if (nd && ISENSE_MAX_mA_PER_DOT && mA > nd * ISENSE_MAX_mA_PER_DOT) return false;
     return true;
 }
+static inline void head_history_reset(void) { prev1 = prev2 = 0; }
 
 // ---- motion ------------------------------------------------------------------
 static uint32_t carr_phase_idx, feed_phase_idx;
@@ -109,15 +128,20 @@ static int      carr_dir = +1;                      // direction of the NEXT pas
 static uint32_t ramp_pos;
 
 static inline uint32_t step_interval_us(void) {
+#if CARR_RAMP_STEPS > 0
     if (ramp_pos >= CARR_RAMP_STEPS) return step_interval_us_cfg;
     return CARR_RAMP_START_US - (CARR_RAMP_START_US - step_interval_us_cfg) * ramp_pos / CARR_RAMP_STEPS;
+#else
+    return step_interval_us_cfg;   // ROM has no ramp
+#endif
 }
 static void motion_begin(void) { ramp_pos = 0; }
+static bool printing_pass;   // when true, carr_step does not add its own dwell (column timing governs)
 static void carr_step(int dir) {
     carr_phase_idx = (carr_phase_idx + (dir > 0 ? 1 : 3)) & 3;
     gpio_put_masked(0xFu << PIN_CARR_FIRST, (uint32_t)CARR_PHASE_TABLE[carr_phase_idx] << PIN_CARR_FIRST);
     carr_pos += dir;
-    busy_wait_us(step_interval_us());
+    if (!printing_pass) busy_wait_us(step_interval_us());
     ramp_pos++;
 }
 static void carr_move(int32_t steps) {               // signed, with ramp
@@ -168,27 +192,27 @@ static void print_band(const band_t *b) {
 
     if (dir > 0) {
         if (carr_pos != 0) carr_move(-carr_pos);                // forced forward: go home first
-        motion_begin();
+        head_history_reset(); motion_begin(); printing_pass = true;
         for (uint16_t c = 0; c < b->width; c++) {
-            if (abort_req) return;
-            if (b->cols[c] && !head_burn(b->cols[c], burn)) { set_error(ERR_HEAD_FAULT); return; }
-            busy_wait_us(cooldown_us);
+            if (abort_req) { printing_pass = false; return; }
+            if (!head_burn(b->cols[c], burn)) { printing_pass = false; set_error(ERR_HEAD_FAULT); return; }
+            busy_wait_us(cooldown_us + COLUMN_TAIL_US);
             carr_step(+1);
         }
-        carr_dir = -1;
+        printing_pass = false; carr_dir = -1;
     } else {
         // Reverse pass: carriage is at (prev width) steps; walk back to this band's
         // right edge + offset, then print right-to-left.
         int32_t target = (int32_t)b->width + reverse_offset;
         if (carr_pos != target) carr_move(target - carr_pos);
-        motion_begin();
+        head_history_reset(); motion_begin(); printing_pass = true;
         for (int32_t c = (int32_t)b->width - 1; c >= 0; c--) {
-            if (abort_req) return;
+            if (abort_req) { printing_pass = false; return; }
             carr_step(-1);
-            if (b->cols[c] && !head_burn(b->cols[c], burn)) { set_error(ERR_HEAD_FAULT); return; }
-            busy_wait_us(cooldown_us);
+            if (!head_burn(b->cols[c], burn)) { printing_pass = false; set_error(ERR_HEAD_FAULT); return; }
+            busy_wait_us(cooldown_us + COLUMN_TAIL_US);
         }
-        carr_dir = +1;
+        printing_pass = false; carr_dir = +1;
     }
     paper_feed(b->feed_steps ? b->feed_steps : feed_steps_default);
 

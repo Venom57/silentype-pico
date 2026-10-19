@@ -49,7 +49,8 @@ the 6502 and becomes the controller.
 
 ## Milestones
 
-- [ ] **M0** Manual + card schematic acquired; C800 ROM (or Apple /// SOS driver) disassembled; `config.h` has zero `TBD_FROM_ROM`
+- [x] **M0a** Apple /// SOS driver found + disassembled; timing/head/stepper constants in `config.h`
+- [ ] **M0b** Decode page-width table ($0D92) and feed-steps-per-line; card schematic or ribbon pinout
 - [ ] **M1** Bench characterization complete — **including head element count**
 - [ ] **M2** Carrier board built; sensors readable; monostable gate verified on scope
 - [ ] **M3** Carriage homes and sweeps (with ramp) under Pico control
@@ -75,9 +76,16 @@ Two independent layers protect the head — the only irreplaceable part:
 Plus: gate pulldowns on every head line, head rail fused, 0.1 Ω shunt + ADC for
 open/short detection (Option B), bench supply current-limited at first power-up.
 
-## Things this README does NOT assert
+## Ground truth status
 
-- Head element count. Everything says 7 because that's the common claim; it is
-  **unverified** and load-bearing (band byte layout). Confirm at the connector in M1.
-- Burn times. `config.h` placeholders are invented. They anchor to nothing until M0.
-- Where the element return is wired. Assumed in printer; confirm.
+Apple's own `.SILENTYPE` SOS driver (Apple ///, 1980, v1.1) has been found and
+disassembled — `docs/firmware-archaeology/`. From it: **7-element head confirmed**,
+real burn timing (640 µs main, 512 µs pre-heat on cold elements, 2624 µs off),
+wave-drive stepper sequence, two motors, bidirectional with 2-column thermal lookback.
+
+**Big finding:** the printer takes a 16-bit *serial* word (head byte + motor phase
+nibble) through an onboard shift register — the host only drives DATA/CLOCK/two
+STROBES and reads one SENSE line. The carrier board gets much simpler than drafted;
+the hardware docs/diagrams are being reworked (see `docs/KNOWN-ISSUES.md` v0.4).
+
+Still unknown: the 26-pin ribbon's physical pin order, columns per line, dot pitch.

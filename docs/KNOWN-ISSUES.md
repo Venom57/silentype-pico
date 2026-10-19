@@ -49,3 +49,24 @@ Status key: **FIXED** in this tree · **OPEN** needs bench/ROM data · **DOC** t
 - Head-fault detection under Option A (physically impossible on the carrier)
 - Monostable is retriggerable: a hang *in a retrigger loop* with lines high defeats it. BOM lists 74HC221 as the non-retriggerable alternative.
 - PAPPL app written against the 1.4 API from memory — expect field-name fixes on first compile; the band-packing and protocol logic is what matters
+
+## v0.4 — Apple /// SOS driver found (docs/firmware-archaeology/)
+
+The Silentype /// driver disk (Apple 681-0009-A) was located on apple3.org and
+disassembled. This resolves or reframes several items:
+
+| Item | Resolution |
+|---|---|
+| #15 HEAD_DOTS unverified | **CONFIRMED 7** — font table max $7F |
+| #16 BURN_US invented | **Real values**: 640 µs main (+256 dark), 512 µs pre-heat on cold elements, 2624 µs off, 512 µs tail |
+| Decision 1 (drivers where?) | **Option A, stronger than expected**: the printer takes a 16-bit *serial* word (8 head bits + 4 motor phase bits) via shift register + 2 strobes. The printer has latch AND drivers. |
+| Decision 2 (motors) | Two 4-phase rings (`$33` carriage, `$34` feed) → `FEED_MOTOR_FITTED=1` |
+| Thermal compensation | ROM does 2-column lookback pre-heat. Engine now implements exactly that; accumulator model demoted to optional. |
+| Bidirectional | Confirmed in ROM, with a per-column −4 µs timing trim on reverse passes rather than a step offset |
+| Stepper | One-hot wave drive `{1,8,4,2}`, 4032 µs/step when not printing |
+
+**Design consequence not yet applied to hardware docs/diagrams:** the carrier should
+drive SDATA/SCLK/STROBE_A/STROBE_B + read SENSE — ~5 wires — not 7+8 parallel lines.
+`print_engine.c` still writes parallel GPIO; a PIO shift-out transport is the next firmware
+change (M2 blocker). Schematic/pinout SVGs and BOM are **stale** against this finding
+and will be regenerated once the ribbon pinout is known (M1). TBD_FROM_ROM count: 18 → 11.
