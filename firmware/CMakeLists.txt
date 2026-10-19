@@ -10,12 +10,15 @@ add_executable(silentype
     src/print_engine.c
     src/usb_descriptors.c
     src/crc8.c
+    src/shiftreg.c
 )
+pico_generate_pio_header(silentype ${CMAKE_CURRENT_LIST_DIR}/src/silentype_sr.pio)
 target_include_directories(silentype PRIVATE src)   # tusb_config.h lives here
 target_link_libraries(silentype
     pico_stdlib
     pico_multicore
     hardware_adc
+    hardware_pio
     tinyusb_device
     tinyusb_board
 )

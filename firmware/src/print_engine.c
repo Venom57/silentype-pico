@@ -2,14 +2,16 @@
 // Owns every GPIO that can burn paper or stall a motor. core0 talks to it only
 // through the band queue and volatile request flags. No USB, malloc or printf here.
 //
-// Head safety is TWO layers:
-//   1. HARDWARE: U5 (74HC123) one-shot gates U2 '245 OE. head_burn() strobes GP9
-//      before raising dot lines; if this core hangs with lines high, U5 times out
-//      (~1.5 ms), U2 tri-states, pulldowns turn the head off. Firmware cannot
-//      defeat this.
-//   2. SOFTWARE: a timer-IRQ guard (core0 alarm pool, survives a core1 hang)
-//      force-clears head GPIOs past BURN_HARD_LIMIT_US. Catches bugs.
-// Layer 2 is NOT a hardware watchdog and must not be described as one.
+// All outputs go through the printer's 74LS673 via sr_write() (shiftreg.c). Nothing
+// here touches a head or motor line directly.
+//
+// Head safety:
+//   1. HARDWARE (inside the printer): a 555 (~6 ms) retriggered by the store clock
+//      gates the head ULN2003. A latched-on head with a dead host turns off in ~6 ms.
+//   2. HARDWARE (optional, carrier): U5 one-shot on GP9 — tighter ceiling, see BOM.
+//   3. SOFTWARE: a timer-IRQ guard (core0 alarm pool, survives a core1 hang) latches
+//      an all-off word past BURN_HARD_LIMIT_US. Catches bugs.
+// Layer 3 is NOT a hardware watchdog and must not be described as one.
 
 #include <string.h>
 #include "pico/stdlib.h"
@@ -19,6 +21,7 @@
 #include "hardware/adc.h"
 #include "config.h"
 #include "print_engine.h"
+#include "shiftreg.h"
 
 typedef struct {
     uint16_t width;
@@ -32,14 +35,15 @@ static volatile uint32_t bands_printed;
 static volatile uint8_t  engine_state;              // 0 idle 1 printing 2 error
 static volatile uint8_t  engine_error;
 static volatile uint16_t head_mA_last;
+static uint8_t cur_carr, cur_feed;                 // latched motor phases (persist across head pulses)
+static inline void latch(uint8_t head7) { sr_write(sr_make(head7, cur_carr, cur_feed)); }
 
 static volatile bool     req_reset, req_selftest, abort_req;
 static volatile uint16_t req_feed_steps;
 
 // ---- runtime-tunable copies of config constants (SET_PARAM, RAM only) --------
-static uint16_t burn_us[MAX_INTENSITY + 1];
+static uint16_t burn_us[INTENSITY_LEVELS], preheat_us[INTENSITY_LEVELS], off_us[INTENSITY_LEVELS];
 static uint32_t step_interval_us_cfg = CARR_STEP_INTERVAL_US;
-static uint32_t cooldown_us          = INTER_COL_COOLDOWN_US;
 static int32_t  reverse_offset       = REVERSE_OFFSET_STEPS;
 static uint16_t feed_steps_default   = FEED_STEPS_PER_BAND;
 static uint8_t  heat_decay = HEAT_DECAY, heat_k = HEAT_K;
@@ -48,7 +52,7 @@ static inline void set_error(uint8_t e) { engine_error = e; engine_state = 2; }
 
 // ---- software guard ----------------------------------------------------------
 static alarm_id_t guard_id;
-static int64_t guard_cb(alarm_id_t id, void *user) { (void)id; (void)user; gpio_clr_mask(HEAD_MASK); return 0; }
+static int64_t guard_cb(alarm_id_t id, void *user) { (void)id; (void)user; latch(0); return 0; }
 
 // ---- head --------------------------------------------------------------------
 static uint16_t heat[HEAD_DOTS];                   // thermal history, 0..65535
@@ -84,31 +88,30 @@ static inline void heat_update(uint8_t col_bits) {
 // columns. prev1/prev2 persist across columns within a pass and reset at band start.
 static uint8_t prev1, prev2;
 
-static inline bool pulse(uint32_t bits, uint16_t us, uint16_t *mA_out) {
-    if (!bits || !us) { if (mA_out) *mA_out = 0; return true; }
+static inline bool pulse(uint8_t head7, uint16_t us, uint16_t *mA_out) {
+    if (!head7 || !us) { if (mA_out) *mA_out = 0; return true; }
     if (us > BURN_HARD_LIMIT_US) us = BURN_HARD_LIMIT_US;
-    gpio_put(PIN_HEAD_STROBE, 1);                                 // re-arm U5
+    gpio_put(PIN_HEAD_STROBE, 1);                                 // re-arm optional U5
     guard_id = add_alarm_in_us(BURN_HARD_LIMIT_US, guard_cb, NULL, true);
-    gpio_set_mask(bits);
+    latch(head7);                                                 // dots ON (also retriggers printer 555)
     busy_wait_us(us / 2);
     uint16_t mA = read_head_mA();
     busy_wait_us(us - us / 2);
-    gpio_clr_mask(HEAD_MASK);
+    latch(0);                                                     // dots OFF
     cancel_alarm(guard_id);
     gpio_put(PIN_HEAD_STROBE, 0);
     if (mA_out) *mA_out = mA;
     return true;
 }
 
-static bool head_burn(uint8_t col_bits, uint16_t burn) {
+static bool head_burn(uint8_t col_bits, uint8_t lvl) {
     col_bits &= (1u << HEAD_DOTS) - 1u;
-    burn = heat_adjust(col_bits, burn);
+    uint16_t burn = heat_adjust(col_bits, burn_us[lvl]);
     uint8_t  cold = col_bits & (uint8_t)~(prev1 | prev2);
-    uint32_t sh   = PIN_HEAD_FIRST;
     uint16_t mA   = 0;
 
-    pulse((uint32_t)cold << sh, PREHEAT_US, NULL);                // word 1: pre-heat
-    pulse((uint32_t)col_bits << sh, burn, &mA);                   // word 2: main burn
+    pulse(cold,     preheat_us[lvl], NULL);                       // word 1: pre-heat cold elements
+    pulse(col_bits, burn,            &mA);                        // word 2: main burn, all elements
     // word 3 (head off) is the inter-column cooldown, applied by the caller.
 
     prev2 = prev1; prev1 = col_bits;
@@ -139,7 +142,8 @@ static void motion_begin(void) { ramp_pos = 0; }
 static bool printing_pass;   // when true, carr_step does not add its own dwell (column timing governs)
 static void carr_step(int dir) {
     carr_phase_idx = (carr_phase_idx + (dir > 0 ? 1 : 3)) & 3;
-    gpio_put_masked(0xFu << PIN_CARR_FIRST, (uint32_t)CARR_PHASE_TABLE[carr_phase_idx] << PIN_CARR_FIRST);
+    cur_carr = CARR_PHASE_TABLE[carr_phase_idx];
+    latch(0);                                                     // ROM steps with head off
     carr_pos += dir;
     if (!printing_pass) busy_wait_us(step_interval_us());
     ramp_pos++;
@@ -169,10 +173,11 @@ static void paper_feed(uint32_t steps) {
     for (uint32_t i = 0; i < steps; i++) {
         if (abort_req) return;
         feed_phase_idx = (feed_phase_idx + 1) & 3;
-        gpio_put_masked(0xFu << PIN_FEED_FIRST, (uint32_t)FEED_PHASE_TABLE[feed_phase_idx] << PIN_FEED_FIRST);
+        cur_feed = FEED_PHASE_TABLE[feed_phase_idx];
+        latch(0);
         busy_wait_us(FEED_STEP_INTERVAL_US);
     }
-    gpio_put_masked(0xFu << PIN_FEED_FIRST, 0);     // de-energize; holding torque not needed
+    cur_feed = 0; latch(0);                        // de-energize; holding torque not needed
 #else
     // TODO(M1): clutch/solenoid variant — mechanism unknown until the Trendcom docs
     // say how paper advance is driven. Cannot be implemented from here.
@@ -185,8 +190,8 @@ static uint32_t bands_since_home;
 
 static void print_band(const band_t *b) {
     if (paper_out()) { set_error(ERR_PAPER_OUT); return; }
-    uint8_t  lvl  = (b->intensity >= 1 && b->intensity <= MAX_INTENSITY) ? b->intensity : 1;
-    uint16_t burn = burn_us[lvl];
+    uint8_t  lvl  = b->intensity <= MAX_INTENSITY ? b->intensity : DEFAULT_INTENSITY;
+    uint32_t dwell = off_us[lvl] + COLUMN_TAIL_US;
     bool forced_fwd = b->flags & 0x01;
     int  dir = forced_fwd ? +1 : carr_dir;
 
@@ -195,8 +200,8 @@ static void print_band(const band_t *b) {
         head_history_reset(); motion_begin(); printing_pass = true;
         for (uint16_t c = 0; c < b->width; c++) {
             if (abort_req) { printing_pass = false; return; }
-            if (!head_burn(b->cols[c], burn)) { printing_pass = false; set_error(ERR_HEAD_FAULT); return; }
-            busy_wait_us(cooldown_us + COLUMN_TAIL_US);
+            if (!head_burn(b->cols[c], lvl)) { printing_pass = false; set_error(ERR_HEAD_FAULT); return; }
+            busy_wait_us(dwell);
             carr_step(+1);
         }
         printing_pass = false; carr_dir = -1;
@@ -209,8 +214,8 @@ static void print_band(const band_t *b) {
         for (int32_t c = (int32_t)b->width - 1; c >= 0; c--) {
             if (abort_req) { printing_pass = false; return; }
             carr_step(-1);
-            if (!head_burn(b->cols[c], burn)) { printing_pass = false; set_error(ERR_HEAD_FAULT); return; }
-            busy_wait_us(cooldown_us + COLUMN_TAIL_US);
+            if (!head_burn(b->cols[c], lvl)) { printing_pass = false; set_error(ERR_HEAD_FAULT); return; }
+            busy_wait_us(dwell);
         }
         printing_pass = false; carr_dir = +1;
     }
@@ -223,7 +228,7 @@ static void print_band(const band_t *b) {
 }
 
 static void selftest_pattern(void) {
-    band_t b = { .width = 200, .intensity = 1, .feed_steps = 0, .flags = 0 };
+    band_t b = { .width = 200, .intensity = DEFAULT_INTENSITY, .feed_steps = 0, .flags = 0 };
     for (int i = 0; i < 200; i++) b.cols[i] = (i & 1) ? 0x55 : 0x2A;
     print_band(&b);
     if (engine_state != 2) print_band(&b);           // second band exercises the reverse pass
@@ -231,13 +236,13 @@ static void selftest_pattern(void) {
 
 // ---- core1 loop ----------------------------------------------------------------
 static void engine_loop(void) {
-    gpio_clr_mask(HEAD_MASK);
+    latch(0);
     if (!carriage_home()) set_error(ERR_HOME_TIMEOUT);
 
     for (;;) {
         if (req_reset) {
             abort_req = false; req_reset = false;
-            gpio_clr_mask(HEAD_MASK);
+            latch(0);
             q_tail = q_head;
             memset(heat, 0, sizeof heat);
             engine_error = ERR_NONE; engine_state = 0;
@@ -263,16 +268,10 @@ static void engine_loop(void) {
 
 // ---- core0-facing API ------------------------------------------------------------
 void engine_init(void) {
-    memcpy(burn_us, BURN_US, sizeof burn_us);
-    for (int i = 0; i < HEAD_DOTS; i++) { gpio_init(PIN_HEAD_FIRST + i); gpio_set_dir(PIN_HEAD_FIRST + i, GPIO_OUT); gpio_put(PIN_HEAD_FIRST + i, 0); }
+    memcpy(burn_us, BURN_US, sizeof burn_us); memcpy(preheat_us, PREHEAT_US_TAB, sizeof preheat_us); memcpy(off_us, OFF_US, sizeof off_us);
     gpio_init(PIN_HEAD_STROBE); gpio_set_dir(PIN_HEAD_STROBE, GPIO_OUT); gpio_put(PIN_HEAD_STROBE, 0);
-    for (int i = 0; i < 4; i++) {
-        gpio_init(PIN_CARR_FIRST + i); gpio_set_dir(PIN_CARR_FIRST + i, GPIO_OUT);
-        gpio_init(PIN_FEED_FIRST + i); gpio_set_dir(PIN_FEED_FIRST + i, GPIO_OUT);
-    }
-    gpio_init(PIN_HOME_SENSE);  gpio_set_dir(PIN_HOME_SENSE, GPIO_IN);
-    gpio_init(PIN_PAPER_SENSE); gpio_set_dir(PIN_PAPER_SENSE, GPIO_IN);
-    adc_init(); adc_gpio_init(PIN_ISENSE); adc_select_input(ADC_ISENSE_CH);
+    gpio_init(PIN_MS); gpio_set_dir(PIN_MS, GPIO_IN); gpio_pull_up(PIN_MS);      // margin switch to GND
+    sr_init();                                                                   // latches all-off word
     multicore_launch_core1(engine_loop);
 }
 
@@ -296,13 +295,13 @@ void engine_set_error(uint8_t err)       { set_error(err); }
 
 bool engine_set_param(uint8_t id, uint32_t v) {
     if (engine_state == 1) return false;                    // not while printing
-    if (id >= PARAM_BURN_US_1 && id < PARAM_BURN_US_1 + MAX_INTENSITY) {
+    if (id >= PARAM_BURN_US_1 && id < PARAM_BURN_US_1 + INTENSITY_LEVELS) {   // 0x01..0x08 = levels 0..7
         if (v == 0 || v > BURN_HARD_LIMIT_US) return false;  // never above the software ceiling
-        burn_us[id - PARAM_BURN_US_1 + 1] = (uint16_t)v; return true;
+        burn_us[id - PARAM_BURN_US_1] = (uint16_t)v; return true;
     }
     switch (id) {
     case PARAM_STEP_INTERVAL_US: if (v < 300 || v > 20000) return false; step_interval_us_cfg = v; return true;
-    case PARAM_COOLDOWN_US:      if (v > 20000) return false; cooldown_us = v; return true;
+    case PARAM_COOLDOWN_US:      if (v > 20000) return false; for (int i = 0; i < INTENSITY_LEVELS; i++) off_us[i] = (uint16_t)v; return true;
     case PARAM_REVERSE_OFFSET:   if ((int32_t)v < -50 || (int32_t)v > 50) return false; reverse_offset = (int32_t)v; return true;
     case PARAM_FEED_STEPS:       if (v == 0 || v > 255) return false; feed_steps_default = (uint16_t)v; return true;
     case PARAM_HEAT_DECAY:       if (v > 255) return false; heat_decay = (uint8_t)v; return true;

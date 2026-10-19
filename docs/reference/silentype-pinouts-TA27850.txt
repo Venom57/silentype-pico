@@ -1,0 +1,26 @@
+Last Modified: October 12, 1994
+Article: TA27850
+Old Article: 1003
+
+This article documents the pinout configuration and signal name for the Apple SilenType printer.
+
+DB-9
+Connector Signal Name
+-------------------------
+1 Shield Ground
+2 +5 volts
+3 Logic Ground
+4 Serial Data
+5 Machine Status
+6 +12 volts
+7 Power Ground
+8 Store Clock
+9 Shift Clock
+
+The Silentype Printer needs its own specially designed interface card, or an Apple III with the built in Silentype port. It is not possible to connect it to any other type of interface card.
+
+
+Article Change History:
+12 Oct 1994 - Reviewed for technical accuracy. 
+
+Support Information Services

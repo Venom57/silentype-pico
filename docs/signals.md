@@ -1,32 +1,27 @@
-# Silentype Connector Signal Map
+# Silentype Connector Signal Map — DB-9 (DEFINITIVE)
 
-**Status: TEMPLATE — fill from interface card schematic + continuity testing.
-Do not wire the carrier board from guesses.**
+Source: Apple KB TA27850 + printer schematic 050-0023-01 (`docs/firmware-archaeology/`).
+The earlier 26-pin template was wrong — that ribbon is internal to the Apple II card.
 
-Printer connects via 26-pin ribbon (2×13 IDC). The Apple /// exposed the same
-interface on a DB-9, so several of the 26 pins are grounds/duplicates — the live
-signal count is small. Map both.
+| DB-9 pin | Name | Dir (Pico view) | Printer side | Carrier net | Pico GPIO |
+|---|---|---|---|---|---|
+| 1 | Shield | — | NC | chassis | — |
+| 2 | +5 V | → | 74LS673/74LS00/ULN logic/555 | +5V rail | — |
+| 3 | Logic GND | — | | GND | — |
+| 4 | SD — Serial Data | → | 74LS673 I/O (pin 6) | SD_5V | GP2 via U2 |
+| 5 | MS — Machine Status | ← | margin switch to GND; open = high | MS (10k pull-up to 3V3) | GP5 |
+| 6 | +12 V | → | head (via ULN2003), both motors | VMOT = **+12 V** | — |
+| 7 | Power GND | — | | GND (star) | — |
+| 8 | XC — Store Clock | → | 74LS673 ST CK; NAND w/ SC → 555 | XC_5V | GP4 via U2 |
+| 9 | SC — Shift Clock | → | 74LS00 inverter → 74LS673 SH̅ C̅K̅ | SC_5V | GP3 via U2 |
 
-## 26-pin ribbon (at printer)
+Levels: SC/XC have 3 kΩ pull-ups to +5 V inside the printer and are 74LS inputs. Drive
+them through a 74AHCT125 (3 channels) or '245. MS is an open switch to ground — pull up
+on our side to 3V3; **do not** let +5 V onto a Pico pin.
 
-| Pin | Signal | Dir (Pico view) | Level | Carrier net | Pico GPIO |
-|-----|--------|-----------------|-------|-------------|-----------|
-| 1–26 | TBD | | | | |
+Shift word: bit 0 first → Y00. `[3:0]` carriage phases, `[7:4]` paper phases, `[8]` R/W=0,
+`[15:9]` head elements Y09 (bottom) … Y15 (top). Outputs change on the XC edge.
 
-## Expected signal classes
-
-| Class | Count | Notes |
-|---|---|---|
-| Thermal head dot drive | N (7?) | **Count unverified.** Confirm whether power FETs are in the printer (logic inputs → Option A) or raw element current is on the connector (Option B). |
-| Head element common/return | 0–1 | If on connector, the 0.1 Ω shunt goes here. If internal, shunt is impossible (Option A) — note in BOM.md. |
-| Carriage stepper phases | 4 | Unipolar assumed; verify |
-| Paper feed | 1–4 | Second motor vs clutch/solenoid |
-| Carriage home sensor | 1 | Input |
-| Paper-out sensor | 0–1 | May not exist |
-| +5 V, VMOT, GND | several | VMOT voltage TBD |
-
-## Level rules
-
-- Pico GPIO is 3.3 V, not 5 V tolerant.
-- Outputs → 74AHCT245 (U2 head, U6 motors). Nothing drives a 5 V input directly.
-- Inputs (5 V sensors) → 10 k series + 15 k to GND per line.
+Power budget: head is 7 × element through ULN2003 at 12 V — measure element R to size
+the 12 V supply; original Apple II PSU 12 V rail is ~1.5 A total. The /// used its own
+12 V. Start with a 12 V / 2 A bench supply.

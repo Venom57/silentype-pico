@@ -70,3 +70,26 @@ drive SDATA/SCLK/STROBE_A/STROBE_B + read SENSE — ~5 wires — not 7+8 paralle
 `print_engine.c` still writes parallel GPIO; a PIO shift-out transport is the next firmware
 change (M2 blocker). Schematic/pinout SVGs and BOM are **stale** against this finding
 and will be regenerated once the ribbon pinout is known (M1). TBD_FROM_ROM count: 18 → 11.
+
+## v0.5 — card ROM, card schematic, PRINTER schematic, and pinout all found
+
+Apple II Documentation Project (mirrors.apple2.org.za/retro/…/Interface Cards/**Serial**/
+Apple Synch Printer Interface Card (Silentype)/ — I'd been looking under "Parallel").
+Everything is in `docs/firmware-archaeology/` and `docs/reference/`.
+
+| Item | Resolution |
+|---|---|
+| Card ROM 341-0039-00 | **Found** (2 KB) + Marc Ressl's 2010 commented disassembly `silentype.s` |
+| Printer-side schematic 050-0023-01 | **Found.** 74LS673 + 3× ULN2003 + 555 ceiling + margin switch. Complete. |
+| Connector | **DB-9**, pinout from Apple KB TA27850. The 26-pin template was wrong. |
+| Burn tables | Full 8-level table from the card ROM (549–2744 µs main). Differs 3× from the /// driver at default — bench decides, start low. |
+| `MAX_COLS` | 80 chars (`printerRowNum`) → ~560 columns; ruler-check pending |
+| Paper geometry | 40 steps/inch; text line = 7 + 2 steps |
+| Home sensor | margin switch to GND → active LOW |
+| Paper-out sensor | **does not exist** |
+| Hardware design | Collapsed to level shifter + pull-up + DB-9. U5 one-shot now optional (printer has 555). |
+| Firmware transport | **PIO shift-out implemented** (`silentype_sr.pio`, `shiftreg.c`); engine has zero parallel-GPIO calls |
+| TBD_FROM_ROM | 11 → **5** (ramp ×2, MAX_COLS ruler check, reverse offset, rehome cadence) — all bench tunables |
+
+**Stale in the tree:** `hardware/schematic/*.svg` and the generators (v0.3 parallel design),
+`docs/reverse-engineering.md` §3 bench table (half its rows are now answered). Both marked.

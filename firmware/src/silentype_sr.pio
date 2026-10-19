@@ -1,0 +1,32 @@
+; silentype_sr.pio — 16-bit shift-out to the printer's 74LS673.
+; Pins: OUT base = SD, SIDE-SET base = SC.  XC (store clock) is pulsed by the CPU
+; after the FIFO drains, because the store must happen exactly once per word and
+; the 555 ceiling is retriggered by SC·XC — keeping it out of PIO is simpler to reason about.
+;
+; 74LS673 shifts on the falling edge of its SH̅ C̅K̅, which the printer inverts from SC,
+; so the shift happens on the RISING edge of SC at the connector. Data must be stable
+; before SC rises. Bit 0 goes out first (lands at Y00).
+
+.program silentype_sr
+.side_set 1
+    pull block          side 0
+    set x, 15           side 0
+bitloop:
+    out pins, 1         side 0 [3]    ; present bit, SC low
+    jmp x-- bitloop     side 1 [3]    ; SC high: shift. 74LS673 tPW min ~20 ns; this is ~1 µs at 4 MHz
+    irq set 0           side 0        ; word done → CPU pulses XC
+
+% c-sdk {
+static inline void silentype_sr_program_init(PIO pio, uint sm, uint offset, uint pin_sd, uint pin_sc) {
+    pio_sm_config c = silentype_sr_program_get_default_config(offset);
+    sm_config_set_out_pins(&c, pin_sd, 1);
+    sm_config_set_sideset_pins(&c, pin_sc);
+    sm_config_set_out_shift(&c, true /*shift right: LSB first*/, false, 16);
+    sm_config_set_clkdiv(&c, 37.5f);          // 150 MHz / 37.5 = 4 MHz → ~1 µs per half-clock
+    pio_gpio_init(pio, pin_sd); pio_gpio_init(pio, pin_sc);
+    pio_sm_set_consecutive_pindirs(pio, sm, pin_sd, 1, true);
+    pio_sm_set_consecutive_pindirs(pio, sm, pin_sc, 1, true);
+    pio_sm_init(pio, sm, offset, &c);
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}

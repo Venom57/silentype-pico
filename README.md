@@ -38,10 +38,10 @@ the 6502 and becomes the controller.
 |---|---|
 | `docs/KNOWN-ISSUES.md` | Audit trail: v0 flaws → v0.2 fixes → v0.3 gap closures, and what's still open |
 | `docs/reverse-engineering.md` | Phase 0 checklist + measurement log (DO THIS FIRST) |
-| `docs/signals.md` | 26-pin connector signal map (template) |
+| `docs/signals.md` | DB-9 signal map (definitive) |
 | `docs/protocol.md` | Serial band protocol spec (host ⇄ Pico) |
 | `hardware/BOM.csv` / `BOM.md` | Electronics BOM + the decisions that gate it |
-| `hardware/schematic/` | Net-level schematic description, SVG schematic, pinout diagram, generators |
+| `hardware/schematic/` | v0.5 carrier description (SVGs are stale v0.3 — flagged) |
 | `firmware/` | Pico SDK project (CMake), TinyUSB CDC + print engine |
 | `host/pappl-app/` | PAPPL printer application skeleton |
 | `host/tools/` | pyserial test tools (no CUPS needed) |
@@ -50,7 +50,7 @@ the 6502 and becomes the controller.
 ## Milestones
 
 - [x] **M0a** Apple /// SOS driver found + disassembled; timing/head/stepper constants in `config.h`
-- [ ] **M0b** Decode page-width table ($0D92) and feed-steps-per-line; card schematic or ribbon pinout
+- [x] **M0b** Card ROM + both schematics + DB-9 pinout found; config.h down to 5 bench tunables
 - [ ] **M1** Bench characterization complete — **including head element count**
 - [ ] **M2** Carrier board built; sensors readable; monostable gate verified on scope
 - [ ] **M3** Carriage homes and sweeps (with ramp) under Pico control
@@ -83,9 +83,12 @@ disassembled — `docs/firmware-archaeology/`. From it: **7-element head confirm
 real burn timing (640 µs main, 512 µs pre-heat on cold elements, 2624 µs off),
 wave-drive stepper sequence, two motors, bidirectional with 2-column thermal lookback.
 
-**Big finding:** the printer takes a 16-bit *serial* word (head byte + motor phase
-nibble) through an onboard shift register — the host only drives DATA/CLOCK/two
-STROBES and reads one SENSE line. The carrier board gets much simpler than drafted;
-the hardware docs/diagrams are being reworked (see `docs/KNOWN-ISSUES.md` v0.4).
+**Then the primary sources turned up** (`docs/firmware-archaeology/HARDWARE-INTERFACE.md`):
+the Apple II card ROM (341-0039-00) with an existing commented disassembly, the card
+schematic, **the printer's own schematic** (050-0023-01), and Apple's DB-9 pinout. The
+printer is a 74LS673 16-bit shift register → three ULN2003 arrays → head + two motors,
+with a 555 burn ceiling. The host drives **SD / SC / XC** and reads **MS**. The carrier
+board is now a 74AHCT125, a pull-up, and a DB-9. Firmware talks to it over PIO.
 
-Still unknown: the 26-pin ribbon's physical pin order, columns per line, dot pitch.
+Still unknown (bench only): exact column count on paper, reverse-pass trim, and which
+of two conflicting Apple burn tables the head actually likes.

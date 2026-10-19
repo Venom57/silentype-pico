@@ -1,43 +1,26 @@
-# BOM Notes
+# BOM Notes (v0.5 — post schematic discovery)
 
-`BOM.csv` is orderable (~$32 before PCB). Two Phase-0 decisions gate it:
+The printer contains its own 74LS673 latch, three ULN2003 driver arrays, and a 555
+burn-time ceiling (schematic 050-0023-01). The carrier therefore reduces to:
+**level shifter + pull-up + power + DB-9.** ~$18 all-in.
 
-## Decision 1 — Where do the power drivers live?
+Both earlier decisions are closed: drivers in printer (Option A, so no FETs, no ULNs,
+no shunt), and two motors (both driven by the printer's own ULNs).
 
-- **Option A — in the printer.** Connector carries logic-level head/motor signals.
-  Populate U2/U5/U6, omit Q1–Q7, R1–R7, R40/R41. **The shunt is impossible here**
-  (current never crosses the carrier) — `ERR_HEAD_FAULT` stays unimplemented and
-  `head_mA_last` reads 0.
-- **Option B — on the carrier.** Raw element current on the connector. Populate FETs,
-  shunt, size F1 from measured current.
+## The one open hardware question — U5
 
-Either way U2 (head level shifter) and U5 (monostable) are populated: the one-shot
-gates U2's OE, which is how the hardware burn ceiling works in both options.
-
-## Decision 2 — One motor or two? U4 covers either; delete if unused.
-
-## The head-enable one-shot (U5) — why and how
-
-Firmware pulses `HEAD_STROBE` (GP9) once per column, *then* raises dot lines, *then*
-lowers them. U5's Q̅ drives U2 OE̅: low (enabled) for ~1.5 ms after each strobe
-edge, then high (tri-state). R8–R14 pull the tri-stated lines to GND. A Pico hang
-with dot lines high therefore ends at 1.5 ms regardless of software. Verify on a
-scope in M2 before the head rail is ever connected: strobe once, hold a dot line
-high in a test build, confirm the U2 output drops at ~1.5 ms.
-
-Residual: HC123 is retriggerable. A hang *inside a loop that keeps strobing* with
-lines high would defeat it. Swap to 74HC221 (non-retriggerable) if that bothers you;
-it means the burn time is then hard-capped per strobe and firmware must not strobe
-faster than T.
+The printer's 555 (R1 56 k, C1 0.1 µF ≈ 6 ms) kills the head if the host latches dots
+on and dies. Six ms is long for a 1980 head. The optional carrier one-shot (74HC123,
+~1.5 ms) would gate **XC** so a stuck host can't even latch for longer than that. But it
+also means any legitimate burn >1.5 ms (Apple II card levels 4–7) is impossible.
+Decide at M2 after measuring the actual 555 window on the scope; ship without it unless
+you intend to run only levels 0–3.
 
 ## Power-up discipline
 
-1. First power: bench supply limited to 200 mA, head rail disconnected, motors only.
-2. Verify U5/U2 gating on the scope (M2).
-3. Head rail connects only after 1–2 pass and `grep TBD_FROM_ROM` is clean.
-
-## v2 (optional)
-
-Respin as a 2-layer KiCad board to fit inside the Silentype case. **Measure** the
-original logic board footprint, mounting points, and the ribbon slot — nothing here
-assumes where it mounts.
+1. +5 V only, printer connected: `send_band.py status` must work; MS reads high/low as
+   you push the carriage against the margin switch.
+2. +12 V at 200 mA limit: step motors (`send_band.py feed 10`); carriage homes.
+3. Raise limit to 2 A; single-column test at intensity 0; scope the 555 window at the
+   head ULN input (IC4 pin 1–7) to confirm it's where the schematic says.
+4. Only then run text at level 1 and walk up.

@@ -1,0 +1,2843 @@
+                               NOTICE
+
+Apple Computer Inc. reserves the right to make improvements in the
+product described in this manual at any time and without notice.
+
+
+
+             DISCLAIMER OF ALL WARRANTIES AND LIABILITY
+
+
+APPLE COMPUTER INC. MAKES NO WARRANTIES, EITHER EXPRESS OR IMPLIED,
+WITH RESPECT TO THIS MANUAL OR WITH RESPECT TO THE SOFTWARE
+DESCRIBED IN TRIS MANUAL, ITS QUALITY, PERFORMANCE, MERCHANTABILITY,
+OR FITNESS FOR ANY PARTICULAR PURPOSE. APPLE COMPUTER INC. SOFTWARE
+IS SOLD OR LICENSED "AS IS". THE ENTIRE RISK AS TO ITS QUALITY AND
+PERFORMANCE IS WITH THE BUYER. SHOULD TRE PROGRAMS PROVE DEFECTIVE
+FOLLOWING THEIR PURCHASE, THE BUYER (AND NOT APPLE COMPUTER INC.,
+ITS DISTRIBUTOR, OR ITS RETAILER) ASSUMES THE ENTIRE COST OF ALL
+NECESSARY SERVICING, REPAIR, OR CORRECTION AND ANY INCIDENTAL OR
+CONSEQUENTIAL DAMAGES. IN NO EVENT WILL APPLE COMPUTER INC. BE
+LIABLE FOR DIRECT, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES
+RESULTING FROM ANY DEFECT IN THE SOFTWARE, EVEN IF APPLE COMPUTER
+INC. HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. SOME
+STATES DO NOT ALLOW THE EXCLUSION OR LIMITATION OF IMPLIED
+WARRANTIES OR LIABILITY FOR INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO
+THE ABOVE LIMITATION OR EXCLUSION MAY NOT APPLY TO YOU.
+
+
+This manual is copyrighted. All rights are reserved. This document
+may not, in whole or part, be copied, photocopied, reproduced,
+translated or reduced to any electronic medium or machine readable
+form without prior consent, in writing, from Apple Computer Inc.
+
+
+
+
+     ©1980 by APPLE COMPUTER INC.
+     10260 Bandley Drive
+     Cupertino, California 95014
+     (408) 996-1010
+
+
+
+All rights reserved.
+APPLE product # 030-0095-00
+         SILENTYPE™ PRINTER
+OPERATION AND REFERENCE MANUAL
+TABLE OF CONTENTS
+
+INTRODUCTION
+
+CHAPTER 1
+
+GETTING READY
+ 3   What You Will Need
+ 3     Checking the Paper
+ 4   Plugging in the Interface
+
+
+
+CHAPTER 2
+
+BEGINNING TO PRINT
+ 9   Starting up
+ 9   Printing with Pascal
+11     Pascal Graphics
+12   Back to BASIC
+13   From the Monitor
+13   Echoing to the Screen
+14     BASIC Tabs and the Silentype
+14   The Buffer
+15   Silent Typing
+17   Printing BASIC Graphics
+
+
+
+CHAPTER 3
+
+GETTING FANCY
+20   Using Pascal
+20     The Printer as a Pascal File
+21     Using WRITE Statements: the Printer Buffer
+21     Restoring the Defaults
+21     Form Feed, or, Getting to the Bottom of Things
+ 22     Line Spacing
+ 23     Bi- or Uni-Directional?
+ 25     Print Intensity
+ 26     Resetting the Margins
+ 27     Graphics
+ 27     Negative Printing
+ 28   Using BASIC and the Monitor
+ 29     The Program
+ 31     Form Feed
+ 32     Line Spacing
+ 33     Bi- or Uni-Directional?
+ 36     Print Intensity
+ 37     Resetting Margins
+ 39     High-Resolution Page 2
+ 40     Inverse Mode
+
+
+
+APPENDICES
+ 43   Appendix A: Caring for the Printer
+ 43     Replacing the Paper
+ 44     Diagnostic Error Message
+ 45   Appendix B: Tables
+ 45     Parameter Table
+ 46     Control Functions
+ 47     ASCII Table of Characters
+ 49   Appendix C: The BASIC Parameter Program
+ 53   Appendix D: The Pascal Parameter Procedures
+ 60   Appendix E: Sample Character Set
+
+
+
+
+INDEX
+61
+
+
+
+
+REFERENCE CARD
+INTRODUCTION
+Your new Silentype printer is quiet, versatile, compact and easy to
+use. It can print both upper and lower case letters at a speed of up
+to 40 characters per second. This manual will show you how to
+install it (easy) and how to print both text and high-resolution
+graphics with it (even easier).
+
+You don't have to know how to write computer programs to use the
+printer. In fact, you can use the Silentype printer effectively
+without doing any programming at all. However, if you do know how to
+program in BASIC, Pascal, or machine language, you can write
+routines that will make your Silentype printer even more useful.
+
+This manual contains three chapters. The first chapter tells you
+step-by-step how to install your printer and its interface card. The
+second chapter gets you started printing and discusses some special
+printing modes (printing high-resolution graphics, for example). The
+third chapter discusses more complex details like changing the
+printer parameters, and contains some sample programs that can make
+printing more fun.
+
+In addition to these three chapters, you will find five appendices
+and a tear-out quick reference card in this manual. The first of the
+appendices, Appendix A, tells you how to care for the printer to
+insure that is has a long and useful life. The second one, Appendix
+B, contains useful tables. Appendix C tells how to use information
+in this manual to construct a BASIC Parameter Editing program, and
+Appendix D tells how to do something similar with Pascal. Appendix E
+shows both upper and lower case alphabets. The reference card
+contains lists of commands and other information that is helpful to
+have at your fingertips.
+
+This manual uses some special symbols to indicate particularly
+noteworthy pieces of information. If you see the symbol
+
+
+
+it means that the following paragraph discusses some possibly
+unexpected Apple behavior. The symbol
+
+☛
+means that the following paragraph contains special information that
+may be useful to you. Read these sections carefully.
+
+Keep in mind that this is a "hands on" manual. That means you should
+do all the examples as they are presented. The learning process will
+be much quicker and more effective if you do. So limber up your
+fingers and turn the page to begin.
+
+
+
+
+                                                                       1
+2
+CHAPTER 1
+GETTING READY
+
+WHAT YOU WILL NEED
+The Silentype printer is easy to please. It will operate in any of
+these Apple languages: Integer BASIC, Applesoft BASIC, Pascal or the
+Monitor. In fact, the Silentype can be used with any Apple II or
+Apple II Plus with at least 16K bytes of memory. It doesn't even
+need to be plugged into an electrical outlet because it gets its
+power from the Apple's power supply.
+
+The package your printer came in should contain the following items:
+
+       1) The Silentype printer
+
+       2) A roll of heat-sensitive paper (already installed
+          in the printer)
+
+       3) A printed-circuit card (the printer interface card)
+
+       4) A warranty card
+
+       5) This manual
+
+       6) A Packing List
+
+If you haven't already done so, carefully unpack all the items in
+the box. Save the packing material in case you wish to transport
+your printer, or in the unlikely event that you must return it for
+service. If you didn't fill out your warranty card with your Apple
+dealer, fill it out and send it in now.
+
+
+CHECKING THE PAPER
+It is inevitable that a package will be jolted and bumped as it is
+being shipped. Though your Silentype printer was carefully packed to
+protect it from such jostling, it is possible that the roll of paper
+it holds has slipped out of position. You should check the placement
+of the paper roll before you use the printer.
+
+The roll of paper sits just inside the rear of the printer, beneath
+the dark-toned portion of the printer casing. To get to the paper,
+push the dark portion backwards with your thumb and forefinger as
+shown in the photograph. The dark-toned "lid" is hinged at the back
+bottom corners and will open easily, revealing the roll of paper.
+
+
+
+
+                                                                       3
+Check that the small black bearings on either side of the paper roll
+are sitting firmly in the deepest notches as shown in the
+photograph. If the paper roll has slipped out of place, carefully
+line up the bearings with the appropriate notches. Then press in on
+the bearings, and the paper roll should fall into position.
+
+
+PLUGGING IN THE INTERFACE
+Read this section carefully, even if you have installed Apple
+peripheral interface cards before. The Silentype's interface card is
+easy to install, but it is important to install it correctly. If you
+follow all the instructions here, you should have no trouble with
+the plugging in procedure.
+
+
+
+Before connecting or disconnecting anything on the Apple, turn off
+the power with the switch on the back left corner. THIS IS A MUST.
+If you try to connect or disconnect anything from the inside of your
+Apple when the power is on, you are likely to damage its electronics
+and anything currently stored in RAM (Random Access Memory).
+
+Turn the power switch on the back left of your Apple to the off
+position. Do not unplug the Apple, just turn it off. If you unplug
+it, you will have isolated it from the common earth ground, leaving
+it vulnerable to static discharges.
+
+The next step is to remove the Apple's cover. Pull up on the back of
+the cover until the two corner fasteners pop apart. Then slide the
+cover backwards until it comes free.
+
+Next look inside your Apple and find the power supply case. It is
+the rectangular metal box in the left rear corner. Touch the power
+supply with one hand. This will ground any static that may be in
+your body.
+
+
+
+
+4
+Along the back inside edge of your Apple you will see eight long
+narrow slots called "connector slots". They are numbered from 0 in
+the leftmost corner to 7 in the rightmost corner. (The slots on some
+older Apples are not numbered.) The numbers are written in white
+along the back edge, behind the connector slots. Any peripheral
+cards installed in your Apple are plugged into these slots. The
+following photograph shows the position of the slots inside the
+Apple.
+
+
+
+
+Just as it is customary to plug disk controller cards into slot #6,
+printer interface cards are usually plugged into slot #1. Unless you
+are using Pascal, the printer card will work in any slot except #0.
+But, unless you have a specific reason not to, it is a good idea to
+use the conventional slot. This manual assumes that you are using
+slot #1.
+
+
+
+The Silentype interface card contains a C800 ROM "chip". If you have
+another interface card that has a C800 ROM, such as a Serial card or
+a Graphics Tablet card, plugged into your Apple, the Apple may get
+the cards confused and send information to the wrong one. This
+problem can only arise when the other C800 card is in the
+numerically lower adjacent slot to the printer card (for instance,
+if the printer card is in slot #3 and the other card is in slot #2).
+To avoid this possibility plug your printer card into slot #1 or, if
+that is not practical, put any interface card with a C800 ROM in a
+slot that's numerically higher than the one your printer card is in.
+
+Handle the interface card as you would handle a high-quality,
+expensive phonograph record. Grasp it only by the corners or edges,
+and try not to touch the delicate components or pins. Don't grasp
+the card by the gold or silver colored "fingers" -- they are the
+medium
+
+
+
+
+                                                                       5
+through which the Apple communicates to the printer, and their
+efficiency is decreased if they are dirty or scratched. The
+interface card is a precision instrument and should be treated with
+care.
+
+Now grasp the two top corners of the interface card between your
+thumbs and forefingers and gently but firmly push the "fingers"
+portion of the card into slot #1, rear edge first. The card should
+be level and seated firmly as shown in the photograph.
+
+
+
+
+The final step is plugging the printer's cable into the interface
+card. There is a socket on the interface card that matches the plug
+attached to the Silentype printer cord. The socket faces toward the
+Apple keyboard when the interface card is installed. Simply plug the
+printer cable into the socket, then run the cable through the second
+short notch from the right (with the keyboard facing you) on the
+back of the Apple's case, and push the cable all the way to the
+bottom of the notch. It is important that the cable be seated firmly
+in the notch so that it will minimize possible strain on the cable
+and the interface card. The following photograph shows the correct
+placement of the printer cord.
+
+
+
+
+6
+Do not connect or disconnect the printer cable when your Apple is
+on. If you do, anything stored in RAM may be destroyed.
+
+Slide the Apple's top into place and press down on the rear corner
+fasteners until they pop into place. Now your Silentype printer is
+completely installed and ready to use.
+
+
+
+
+                                                                     7
+8
+CHAPTER 2
+BEGINNING TO PRINT
+STARTING UP
+If you've taken the steps outlined in Chapter 1, your Silentype
+printer should be completely installed now and ready to print. It
+seems, however, that we've forgotten one small detail: your Apple's
+power isn't turned on. Reach around to the power switch on the left
+rear corner of your Apple and flip it to the ON position. Now you
+are ready to begin.
+
+In several places, this manual refers to special characters called
+control characters. Control characters cannot be seen on your video
+screen, and your printer will not print them. Most control
+characters are ignored by the Apple, but the ones it does not ignore
+activate special functions instead of printing characters on the
+screen.
+
+Control characters are activated by pressing the CTRL key and, while
+holding down the CTRL key, pressing another key. From now on we will
+indicate a control character like this: CTRL-P
+
+One additional note: although the Apple keyboard and monitor can do
+all the examples we mention in Chapters 2 and 3, some types of
+external terminals lack the ability to do the graphics that we
+describe.
+
+
+PRINTING WITH PASCAL
+If you do not plan to use the Pascal language, skip to the section
+called "Back to BASIC".
+
+You can use the Silentype with Pascal in two ways: by transferring a
+file to it using the Filer's Transfer option or by using it as an
+output file in a Pascal program. Both of these methods require that
+the Silentype's interface card be plugged into slot #1.
+
+To print a file using the first method, get the Apple into the
+Pascal editor and type in the sample program listed below. Or, if
+you have a short Pascal program handy, enter the Pascal editor as if
+to edit your existing program.
+
+
+
+
+                                                                       9
+PROGRAM CIRCLE (INPUT,OUTPUT);
+  (* FINDS THE AREA OF A CIRCLE. *)
+
+CONST PI=3.1415;
+VAR RADIUS, AREA:REAL;
+
+BEGIN
+  WRITELN ('WHAT IS THE RADIUS OF THE CIRCLE?');
+  WRITELN;
+  READLN(RADIUS);
+  AREA := PI * SQR(RADIUS);
+  WRITELN;
+  WRITELN ('THE AREA OF THE CIRCLE IS’, AREA:4:3,'.’)
+END.
+
+Save the program under the filename of your choice. To print the
+program listing, choose the T (for Transfer) option from the Filer
+prompt line, type the name of the file, and when the Filer asks "TO
+WHERE?", specify the Silentype either by
+PRINTER:
+or by
+#6:
+
+#6: is the Pascal volume number assigned to the printer. The Pascal
+system automatically initializes the printer for you and prints your
+text file.
+
+You can use this method to print any Pascal text file, but sometimes
+it may be advantageous to use the Silentype as an output file in a
+program. To use the Silentype as an output file, you must first
+declare an internal identifier for it with either TEXT or
+INTERACTIVE as the type:
+
+     VAR SITYP:INTERACTIVE;
+
+Then in the program body you must open the file, using REWRITE and
+supplying the name PRINTER:
+
+     REWRITE(SITYP, 'PRINTER:')
+
+Don't forget the colon in PRINTER: . Now you can conveniently print
+lines of text by using WRITELN statements like
+
+     WRITELN(SITYP, 'ANY LINE OF TEXT I CARE TO PRINT!')
+
+If you want to use WRITE instead of WRITELN, you will need some
+additional information that can be found in Chapter 3.
+
+Since the printer is not a block-structured device, you cannot use
+BLOCKWRITE with it; however you can use UNITWRITE. The Apple Pascal
+Language Reference Manual tells how.
+
+To use Silentype for immediate-mode typing, put the interface card
+in slot 3, and from the Filer, type T for Transfer, and then type
+CONSOLE:,CONSOLE:
+
+
+10
+PASCAL GRAPHICS
+Notice that you can Transfer the CONSOLE: to the PRINTER: . The
+CONSOLE: means the keyboard and screen. When you do this, whatever
+you type after specifying the transfer will be printed, until you
+type a CTRL-C. Characters are not printed as soon as they are typed;
+the Silentype stores characters until you either come to the end of
+a line, type a RETURN, or type the final CTRL-C. In this section,
+you'll see why this is a useful trick.
+
+Use the Pascal Editor to enter this program that uses Turtlegraphics
+to generate a lovely spiral pattern:
+
+PROGRAM SPIRO;
+
+USES TURTLEGRAPHICS, APPLESTUFF;
+VAR ANGLE, DISTANCE : INTEGER;
+
+BEGIN
+  ANGLE := 0;
+  WHILE NOT KEYPRESS DO
+  BEGIN
+     INITTURTLE;
+     PENCOLOR (WHITE);
+     FOR DISTANCE := 0 TO 99 DO
+     BEGIN
+       MOVE (2 * DISTANCE);
+       TURN (ANGLE);
+     END;
+     ANGLE := ANGLE + 5;
+  END;
+  TEXTMODE
+END.
+
+Compile this program and run it; the Apple Pascal manuals tell how.
+When the program is through running, it leaves the spiral pattern
+stored in memory. To get the Silentype to print the graphics you
+must send a CTRL-Q to the Silentype (not to the Apple itself).
+Here's how:
+
+1) Choose the Transfer option from the Filer command line and
+transfer the CONSOLE: to the PRINTER:
+
+2) Press CTRL-Q followed by CTRL-C
+
+If you've done everything correctly, the Silentype will proceed to
+print the high-resolution screen. Make sure you didn't forget the
+colons in step l.
+
+If, for some reason, you wish to stop the Silentype in mid-picture,
+press the RESET key.
+
+If you plan to use only Pascal with your Silentype printer, you can
+skip the rest of this chapter as the remaining portion deals only
+with BASIC and the Monitor.
+
+
+                                                                       11
+BACK TO BASIC
+If you are using Integer BASIC or Applesoft BASIC, first put the
+Apple in BASIC. (If you don't know hou, see the Apple II BASIC
+Programming Manual or the Applesoft Tutorial.) Then LOAD a short
+BASIC program, or type the following program:
+
+100 PRINT:PRINT "GAME CONTROL ZERO IS ";PDL(0)
+110 PRINT:PRINT "AND CONTROL ONE IS ";PDL(l);"."
+120 END
+
+This program will work in either Applesoft or Integer BASIC. Use the
+LIST command to list the program on your video screen, and check
+that you typed it correctly.
+
+Before you can print anything, you must "initialize" the printer.
+When you initialize the printer, you are, in effect, telling the
+Apple to route information through the printer interface card by
+indicating the slot number into which it is plugged. From either
+BASIC type
+PR#
+followed by a 1, or whatever number slot your printer card is
+plugged into. Then press the RETURN key. You should hear a muffled
+click, and the printer "head" (the small white square you can see
+beneath the clear plastic shield) will shift its position slightly
+or move to the left margin if it isn't already there. This means the
+printer is ready.
+
+Type
+LIST
+as if to list the program on the screen but don't press the RETURN
+key. The word "LIST" doesn't appear on your screen, nor does it
+appear on the paper in the printer. Don't worry; this is normal. Now
+press the RETURN key. The screen remains unchanged, but the word
+"LIST" is printed by the Silentype, followed by the program lines
+you typed earlier.
+
+There is a particular reason why the things you type appear only on
+the printer's paper and not on the video screen when the printer is
+activated. It has to do with the way BASIC handles the Apple's 40-
+character screen.
+
+The program listing you generated a few paragraphs back should still
+be on your video screen. Compare the program listing on your screen
+with the one the Silentype printed. You'll notice that the program
+lines listed on the screen are less than 40 characters wide, while
+the lines listed on the Silentype's paper can be much longer (up to
+80 characters). If the Apple is using a video monitor, BASIC
+automatically breaks any lines of more than 40 characters by moving
+the cursor to the beginning of the next line. So, if a BASIC program
+listing had been sent to the printer AND the video monitor, it would
+have been formatted to have lines of 40 characters or less, and the
+printer's capability to print more than that would be ignored.
+
+
+
+12
+When you wish to quit printing, type
+PR#0
+to tell the Apple to quit sending information to the Silentype
+interface card.
+
+
+FROM THE MONITOR
+If you wish, you can use the printer from the Monitor which is
+indicated by the * prompt. To initialize the printer from the
+Monitor, type the number of the slot containing the printer card,
+followed by a CTRL-P. This works just like the initialization from
+BASIC except that you will be left in the Monitor instead of BASIC.
+
+To quit using the printer from the Monitor, type
+0 CTRL-P
+
+
+☛
+If you want to use DOS (the Disk Operating System) with the
+Silentype printer and the Monitor, do not initialize the printer
+with the method described above. Instead, initialize the printer
+from BASIC first, and then enter the Monitor. If you initialize the
+printer from the Monitor when you are using DOS, the Silentype may
+be disconnected at an inopportune time.
+
+
+ECHOING TO THE SCREEN
+If you are using BASIC or the Monitor, you can use the printer and
+the screen simultaneously if you wish by giving up the Silentype's
+80-character line capability. This is accomplished through the use
+of a control character, CTRL-T. Press CTRL-T, and then press the
+RETURN key.
+
+If the Apple is in Integer BASIC, the Silentype will cause the paper
+to advance one line, and the Integer BASIC prompt > , followed by
+the blinking cursor, will appear on the screen.
+
+If the Apple is in Applesoft BASIC, your Apple will beep and give
+you the message:
+
+?SYNTAX ERROR
+
+Usually syntax errors are ominous indications, but this one is
+nothing to worry about; the CTRL-T will still work normally. After
+the message has been displayed, the printer will execute a line
+feed, and the Applesoft prompt ] , followed by the blinking cursor,
+will appear on the screen on the line below the message. If you
+don't want the error message to appear, you can press CTRL-T, press
+the backspace key once to backspace over the CTRL character, and
+then press RETURN.
+
+
+
+
+                                                                       13
+Now try listing the BASIC program you entered earlier. Each line of
+the program will appear on the screen as it is printed by the
+Silentype, and the listing from the printer will have the same
+format as the listing on the screen.
+
+If you would like the Silentype to print 80-character lines again,
+simply use CTRL-T again. Whatever is on the screen will remain
+unchanged. The "computerese" term for going back and forth from
+echoing to the screen to not echoing to the screen is "toggling the
+screen echo". It may help you to remember which control character to
+use if you know that the T in CTRL-T stands for toggle.
+
+
+
+If you change the size of the Apple's "window", the screen echo may
+give strange and unpredictable results. If you use the screen echo
+feature, it is recommended that you do not change the window size.
+
+
+BASIC TABS AND THE SILENTYPE
+The BASIC tab feature was designed to work with a 40-column screen.
+The tab feature behaves in a way you might not expect when more than
+40 columns are available, for instance, when the Silentype printer
+is being used. If you want to use BASIC tabs with the Silentype you
+should be aware of these tabbing eccentricities.
+
+Tabbing to columns 0 through 39 works as described in your Integer
+BASIC and Applesoft BASIC manuals. However, if you wish to tab to a
+column that does not appear on the video screen (to the right of
+column 39), BASIC will generate a RETURN so that whatever you are
+tabbing will appear on the video screen. If you don't want that
+RETURN at column 40, you can use a POKE instead of the tab command.
+To print a 0 in column 59, use
+POKE 36,59:PRINT 0
+
+You can't tab backwards, but you can tab to any column up to column
+80 by changing the "59" to the appropriate column number.
+
+
+THE BUFFER
+From BASIC, keep an eye on your printer while you type the following
+two sentences from a traditional folk song on your Apple, making
+sure you don't press the RETURN key.
+
+I'LL EAT WHEN I'M HUNGRY AND DRINK WHEN I'M DRY. IF A TREE DON’T
+FALL ON ME I'LL LIVE 'TIL I DIE
+
+
+
+
+14
+If you watched your printer, you saw that the words you typed were
+not printed right away. Each character was stored in a "buffer" as
+it was typed. The Silentype's interface card contains the buffer,
+which holds the characters you type until the Silentype receives a
+signal that tells it to print them. One such signal is a RETURN.
+
+When one full line is stored in the buffer, a RETURN is
+automatically generated by the Silentype. This causes the contents
+of the buffer to be printed. That is what happened when you typed
+the two sentences at the beginning of this section.
+
+Now, press the RETURN key. The last line you typed will be printed.
+Pressing RETURN on the keyboard will cause the buffer to print its
+contents at the beginning of the next line just like the forced
+RETURN at the end of a line.
+
+Another way to print the buffer's contents is to use the CTRL-F
+command, for Flush Buffer. Type a few words and then, before you
+reach the end of the line, press CTRL-F. The contents of the buffer
+will be printed wherever the printer head was when the CTRL-F was
+pressed.
+
+This feature can be very useful for getting letter-by-letter
+intensity control within a program. See Chapter 3 for more
+information on controlling print intensity.
+
+The buffer's contents will also be printed when the buffer reaches
+its maximum capacity of 172 character spaces. Since the Silentype
+generates a RETURN at the end of each line, the buffer rarely
+reaches its capacity. To fill the buffer you must type lots of non-
+printing characters such as the backspace (or left-pointing arrow).
+For example, if you typed the word "APPLE" 18 times, pressing the
+backspace key 5 times after each "APPLE", the buffer would have
+reached its capacity, and its contents would be printed.
+
+
+SILENT TYPING
+In Typing Mode, the Silentype prints each character you type as it
+is typed from the keyboard. By invoking Typing Mode, you can use
+your printer instead of a video monitor.
+
+When you are using Integer BASIC or Applesoft BASIC, you initialize
+Typing Mode similarly to the way you initialized the printer earlier
+
+
+
+
+                                                                       15
+in this chapter. Instead of typing the standard
+PR#1
+you type
+IN#1
+
+If you're not using DOS, you can use Typing Mode from the Monitor if
+you wish. From the Monitor, typing Mode is invoked with the command:
+1 CTRL-K
+
+Put your printer into Typing mode with the method that is
+appropriate for the language you are using. When you've done that,
+type your first name. Each character is printed as it is typed from
+the keyboard. Notice that when you finished typing, the printer head
+moved one space to the right so you could see the last character
+that was typed.
+
+Now press the space bar once and type your last name. The printer
+head automatically moved back to its previous position one space to
+the left before it began to print your last name.
+
+If you type continuously the printer head will move evenly, printing
+each character as it is typed. If you pause for one second or more
+the printer head will move out of the way so the last character
+typed may be viewed until you resume typing.
+
+When you type to the end of a line you must wait for the printer
+head to return to the left margin before typing anything more. Any
+characters you type while the printer head is moving, will be
+ignored. This is because the buffer is disabled and cannot store the
+characters until it is convenient to print them. You may also notice
+that the Silentype prints only from left to right when Typing Mode
+is invoked, not bi-directionally as it normally does. This is also
+because the buffer is disabled.
+
+The screen echo feature is not available in Typing mode. Neither are
+POKEd tabs. Any POKEd tabs you try to use will be ignored.
+
+To quit Typing Mode, do one of the following, depending on the Apple
+language you are using:
+
+*    From Integer BASIC or Applesoft BASIC, type
+     IN#0
+     and then type
+     PR#0
+
+*    From the monitor type
+     0 CTRL-K
+     and then
+     0 CTRL-P
+
+If you are using DOS, you can make Typing Mode behave like an
+ordinary typewriter. Get into the Monitor and type the following
+line exactly as shown:
+
+300: 20 18 FD 20 ED FD 4C 00 03
+
+16
+Then press RETURN and type
+BSAVE TYPER, A768, L9
+
+You can then return to BASIC and use the following program:
+
+10 D$="": REM CTRL-D
+20 PRINT D$;"IN#1"
+30 PRINT D$;"BLOAD TYPER"
+40 CALL 768
+50 END
+
+Line 10 contains a CTRL character which does not appear on the
+screen when listed. To enter line 10, type
+10 D$="
+then press CTRL-D and type
+": REN CTRL-D
+
+After saving this program, you'll be able to use the Silentype as if
+it were a typewriter just by running this program. To stop the
+program, press RESET.
+
+
+☛
+Typing Mode interprets a line feed as if it was a RETURN. If you use
+a line feed (CTRL-J) while you are in Typing Mode, the print head
+will move one line down and to the left edge of the paper instead of
+just moving one line down.
+
+
+PRINTING BASIC GRAPHICS
+To see the Silentype's graphics capabilities in BASIC, you must
+first have something on the high-resolution screen. You may have
+written or purchased some software that has high-resolution pictures
+(many programs from the Apple Software Bank contain them), or you
+can write a program in Integer BASIC, Applesoft BASIC, or machine
+language to create a picture. Here is an Applesoft program that does
+just that. You will need Apple game control and either firmware or
+Language Card Applesoft.
+
+l00 HGR: REM SET HIGH-RESOLUTION GRAPHICS
+110 HCOLOR= 3: REM WHITE
+120 GOSU8 1000
+130 GOSUB 2000
+140 HPLOT X,Y
+150 GOTO 120
+1000 X= PDL(0) / .913
+1010 RETURN
+2000 Y= PDL(1) / 1.6
+2010 RETURN
+
+
+
+
+                                                                       17
+If you are using this program to create a high-resolution picture,
+run the program and turn the game control knobs to draw something on
+the screen. When your picture is finished, press CTRL-C. If you are
+not using this program, load a high-resolution picture into the
+Apple from existing software. Once your picture is loaded, make sure
+the printer is initialized, press CTRL-C to stop the program, and
+press CTRL-Q followed by a RETURN. Your Silentype printer will print
+the picture in about a minute. After the picture has been printed,
+Applesoft will give you a
+SYNTAX ERROR
+message. This message is nothing to be alarmed about. It is just
+like the one you got when you used CTRL-T earlier. If you don't want
+to get this message, you can backspace over the CTRL character
+before your press RETURN. Chapter 3 has some hints for improving the
+picture.
+
+If at any time you wish to stop the printing of the BASIC high-
+resolution screen, simply use a CTRL-C. To remove the high-
+resolution screen, type
+TEXT
+
+If you want to print the high-resolution screen from within a BASIC
+program, you can put CTRL-Q in a print statement. The CTRL-Q must
+always be the first character in that print statement. From an
+Applesoft program you can use the CHR$ function to print the CTRL-Q.
+
+
+
+
+18
+CHAPTER 3
+GETTING FANCY
+If you have read chapters one and two of this manual and have done
+the examples, you now know how to print both text and graphics on
+your Silentype printer. It may interest you to know, however, that
+the Silentype printer is more talented than has so far been
+revealed. With the slightly more technical information in this
+chapter, you can change the printer's output format to make your
+documents much more elegant by changing the printer's parameters.
+
+The Silentype's changeable parameters are:
+
+form feed
+line spacing
+print direction (bi- or uni-directional)
+print intensity (from 0 to 7)
+left margin
+right margin
+high-resolution page
+inverse or normal graphics
+
+Pascal and BASIC use different approaches to printing. The section
+called "Using Pascal" contains information for Pascal users,
+including a set of Pascal procedures that enable you to change the
+Silentype's parameters from within a Pascal program.
+
+BASIC users will find that the section called "Using BASIC and the
+Monitor" has all the information they need to print elegant
+documents. In addition, this section contains sample programs that,
+when added to the other sample programs in the section, make up a
+handy parameter editing program.
+
+
+
+The Silentype itself does no error checking. You must be especially
+careful not to give parameter values that are out of bounds, unless,
+of course, you are changing the parameters from inside a program
+which does check that the values are legal. If you do set a
+parameter to an illegal value, you may have to implement a Coldstart
+to recover.
+
+A Coldstart resets the printer's parameters to their default
+settings, as opposed to a Warmstart, which reinitializes the printer
+but leaves the parameters as they are. You can implement a Coldstart
+in one of two ways: you can turn the Apple off and then on again,
+thus losing
+
+
+
+
+                                                                       19
+anything stored in RAM, or you can POKE the number zero into memory
+location -12506 (CF26 from the Monitor), thus leaving RAM intact,
+and reinitialize the printer as if you were doing a Warmstart. To
+implement a Warmstart, reinitialize the printer with the procedures
+discussed in Chapter 2.
+
+The Pascal procedures and BASIC program given in this chapter check
+that your input is acceptable to the Silentype. If you change
+parameters only with these programs, you won't need to encounter
+Coldstarts.
+
+
+USING PASCAL
+This section tells how to use a set of Pascal procedures and
+functions to control the Silentype from a Pascal program. The Pascal
+source text for these procedures and functions is given in Appendix
+D. To make these procedures and functions available in your program,
+simply insert the text from Appendix D into your program.
+
+
+
+If you are using the Pascal procedures discussed here, make sure the
+Silentype interface card is the only interface card in your Apple
+that has a C800 ROM. If you have two such interface cards, for
+example, if you have a High Speed Serial card or a Graphics Tablet
+card in addition to your Silentype interface card, the Apple may get
+the interface cards confused and send information to the wrong one.
+
+
+THE PRINTER AS A PASCAL FILE
+As mentioned in Chapter 2, the way to access the Silentype from a
+Pascal program is to declare a file of type TEXT or INTERACTIVE, and
+open it with a REWRITE statement using the title PRINTER: . Example:
+
+VAR SILENT: INTERACTIVE;
+...
+
+BEGIN (*Beginning of main program*)
+  REWRITE(SILENT, ‘PRINTER:')
+...
+
+     WRITELN(SILENT, ‘THIS LINE GETS PRINTED’)
+
+... (*etc.*)
+
+
+
+
+20
+USING WRITE STATEMENTS
+THE PRINTER BUFFER
+Chapter 2 discussed how WRITELN statements are a convenient way to
+print lines of text from a Pascal program. But WRITELN always
+finishes a line with a RETURN, making it impossible to use another
+statement to add something else to the line. To print one line using
+more than one statement, you must use WRITE instead of WRITELN.
+
+But if you simply use the WRITE statement to print out, say, half a
+line of text, you will see that nothing is printed. The reason is
+that all characters sent to the Silentype to be printed are first
+stored in a memory area called the printer buffer. When you type a
+RETURN or the buffer contains enough characters to fill a line, all
+the characters in the buffer are printed, the print head is
+positioned for the next line, and the buffer is cleared. But until a
+RETURN is sent or there are enough characters to fill a line,
+nothing is printed. The characters just sit unobtrusively in the
+buffer.
+
+This can be inconvenient when you are using the WRITE statement.
+Fortunately you can use the Pascal procedure called PRINTBUFFER. The
+PRINTBUFFER procedure causes the characters in the buffer to be
+printed, but doesn't position the print head for the next line. The
+buffer is cleared, but the next thing printed will appear on the
+same line. The PRINTBUFFER procedure takes no parameters, so its
+format is
+PRINTBUFFER
+
+To give you complete control over the buffer, one other procedure is
+provided to clear the buffer without printing anything. This
+procedure, CLEARBUFFER, simply throws out the characters currently
+stored in the buffer. It takes no parameters, so its format is
+CLEARBUFFER
+It is a good idea to use CLEARBUFFER at the beginning of your
+program, just in case a previous program has left anything in the
+printer buffer.
+
+
+RESTORING THE DEFAULTS
+While we're on the subject of good things to do at the beginning of
+a program, it is wise to use the RESTORE procedure before doing any
+printing. RESTORE sets all of the Silentype's parameters to their
+default values, just in case a previous program has altered them.
+RESTORE takes no parameters, so it has the format
+RESTORE
+
+
+FORM FEED,
+OR, GETTING TO THE BOTTOM OF THINGS
+The FORMFEED procedure sends a form feed command to the Silentype.
+
+
+                                                                       21
+It takes no parameters, so it has the format
+FORMFEED
+
+The Silentype interprets the form feed command as an instruction to
+advance the paper a specified number of steps so that the printed
+portion can be torn off intact. The default value for the form feed
+is 40 paper steps, or about 1 inch, but the value can be set to any
+number of paper steps from 1 to 255.
+
+The SETFORM procedure allows you to set the form feed to the number
+of steps you would like. It takes one parameter, so it has the
+format
+SETFORM (LENGTH);
+where LENGTH is an INTEGER value which should be from 1 to 255. If
+you assign a value that is less than 1, the SETFORM procedure will
+set the value to l. If you assign a value greater than 255, the
+value will be set to 255.
+
+The FORM function returns the current setting of the parameter for
+SETFORM. It takes no parameters, so it has the format
+FORM
+
+
+
+LINE SPACING
+By changing the Silentype's line spacing, you can create nice-
+looking tables or make your printed listings easier to read. You can
+probably think of a number of other situations when changing the
+Silentype's line spacing would be desirable.
+
+Line spacing is measured in the same paper steps as the form feed.
+The default value the Silentype automatically sets for line spacing
+is 2 paper steps. The SETSPACE procedure lets you set the line
+spacing to any number from 1 to 252. It takes one parameter, so the
+format is
+SETSPACE (LENGTH)
+where LENGTH is an INTEGER value.
+
+If length is less than 1, SETSPACE changes it to 1; if LENGTH is
+greater than 252, SETSPACE changes it to 252. For example, to set
+the line spacing to 11, use the statement
+SETSPACE (11)
+
+The SPACE function returns the current setting for line spacing. It
+takes no parameters. For example, to double the current line
+spacing, use the statement
+SETSPACE(2*SPACE)
+
+Note that if the value of 2*SPACE turns out to be greater than 252,
+it will be changed to 252.
+
+
+
+
+22
+BI- OR UNI-DIRECTIONAL?
+By default, the Silentype operates in bi-directional mode. In this
+mode it can print from left to right, or from right to left. Each
+time the printer is ready to print a line, bi-directional mode lets
+the printer determine which direction will result in the smallest
+amount of printer head movement. The line will then be printed
+either from left to right or from right to left, depending on which
+direction the printer found optimal.
+
+For most applications, bi-directional printing is quite
+satisfactory. The print head is recalibrated each time it reaches
+the left edge of the paper (every two lines in bi-directional mode).
+If you want greater accuracy (for instance, if you are printing
+high-resolution pictures), you may want to use the slower and more
+accurate unidirectional mode.
+
+Uni-directional mode prints only from left to right. For this reason
+it prints at about half the speed of bi-directional mode; however,
+it recalibrates the print head at the beginning of every line. If
+you choose to use uni-directional mode, you will be rewarded for
+your patience with a more perfectly aligned printout. The following
+pictures were printed on a Silentype printer. Notice the wavy edge
+on the picture on the left--it was printed in bi-directional mode.
+The picture on the right was printed in uni-directional mode.
+
+
+
+
+         bi-directional                     uni-directional
+
+The SETUNIDIRECT procedure sets uni-directional printing, and the
+SETBIDIRECT procedure sets bi-directional printing. They take no
+parameters, so they have the formats
+SETUNIDIRECT
+and
+SETBIDIRECT
+
+The function UNIDIRECT is a Boolean function which returns the value
+TRUE if uni-directional mode is set or FALSE if bi-directional mode
+is set. It takes no parameters, so it has the format
+UNIDIRECT
+
+After you have done some uni-directional printing you may notice
+that there is occasionally a slight discrepancy in the margin
+widths.
+                                                                       23
+A variance of one dot is not abnormal. The illustration below shows
+the acceptable margin discrepancy.
+
+
+
+
+24
+PRINT INTENSITY
+The Silentype can print at 8 different levels of intensity, from
+intensity 0, which is almost invisible, to intensity 7, which is
+quite dark. The following table illustrates the available
+intensities.
+
+
+
+
+                                                                   25
+The Silentype sets the default intensity to 5. The SETDARK procedure
+lets you change the intensity to any of the 8 available levels. It
+takes one parameter, so it has the format
+SETDARK (INTENSITY)
+where INTENSITY is an INTEGER value which should be from 0 to 7. If
+INTENSITY is less than 0, SETDARK changes it to 0; if INTENSITY is
+greater than 7, SETDARK changes it to 7.
+
+For example, to set the printer intensity to 6, use the following
+statement:
+SETDARK (6)
+
+The function DARK returns the current intensity setting. It takes no
+parameters, so it has the format
+DARK
+For examp1e, the following statement will set the intensity to twice
+as dark as the current setting, or to 7--whichever is lower:
+SETDARK(2*DARK)
+
+
+RESETTING THE MARGINS
+The Silentype's printing line is divided into 83 character spaces
+numbered from 0 to 82. The default margin settings are 2 for the
+left margin and 81 for the right margin, leaving an 80-character
+printing line and margins of 2 character spaces on the left and 1 on
+the right.
+
+So far we have used only the Silentype's default margin settings.
+Using the SETLEFTMARGIN and SETRIGHTMARGIN procedures, you can
+change the margin widths to whatever you like within the following
+limits:
+
+l. The left margin must actually be to the left of the right margin.
+If you try to set it to a value equal to or greater than the right
+margin, the value you give will be changed to one less than the
+right margin.
+
+2. The right margin must actually be to the right of the left
+margin. If you try to set it to a value equal to or less than the
+left margin, the value you give will be changed to one greater than
+the left margin.
+
+3. Neither margin can be set to a value less than 0. If you give a
+value less than 0, it will be changed to 0.
+
+4. Neither margin can be set to a value greater than 82. If you give
+a value greater than 82, it wi11 be changed to 82.
+
+SETLEFTMARGIN and SETRIGHTMARGIN each take one parameter, so they
+have the formats
+SETLEFTMARGIN (POSITION)
+and
+SETRIGHTMARGIN (POSITION)
+
+
+
+26
+where POSITION is an INTEGER value. If necessary, the SETLEFTMARGIN
+or SETRIGHTMARGIN procedure will change the value of POSITION to
+make sure it agrees with the rules given above.
+
+For example, let's say you want to leave a l0-character margin on
+either side of your printout. Use this statement to place the left
+margin at the tenth character:
+SETLEFTMARGIN (10)
+
+To start the right margin 10 characters from the right edge of the
+paper, use the following statement:
+SETRIGHTMARGIN (73)
+
+The LEFTMARGIN function returns the current left margin setting, and
+the RIGHTMARGIN function returns the current right margin setting.
+These functions take no parameters.
+
+For example, suppose you want to set the left margin 5 spaces to the
+left of its current position. Use the statement
+SETLEFTMARGIN(LEFTMARGIN+5)
+
+
+GRAPHICS
+If you've read Chapter 2, you already know one way to print Pascal
+high-resolution graphics on the Silentype. The PRINTPIC procedure
+lets you print high-resolution graphics from within a Pascal
+program. PRINTPIC takes no parameters, so it has the format
+PRINTPIC
+
+PRINTPIC does something extra for you: since uni-directional
+printing gives a better picture, PRINTPIC automatically sets uni-
+directional printing. If the Silentype was originally in bi-
+directional mode, PRINTPIC puts it back in bi-directional mode after
+printing the picture.
+
+
+NEGATIVE PRINTING
+You can get some interesting graphic effects by causing the
+Silentype to print the "negative" of what appears on the high-
+resolution screen. Printing this way is known as printing in inverse
+mode. The SETNEGATIVE procedure sets negative printing mode (which
+affects only graphics printing, not character printing). SETNEGATIVE
+takes no parameters, so it has the format
+SETNEGATIVE
+
+For example, to print a negative of the current graphics screen, use
+the following two-statement sequence:
+
+SETNEGATIVE;
+PRINTPIC
+
+
+
+
+                                                                       27
+Enough of this negative thinking! The SETPOSITIVE procedure does
+away with inverse mode and causes the Silentype to print graphics
+normally again. For example, to print a positive picture after
+printing a negative, use
+
+SETPOSITIVE;
+PRINTPIC
+
+The NEGATIVE function is a Boolean function that returns the value
+TRUE if negative printing mode is set, or FALSE if positive printing
+mode is set.
+
+
+USING BASIC AND THE MONITOR
+With the Silentype printer and the information in this chapter, you
+can create nicely formatted program listings, tables, letters,
+graphic displays, and more.
+
+A BASIC Parameter program is given in parts in this section of the
+manual. Put all these program parts together to construct a program
+that will allow you to change the Silentype's parameters quickly and
+easily without typing a lot of programming statements. DOS commands
+are used in the Parameter program so you must have a disk drive to
+use it. If you don't have access to DOS, change all the program's
+lines that contain "D$", replacing
+PRINT D$; "PR#"; SLOT
+with
+PR# SLOT
+
+
+
+The Silentype printer must be initialized before you use the BASIC
+and Monitor commands discussed in this chapter. Any commands you
+give to the printer before it is initialized will not work.
+
+
+
+Pay special attention to the 0s in the BASIC and Monitor commands
+given in this chapter. It is easy to accidentally type a letter O
+when you mean to type a zero, and vice versa. If you type the wrong
+kind of 0, the command will not work.
+
+If you have used the Apple's Monitor before, you are probably
+familiar with hexadecimal (base 16) notation. All the Monitor
+commands given in this chapter are in hexadecimal notation. Since
+most people have 10 fingers and not 16, Appendix B in the back of
+this book contains an ASCII character table which can be used to
+translate hexadecimal numbers to the more familiar decimal numbers.
+
+
+
+
+28
+THE PROGRAM
+The BASIC Parameter program is a set of subroutines that each
+control one of the Silentype's changeable parameters. Listed below
+is the main program that makes the subroutines work. Notice the
+control character in line 120. To type this line, first type
+120 D$="
+Then press CTRL-D and finish typing the line:
+": REM CTRL-D
+Line 130 is typed the same way, except that you use CTRL-G instead
+of CTRL-D.
+
+The first part of the program (lines 100-240) sets constants used
+later in the program. It also establishes some initial conditions.
+The second part of the program (lines 250-900) displays a menu from
+which you may call the subroutines described in the rest of this
+chapter.
+
+
+100 DIM ANSWER$(255)
+110 GOSUB 9000: REM SLOT FIND
+120 D$ = “”: REM    CTRL-D
+130 BEL$ = “”: REM    CTRL-G BELL
+140 TEXT : NOTRACE
+150 POWERUP = - 12506
+160 FRMFEED = - 12531
+170 SPACING = - 12530
+180 DIRECT = - 12529
+190 DARKNESS = - 12528
+200 LEFT = - 12527
+210 RIGHT = - 12526
+220 HPAGE = - 16525
+230 INVER = - 12524
+240 GOSUB 1000: REM INIT PRINTER
+250 CALL - 936: REM PUT CURSOR AT TOP LEFT OF SCREEN
+260 PRINT
+270 PRINT “            THE CURRENT VALUES ARE:”
+280 PRINT : PRINT “      1. FORM FEED = “;
+290 PRINT “        “; PEEK (FRMFEED)
+300 PRINT “      2. LINE SPACING = “;
+310 IF PEEK (SPACING) < 5 THEN PRINT “       SINGLE”
+320 IF PEEK (SPACING) > = 5 AND PEEK (SPACING) < 11 THEN     PRINT
+     “   DOUBLE”
+
+
+
+
+                                                           (cont’d.)
+
+
+
+
+                                                                       29
+330   IF PEEK (SPACING) > 11 THEN PRINT “     TRIPLE”
+340   PRINT “     3. PRINT DIRECTION =”;
+350   IF PEEK (DIRECT) < = 127 THEN PRINT “ BI-DIRECTIONAL”
+360   IF PEEK (DIRECT) > 127 THEN PRINT “UNI-DIRECTIONAL”
+370   PRINT “     4. INTENSITY = “;
+380   PRINT “       “; PEEK (DARKNESS)
+390   PRINT “     5. LEFT MARGIN = “;
+400   PRINT “     “; PEEK (LEFT)
+410   PRINT “     6. RIGHT MARGIN = “;
+420   PRINT “   “; PEEK (RIGHT)
+430   PRINT “     7. GRAPHICS PAGE =   “;
+440   PRINT PEEK (HPAGE) / 32
+450   PRINT “     8. INVERSE = “;
+460   IF PEEK (INVER) < = 127 THEN PRINT “            TRUE”
+470   IF PEEK (INVER) > 127 THEN PRINT “          FALSE”
+480   PRINT
+490   PRINT “ENTER NUMBER OF PARAMETER TO CHANGE”
+500   PRINT “ (0 = SET DEFAULTS; 9 = EXIT): “;
+510   INPUT REPLY
+520   IF REPLY = 0 THEN POKE POWERUP,0
+530   IF REPLY = 0 THEN GOSUB 1000: REM     INITIALIZE PRINTER
+540   IF REPLY = 1 THEN GOSUB 2000: REM       FORM FEED
+550   IF REPLY = 2 THEN GOSUB 3000: REM       LINE SPACING
+560   IF REPLY = 3 THEN GOSUB 4000: REM       PRINT DIRECTION
+570   IF REPLY = 4 THEN GOSUB 5000: REM       PRINT INTENSITY
+580   IF REPLY = 5 THEN GOSUB 6000: REM       SET LEFT MARGIN
+590   IF REPLY = 6 THEN GOSUB 6100: REM       SET RIGHT MARGIN
+600   IF REPLY = 7 THEN GOSUB 7000: REM      HIGH-RESOLUTION PAGE
+
+610   IF REPLY = 8 THEN   GOSUB 8000: REM   INVERSE GRAPHICS
+620   IF REPLY = 9 THEN   END
+630   GOTO 250
+900   END
+
+
+
+
+30
+The first subroutine in the program doesn't change any parameters;
+it just makes sure the printer is initialized. Here are the lines
+that do that.
+
+1000   REM    INIT PRINTER
+1010   IF PEEK (POWERUP) = 183 THEN   RETURN : REM PRINTER HAS BEEN
+       POWERED UP
+1020   PRINT D$;”PR#”;SLOT: PRINT
+1030   PRINT D$;”PR#0”
+1040   RETURN
+
+
+
+FORM FEED
+Some printers interpret the form feed command as an instruction to
+advance the paper to the next page. The Silentype's form feed
+behaves more like a RETURN. However, instead of advancing one line,
+it causes a fixed increment of paper to be advanced so that the
+printed portion can be torn off intact.
+
+
+☛
+If you want the standard form feed (because you are editing text,
+for example), use a text editing program or system. Many text
+editors, such as Apple Writer, contain standard form feed commands
+in addition to any commands that may be available through the
+printer.
+
+To produce a form feed, press CTRL-L from either BASIC or the
+Monitor. Do that now.
+
+The Silentype automatically sets the form feed increment to 40 paper
+steps, or about 1 inch. With a single command you can change the
+increment to any number of steps from 1 to 255. For example, to
+change the increment to 100 steps, if you are in BASIC, type
+POKE -12531,100
+From the monitor type
+CF0D:64
+to get the same results. Now press
+CTRL-L
+to force a form feed. The paper should advance about two and a half
+times as far as it did before you changed the increment. Try the
+form feed several times, changing the value for the paper increment
+each time.
+
+
+
+
+                                                                       31
+☛
+Setting the form feed to 0 will cause the paper to advance 256
+units. If you try to set the form feed to a number greater than 255
+or to a negative number, you will get nothing but a "beep" and a
+nasty error message for your pains.
+
+Following is a BASIC subroutine that allows you to choose the length
+of the form feed.
+
+2000   REM    FORM FEED
+2010   PRINT
+2020   PRINT “HOW LONG SHOULD THE FORM FEED BE”
+2030   PRINT “(0 TO 255 STEPS)”;
+2040   INPUT ANSWER
+2050   IF ANSWER > = 1 AND ANSWER < = 255 THEN GOTO 2080
+2060   GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+2070   GOTO 2000: REM   TRY AGAIN
+2080   POKE FRMFEED,ANSWER
+2090   RETURN
+
+
+
+LINE SPACING
+By changing the Silentype's line spacing, you can create nice-
+looking tables or make your printed program listings easier to read.
+You can probably think of a number of other situations in which you
+would like to change the Silentype's line spacing.
+
+To cause a line feed, press RETURN. Line spacing is measured in
+paper steps, just like the form feed. The Silentype automatically
+sets line spacing to 2 paper steps. This causes the line feed to
+advance the paper the height of the tallest character (4 paper
+steps) plus 2 paper steps. If you print a program listing, the space
+between each line will be 2 steps wide. We can switch to double
+spacing by adding 6 steps to the default setting, setting the new
+line spacing to 8 steps. In BASIC, type
+POKE -12530,8
+
+To do the same thing from the Monitor, type
+CF0E:8
+
+CTRL-J will force a line feed, leaving the cursor in the same
+vertical column. Use CTRL-J to test your results. Print something,
+perhaps a program listing, to see how your double spacing looks.
+
+If you try to set the line feed to 0 or to a number from 253 to 255,
+your printed lines will overlap. If you try to set the line feed
+increment to a negative number or to a number greater than 255, you
+will get an error message.
+
+
+
+
+32
+Here is a BASIC subroutine that uses the line feed parameter to
+allow you to choose single, double, or triple spacing for your
+listings:
+
+3000 REM    LINE SPACING
+3010 ANSWER$ = “”
+3020 PRINT
+3030 PRINT “WOULD YOU LIKE SINGLE, DOUBLE, OR”
+3040 PRINT “TRIPLE LINE SPACING (S,D,T)”;
+3050 INPUT ANSWER$
+3060 IF ANSWER$ = “S” THEN POKE SPACING,2
+3070 IF ANSWER$ = “D” THEN POKE SPACING,8
+3080 IF ANSWER$ = “T” THEN POKE SPACING,14
+3090 IF ANSWER$ = “S” OR ANSWER$ = “D” OF ANSWER$ = “T” THEN   GOTO
+     3120
+3100 GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+3110 GOTO 3000: REM    TRY AGAIN
+3120 RETURN
+
+BI- OR UNI-DIRECTIONAL?
+Your Silentype printer is usually in bi-directional mode. In this
+mode it can print from left to right, or from right to left. Each
+time the printer is ready to print a line, bi-directional mode lets
+the printer determine which direction will result in the smallest
+amount of printer head movement. The line will then be printed
+either from left to right or from right to left, depending on which
+direction the printer found optimal.
+
+You can leave bi-directional printing mode and print in only one
+direction if you choose. This is called uni-directional printing.
+Uni-directional printing is only about half as fast as bi-
+directional printing, but the print alignment is more accurate
+because the printer head is recalibrated each time it reaches the
+left edge of the paper, twice as often as it does in bi-directional
+mode. You may want to use this option when accuracy is important,
+for example, when you are printing a high-resolution picture.
+
+The following pictures were printed by the Silentype printer. The
+one on the left was printed in bi-directional mode; the one on the
+right, in uni-directional mode. Notice the wavy edge on the bi-
+directional picture.
+
+
+
+
+       bi-directional                     uni-directional
+                                                                      33
+The Apple sets bi-directional mode at the value 0 and uni-
+directional mode at the value 255. You can change to uni-directional
+mode either from BASIC or from the monitor by changing the number in
+the appropriate memory location. To change to uni-directional mode
+from BASIC, type
+POKE -12529,255
+
+From the monitor, type
+CF0F:FF
+
+Actually, any number from 0 to 127 will set bi-directional mode, and
+any number from 128 to 255 will set uni-directional mode. We used
+the numbers, 0 and 255 for the sake of simplicity. If you try to use
+a negative number or a number that is greater than 255, however, you
+will get an error message.
+
+Put the printer into uni-directional mode and load something onto
+the high-resolution screen. Then use CTRL-Q to print the screen and
+see the difference yourself.
+
+If you look carefully at your uni-directional printed pictures, you
+may notice that there is a very slight discrepancy in the margin
+widths. A variance of one dot is not abnormal. The picture below
+shows the acceptable margin discrepancy.
+
+If you wish to return to bi-directional mode, you can either turn
+your Apple off and then turn it back on again, or you can type
+POKE -12529,0
+from BASIC, or
+CF0F:0
+from the Monitor.
+
+The following BASIC subroutine allows you to choose bi-directional
+or unidirectional mode without poking anything.
+
+
+
+
+34
+4000   REM    DIRECTION OF PRINT
+4010   PRINT
+4020   PRINT “DO YOU WANT TO PRINT UNI-DIRECTIONALLY”
+4030   PRINT “OR BI-DIRECTIONALLY (U/B)”;
+4040   INPUT ANSWER$
+4050   IF ANSWER$ = “U” THEN POKE DIRECT,255
+4060   IF ANSWER$ = “B” THEN POKE DIRECT,0
+4070   IF ANSWER$ = “U” OR ANSWER$ = “B” THEN GOTO 4100
+4080   GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+4090   GOTO 4000: REM   TRY AGAIN
+4100   RETURN
+
+
+
+
+                                                          35
+PRINT INTENSITY
+The Silentype can print at eight different levels of intensity, from
+intensity 0, which is almost invisible, to intensity 7, which is
+quite dark. The following table illustrates the intensities that are
+available.
+
+
+
+
+36
+The default value (the value that the Silentype automatically sets)
+for the print intensity is 5. To change the intensity to 7, if you
+are in BASIC, type
+POKE -12528,7
+
+If you are in the Monitor, type
+CF10:7
+
+Print something at intensity 7, and compare the results with things
+you have printed at intensity 5.
+
+The following BASIC subroutine allows you to change the Silentype's
+print intensity by choosing a number.
+
+5000   REM    INTENSITY OF PRINT
+5010   PRINT
+5020   PRINT “WHAT PRINT INTENSITY DO YOU WANT (0/7)”;
+5030   INPUT ANSWER
+5040   IF ANSWER > = 0 AND ANSWER < = 7 THEN GOTO 5070
+5050   GOSUB 10000: REM     YOUR ANSWER WAS NOT VALID
+5060   GOTO 5000: REM    TRY AGAIN
+5070   POKE DARKNESS,ANSWER
+5080   RETURN
+
+
+With what you now know about changing the Silentype's print
+intensity, you can use the Flush Buffer feature (CTRL-F), described
+in Chapter 2, to get character-by-character intensity control. The
+following program shows the CTRL-F in action. This program does NOT
+belong in your BASIC Parameter program. Remember to type a CTRL-F
+between the quote marks in line 20.
+
+l0 PRINT : PRINT
+20 F$=””: REM CTRL-F
+30 DARK= PEEK (-12528)
+40 POKE -12528,2: PRINT “THIS SHOWS “;F$;
+50 POKE -12528,7: PRINT “THE BUFFER “;F$;
+60 POKE -12528,2: PRINT “IN ACTION.”
+70 POKE -12528,DARK
+80 END
+
+If you want to save this program, save it separately from your BASIC
+Parameter program.
+
+
+RESETTING MARGINS
+Up to now we've been utilizing the Silentype's standard 80-character
+line. An 80-character line is convenient for many applications, but
+wider margins and fewer characters per line are sometimes desirable.
+The Silentype lets you change the left and right margins to almost
+anything you like.
+
+
+
+
+                                                                       37
+Unlike the form feed and line spacing features, the margins are
+measured by character spaces. The Silentype has a maximum of 83
+character spaces per line, numbered from 0 to 82. The default
+setting for the right margin is 2, and the default setting for the
+left margin is 81, leaving 80 character spaces for your listings.
+The Silentype can actually print up to 83 characters per line by
+setting the Margins a little farther apart.
+
+Let's change the margin spacing so that both the left and right
+margins are 10 character spaces wide. To change the left margin, if
+you are using BASIC, type
+POKE -12527,10
+
+To change the right margin, type
+POKE -12526,73
+
+If your Apple is in the Monitor, type
+CF11:A
+to change the left margin, and
+CF12:49
+to change the right margin.
+
+Negative values and values over 255 will not be accepted for margin
+settings. If you attempt to set either margin to such a number, you
+will get an error message from your Apple.
+
+
+
+If you try to set the margin to a value that is out of bounds but
+not illegal, (a number less than 0 or greater than 82) the Silentype
+will accept the number, but, in trying to carry out your
+instructions, the printer will repeatedly try to print off the edge
+of the paper. It will continue to do so until it runs out of things
+to print, or until you stop it by pressing the RESET key or turning
+the Apple's power off.
+
+
+
+The right margin must be set to a number that is greater than the
+left margin setting. If you set the line width to 4 spaces or less,
+you will not have enough room to type PR#0 to stop the printer. A
+press of the RESET key will remedy this.
+
+This BASIC subroutine lets you change the Silentype's left and right
+margins and checks that you give an acceptable margin setting.
+
+
+
+
+38
+6000   REM    MARGIN SETTINGS
+6010   PRINT
+6020   PRINT “WHERE SHOULD THE LEFT MARGIN BE (0-78)”;
+6030   INPUT LANSWER
+6040   IF LANSWER > = 0 AND LANSWER < = 78 THEN GOTO 6080
+6050   GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+6060   GOTO 6000: REM    TRY AGAIN
+6070   IF LANSWER > PEEK (RIGHT) - 4 THEN GOTO 6170
+6080   POKE LEFT,LANSWER
+6090   RETURN
+6100   PRINT
+6110   PRINT “WHERE SHOULD THE RIGHT MARGIN BE (4-82)”;
+6120   INPUT RANSWER
+6130   IF RANSWER > = 0 AND RANSWER < = 78 THEN GOTO 6160
+6140   GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+6150   GOTO 6000: REM    TRY AGAIN
+6160   IF PEEK (LEFT) < = RANSWER - 4 THEN GOTO 6220
+6170   GOSUB 10000: REM     YOUR ANSWER WAS NOT VALID
+6180   PRINT “LEFT MARGIN MUST BE 4 LESS THAN RIGHT MARGIN.”
+6190   PRINT
+6200   GOSUB 6000: REM SET LEFT AGAIN
+6210   GOTO 6100: REM SET RIGHT AGAIN
+6220   POKE RIGHT,RANSWER
+6230   RETURN
+
+
+
+HIGH-RESOLUTION PAGE 2
+In addition to the regular Apple high-resolution screen, there is a
+second high-resolution screen. The regular screen is called high-
+resolution page 1, and the second screen is called high-resolution
+page 2. So far we have printed graphic displays only from high-
+reso1ution page l. To print Apple's high-resolution page 2, from
+BASIC type
+POKE -12525,64
+or, type
+CF13:40
+from the Monitor.
+
+To print page 1 again, from BASIC type
+POKE -12525,32
+or, type
+CF13:20
+from the Monitor.
+
+Notice that the number you poked into memory location -12525 was 32
+times the number of the high-resolution page you wished to print. If
+you know how to make the Apple store pictures in other memory
+locations you can use this trick to make the Silentype print them.
+For example, if you wish to print "page 3" or the contents of
+locations $6000 to $7FFF, simply POKE 96 into memory location
+-12525.
+
+
+
+
+                                                                       39
+Here's a BASIC subroutine that lets you print either high-resolution
+page 1 or 2 without having to POKE into memory locations.
+
+7000   REM    HIGH-RESOLUTION PAGE
+7010   PRINT
+7020   PRINT “WHICH HIGH-RESOLUTION PAGE DO YOU WANT”
+7030   PRINT “TO PRINT (1 OR 2)”;
+7040   INPUT ANSWER$
+7050   IF ANSWER$ = “1” THEN POKE HPAGE,32
+7060   IF ANSWER$ = “2” THEN POKE HPAGE,64
+7070   IF ANSWER$ = “1” OR ANSWER$ = “2” THEN GOTO 7100
+7080   GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+7090   GOTO 7000: REM    TRY AGAIN
+7100   RETURN
+
+
+
+INVERSE MODE
+The Silentype printer can print a negative (black on white) version
+of the high-resolution screen just as easily as it can print
+graphics in the normal way. This kind of printing is called
+"inverse", and the mode in which it is done is called "inverse
+mode".
+
+To set inverse mode from BASIC, type
+POKE -12524,0
+or, from the Monitor, type
+CF14:0
+
+Now load a high-resolution picture into your Apple and use CTRL-Q to
+print the high-resolution screen.
+
+Inverse mode works only with high-resolution graphics. You cannot
+print negative text.
+
+
+
+Any attempt to give parameter values that are out of bounds will
+result in an error message or unusual behavior on the part of the
+Silentype. Use only 0 or 255.
+
+Inverse mode, while not particularly useful for printing photograph-
+like pictures, can make all the difference in the world for line
+drawings and graphs. Try drawing something with the Applesoft
+sketching program in Chapter 2, or load an existing program that
+uses line drawings. These should look great printed in inverse mode.
+
+To return to regular high-resolution screen printing, Coldstart your
+Apple, or from BASIC, type
+POKE -12524,255
+
+
+
+
+40
+or, from the Monitor, type
+CF14:FF
+
+Use this BASIC subroutine to choose inverse or normal mode.
+
+8000   REM    INVERSE GRAPHICS
+8010   PRINT
+8020   PRINT “DO YOU WANT TO USE INVERSE MODE (Y/N)”;
+8030   INPUT ANSWER$
+8040   IF ANSWER$ = “N” THEN POKE INVER,255
+8050   IF ANSWER$ = “Y” THEN POKE INVER,0
+8060   IF ANSWER$ = “N” OR ANSWER$ = “Y” THEN GOTO 8090
+8070   GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+8080   GOTO 8000: REM    TRY AGAIN
+8090   RETURN
+
+
+Now add these last few program lines to complete your BASIC
+Parameter program.
+
+9000 REM     SLOT FIND
+9010 FOR SLOT = 1 TO 7
+9020 SADDR = -16384 + 256 * SLOT
+9030 IF PEEK (SADDR + 23) = 201 AND PEEK(SADDR + 55) = 207 AND
+      PEEK (SADDR + 76) = 234 THEN RETURN
+9040 NEXT SLOT
+9050 PRINT : PRINT “NO SILENTYPE PRINTER INSTALLED!”
+9060 PRINT “ PROGRAM ABORTED!”
+9070 POP : END
+10000 REM    YOUR ANSWER WAS NOT VALID
+10010 PRINT
+10020 PRINT BEL$;BEL$;BEL$
+10030 PRINT “**************************************”
+10040 PRINT “YOUR ANSWER WAS NOT VALID. TRY AGAIN.”
+10050 PRINT “**************************************”
+10060 RETURN
+
+
+Run the program to make sure it works correctly. If it doesn’t,
+check your typing.
+
+
+
+
+                                                                  41
+42
+APPENDIX A
+CARING FOR THE PRINTER
+REPLACING THE PAPER
+When the paper roll is nearing its end, a pink stripe appears along
+one edge of the paper. The stripe indicates that you have about five
+more feet of paper before the roll ends.
+
+When the Silentype gets to the end of the roll, the paper stops
+feeding although the printer head continues to move back and forth
+until it finishes the listing. You can use the RESET key to stop the
+printer, but anything stored in RAM may be lost. To preserve the
+contents of RAM, you may want to wait for the printer to stop of its
+own accord.
+
+Use only specially treated thermal paper in your Silentype printer.
+Your Apple dealer can sell you additional rolls.
+
+To remove the empty paper roll, open your Silentype's lid with your
+thumb and forefinger and take out the empty cardboard cylinder.
+Removing the paper roll reveals a diagram that shows the proper way
+to feed the paper through the printer.
+
+Now unwrap the new roll of thermal paper, and remove the adhesive
+strip. Then, if the end of the paper is ragged, cut it off with a
+scissors so that the paper has a clean edge. Feed the end through
+the printer, making sure the paper goes under the roller as
+illustrated in the photograph below and in the diagram inside the
+Silentype. Remove the black bearings from the empty cardboard
+cylinder and insert them into the center of the paper roll, with the
+squared ends outward.
+
+
+
+
+Turn the large, round knob on the right side of the printer to
+advance the paper a few inches. Then put the paper roll in place and
+push in on the squared, black bearings in the paper cylinder while
+fitting them into the deepest of the two notches on either side of
+the roll.
+
+
+
+                                                                       43
+Now close the Silentype's lid, making sure the loose end of the
+paper is free.
+
+If you buy extra rolls of paper you should store them away from heat
+and light. The paper will last much longer if you do. If you want to
+keep permanent records of things you have printed on the Silentype,
+it is recommended that you make photocopies of the actual printouts
+for storage. Thermal paper will eventually darken (after several
+months) and become unreadable. Storing printouts in a cool, dark
+place, such as a standard file cabinet, will greatly prolong the
+life of the paper.
+
+
+DIAGNOSTIC ERROR MESSAGE
+From BASIC, it is possible for the printer to warn you of a serious
+problem by disconnecting itself and causing the Apple to print
+ERR
+on the screen. If this happens, it probably means that the Silentype
+can't find the left margin. To recover, you must disable the printer
+by pressing RESET, typing PR#0 from BASIC, or typing 0 CTRL-P from
+the Monitor. If you have this problem, check that nothing is
+obstructing the path of the printer head. If nothing is in the path
+of the printer head, check that the Silentype interface card and its
+cord are properly plugged in. Sometimes an improperly installed
+printer will generate the message. If the printer seems to be
+installed correctly, but you still get the message, take your
+printer to an authorized Apple Service Center for service.
+
+With very little care, your Silentype printer should have a long and
+useful life. It needs no routine maintenance and will probably never
+require service. In the rare event that your printer does need to be
+serviced, take it to an authorized Apple Service Center in your
+area.
+
+
+
+
+44
+APPENDIX B
+TABLES
+PARAMETER TABLE
+This table gives information about the Silentype's changeable
+parameters.
+
+Don't use out-of-range values for the parameters in this table. Even
+though no damage should result, the behavior of the printer would
+become unpredictable.
+
+FUNCTION    MONITOR    BASIC  COLDSTART POSSIBLE VALUES
+            ADDRESS   ADDRESS   VALUE
+                              dec hex
+
+form feed    CF0D     -12531   40    $28   from 0 ($0) TO 255 ($FF)
+
+line         CF0E     -12530   2     $2    from 0 ($0) TO 255 ($FF)
+increment
+
+direction    CF0F     -12529   0     $0    bi-directional = 0 ($0) to
+                                           127
+                                           uni-directional=128 to 255
+                                           ($FF)
+
+intensity    CF10     -12528   5     $5    from 0 ($0) to 7 ($7)
+
+left         CF11     -12527   2     $2    from 0 ($0) to 82 ($53)--
+margin                                     must be less than right
+                                           margin
+
+right        CF12     -12526   81    $51   from 1 ($1) to 83 ($54)--
+margin                                     must be greater than left
+                                           margin
+
+hi-res       CF13     -12525   32    $20   hi-res page 1 = 32 ($20)
+page                                       hi-res page 2 = 64 ($40)
+
+hi-res       CF14     -12524   255   $FF   normal =  255 ($FF)
+inverse                                              (white on black)
+                                           inverse = 0 ($0)
+                                                     (black on white)
+
+
+
+
+                                                                        45
+CONTROL FUNCTIONS
+The following table lists the special control functions used by the
+Silentype. In the Pascal language, these functions can be used from
+within a program or from the keyboard, using the Filer’s Transfer
+command (see the section on Pascal in Chapter 2). They can be used
+from either the keyboard or from a program in BASIC or the Monitor.
+
+CHARACTER                 FUNCTION                  COMMENTS
+
+
+CTRL-C        stops hi-res screen print      BASIC and Monitor
+                                             keyboard only
+
+CTRL-F        prints content of buffer
+
+CTRL-H        backspace
+
+CTRL-J        line feed
+
+CTRL-L        form feed
+
+CTRL-M        return
+
+CTRL-Q        prints the hi-res screen       default=hi-res page 1
+
+CTRL-T        toggles screen echo/no echo    default=no echo
+
+
+
+
+46
+ASCII TABLE OF CHARACTERS
+ DEC = ASCII decimal code
+ HEX = ASCII hexadecimal code
+CHAR = ASCII character name
+ n/a = not accessible directly from the APPLE II keyboard
+
+Note: you may use CHR$ to print lower case alphabetical characters.
+
+
+DEC   HEX   CHAR   TYPE               DEC    HEX   CHAR     TYPE
+
+0     00    NULL ctrl @               32     20    SPACE    space
+1     01    SOH    ctrl A             33     21    !        !
+2     02    STX    ctrl B             34     22    “        “
+3     03    ETX    ctrl C             32     23    #        #
+4     04    ET     ctrl D             36     24    $        $
+5     05    ENQ    ctrl E             37     25    %        %
+6     06    ACK    ctrl F             38     26    &        &
+7     07    BEL    ctrl G             39     27    ‘        ‘
+8     08    BS     ctrl H or <-       40     28    (        (
+9     09    HT     ctrl I             41     29    )        )
+10    0A    LF     ctrl J             42     2A    *        *
+11    0B    VT     ctrl K             43     2B    +        +
+12    0C    FF     ctrl L             44     2C    ,        ,
+13    0D    CR     ctrl M or RETURN   45     2D    -        -
+14    0E    SO     ctrl N             46     2E    .        .
+15    0F    SI     ctrl O             47     2F    /        /
+16    10    DLE    ctrl P             48     30    0        0
+17    11    DC1    ctrl Q             49     31    1        1
+18    12    DC2    ctrl R             50     32    2        2
+19    13    DC3    ctrl S             51     33    3        3
+20    14    DC4    ctrl T             52     34    4        4
+21    15    NAK    ctrl U or ->       53     35    5        5
+22    16    SYN    ctrl V             54     36    6        6
+23    17    ETB    ctrl W             55     37    7        7
+24    18    CAN    ctrl X             56     38    8        8
+25    19    EM     ctrl Y             57     39    9        9
+26    1A    SUB    ctrl Z             58     3A    :        :
+27    1B    ESCAPE ESC                59     3B    ;        ;
+28    1C    FS     n/a                60     3C    <        <
+29    1D    GS     ctrl shift-M       61     3D    =        =
+30    1E    RS     ctrl ^             62     3E    >        >
+31    1F    US     n/a                63     3F    ?        ?
+
+
+
+
+                                                                      47
+DEC   HEX   CHAR   TYPE               DEC    HEX   CHAR   TYPE
+
+64    40    @      @                  96     60    `      `
+65    41    A      A                  97     61    a      a
+66    42    B      B                  98     62    b      b
+67    43    C      C                  99     63    c      c
+68    44    D      D                  100    64    d      d
+69    45    E      E                  101    65    e      e
+70    46    F      F                  102    66    f      f
+71    47    G      G                  103    67    g      g
+72    48    H      H                  104    68    h      h
+73    49    I      I                  105    69    i      i
+74    4A    J      J                  106    6A    j      j
+75    4B    K      K                  107    6B    k      k
+76    4C    L      L                  108    6C    l      l
+77    4D    M      M                  109    6D    m      m
+78    4E    N      N                  110    6E    n      n
+79    4F    O      O                  111    6F    o      o
+80    50    P      P                  112    70    p      p
+81    51    Q      Q                  113    71    q      q
+82    52    R      R                  114    72    r      r
+83    53    S      S                  115    73    s      s
+84    54    T      T                  116    74    t      t
+85    55    U      U                  117    75    u      u
+86    56    V      V                  118    76    v      v
+87    57    W      W                  119    77    w      w
+88    58    X      X                  120    78    x      x
+89    59    Y      Y                  121    79    y      y
+90    5A    Z      Z                  122    7A    z      z
+91    5B    [      n/a                123    7B    {      {
+92    5C    \      n/a                124    7C    |      |
+93    5D    ]      ] (shift-M)        125    7D    }      }
+94    5E    ^      ^                  126    7E    ~      ~
+95    5F    _      n/a                127    7F           n/a
+
+
+Note: ASCII lower case characters are not directly accessible from
+the Apple keyboard without special hardware or software. Apple
+Writer is an example of software which allows you to use the Apple
+keyboard to produce lower case characters.
+
+
+
+
+48
+APPENDIX C
+THE BASIC PARAMETER PROGRAM
+This is a listing of the entire BASIC Parameter program.
+
+
+10   REM   BASIC PARAMETER EDIT PROGRAM
+
+20   REM     FOR SILENTYPE PRINTER
+
+30   REM   (C) 1980 APPLE COMPUTER INC.
+
+100 DIM ANSWER$(255)
+110 GOSUB 9000: REM SLOT FIND
+120 D$ = “”: REM    CTRL-D
+130 BEL$ = “”: REM    CTRL-G BELL
+140 TEXT : NOTRACE
+150 POWERUP = - 12506
+160 FRMFEED = - 12531
+170 SPACING = - 12530
+180 DIRECT = - 12529
+190 DARKNESS = - 12528
+200 LEFT = - 12527
+210 RIGHT = - 12526
+220 HPAGE = - 16525
+230 INVER = - 12524
+240 GOSUB 1000: REM INIT PRINTER
+250 CALL - 936: REM PUT CURSOR AT TOP LEFT OF SCREEN
+260 PRINT
+270 PRINT “            THE CURRENT VALUES ARE:”
+280 PRINT : PRINT “      1. FORM FEED = “;
+290 PRINT “        “; PEEK (FRMFEED)
+300 PRINT “      2. LINE SPACING = “;
+310 IF PEEK (SPACING) < 5 THEN PRINT “       SINGLE”
+320 IF PEEK (SPACING) > = 5 AND PEEK (SPACING) < 11 THEN PRINT
+     “   DOUBLE”
+330 IF PEEK (SPACING) > 11 THEN PRINT “       TRIPLE”
+340 PRINT “      3. PRINT DIRECTION =”;
+350 IF PEEK (DIRECT) < = 127 THEN PRINT “ BI-DIRECTIONAL”
+360 IF PEEK (DIRECT) > 127 THEN PRINT “UNI-DIRECTIONAL”
+370 PRINT “      4. INTENSITY = “;
+380 PRINT “        “; PEEK (DARKNESS)
+390 PRINT “      5. LEFT MARGIN = “;
+400 PRINT “      “; PEEK (LEFT)
+410 PRINT “      6. RIGHT MARGIN = “;
+420 PRINT “    “; PEEK (RIGHT)
+430 PRINT “      7. GRAPHICS PAGE =   “;
+440 PRINT PEEK (HPAGE) / 32
+450 PRINT “      8. INVERSE = “;
+460 IF PEEK (INVER) < = 127 THEN PRINT “              TRUE”
+
+
+
+
+                                                                 49
+470   IF PEEK (INVER) > 127 THEN PRINT “          FALSE”
+480   PRINT
+490   PRINT “ENTER NUMBER OF PARAMETER TO CHANGE”
+500   PRINT “ (0 = SET DEFAULTS; 9 = EXIT): “;
+510   INPUT REPLY
+520   IF REPLY = 0 THEN POKE POWERUP,0
+530   IF REPLY = 0 THEN GOSUB 1000: REM     INITIALIZE PRINTER
+540   IF REPLY = 1 THEN GOSUB 2000: REM       FORM FEED
+550   IF REPLY = 2 THEN GOSUB 3000: REM       LINE SPACING
+560   IF REPLY = 3 THEN GOSUB 4000: REM       PRINT DIRECTION
+570   IF REPLY = 4 THEN GOSUB 5000: REM       PRINT INTENSITY
+580   IF REPLY = 5 THEN GOSUB 6000: REM       SET LEFT MARGIN
+590   IF REPLY = 6 THEN GOSUB 6100: REM       SET RIGHT MARGIN
+600   IF REPLY = 7 THEN GOSUB 7000: REM      HIGH-RESOLUTION PAGE
+
+610 IF REPLY = 8 THEN GOSUB 8000: REM       INVERSE GRAPHICS
+620 IF REPLY = 9 THEN END
+630 GOTO 250
+900 END
+1000 REM    INIT PRINTER
+1010 IF PEEK (POWERUP) = 183 THEN RETURN : REM PRINTER HAS BEEN
+      POWERED UP
+1020 PRINT D$;”PR#”;SLOT: PRINT
+1030 PRINT D$;”PR#0”
+1040 RETURN
+2000 REM    FORM FEED
+2010 PRINT
+2020 PRINT “HOW LONG SHOULD THE FORM FEED BE”
+2030 PRINT “(0 TO 255 STEPS)”;
+2040 INPUT ANSWER
+2050 IF ANSWER > = 1 AND ANSWER < = 255 THEN GOTO 2080
+2060 GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+2070 GOTO 2000: REM    TRY AGAIN
+2080 POKE FRMFEED,ANSWER
+2090 RETURN
+3000 REM    LINE SPACING
+3010 ANSWER$ = “”
+3020 PRINT
+3030 PRINT “WOULD YOU LIKE SINGLE, DOUBLE, OR”
+3040 PRINT “TRIPLE LINE SPACING (S,D,T)”;
+3050 INPUT ANSWER$
+3060 IF ANSWER$ = “S” THEN POKE SPACING,2
+3070 IF ANSWER$ = “D” THEN POKE SPACING,8
+3080 IF ANSWER$ = “T” THEN POKE SPACING,14
+3090 IF ANSWER$ = “S” OR ANSWER$ = “D” OF ANSWER$ = “T” THEN GOTO
+     3120
+3100 GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+3110 GOTO 3000: REM    TRY AGAIN
+3120 RETURN
+4000 REM     DIRECTION OF PRINT
+4010 PRINT
+4020 PRINT “DO YOU WANT TO PRINT UNI-DIRECTIONALLY”
+4030 PRINT “OR BI-DIRECTIONALLY (U/B)”;
+4040 INPUT ANSWER$
+4050 IF ANSWER$ = “U” THEN POKE DIRECT,255
+
+
+
+
+50
+4060   IF ANSWER$ = “B” THEN POKE DIRECT,0
+4070   IF ANSWER$ = “U” OR ANSWER$ = “B” THEN GOTO 4100
+4080   GOSUB 10000: REM     YOUR ANSWER WAS NOT VALID
+4090   GOTO 4000: REM    TRY AGAIN
+4100   RETURN
+5000   REM    INTENSITY OF PRINT
+5010   PRINT
+5020   PRINT “WHAT PRINT INTENSITY DO YOU WANT (0/7)”;
+5030   INPUT ANSWER
+5040   IF ANSWER > = 0 AND ANSWER < = 7 THEN GOTO 5070
+5050   GOSUB 10000: REM     YOUR ANSWER WAS NOT VALID
+5060   GOTO 5000: REM    TRY AGAIN
+5070   POKE DARKNESS,ANSWER
+5080   RETURN
+6000   REM    MARGIN SETTINGS
+6010   PRINT
+6020   PRINT “WHERE SHOULD THE LEFT MARGIN BE (0-78)”;
+6030   INPUT LANSWER
+6040   IF LANSWER > = 0 AND LANSWER < = 78 THEN GOTO 6080
+6050   GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+6060   GOTO 6000: REM    TRY AGAIN
+6070   IF LANSWER > PEEK (RIGHT) - 4 THEN GOTO 6170
+6080   POKE LEFT,LANSWER
+6090   RETURN
+6100   PRINT
+6110   PRINT “WHERE SHOULD THE RIGHT MARGIN BE (4-82)”;
+6120   INPUT RANSWER
+6130   IF RANSWER > = 0 AND RANSWER < = 78 THEN GOTO 6160
+6140   GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+6150   GOTO 6000: REM    TRY AGAIN
+6160   IF PEEK (LEFT) < = RANSWER - 4 THEN GOTO 6220
+6170   GOSUB 10000: REM     YOUR ANSWER WAS NOT VALID
+6180   PRINT “LEFT MARGIN MUST BE 4 LESS THAN RIGHT MARGIN.”
+6190   PRINT
+6200   GOSUB 6000: REM SET LEFT AGAIN
+6210   GOTO 6100: REM SET RIGHT AGAIN
+6220   POKE RIGHT,RANSWER
+6230   RETURN
+7000   REM    HIGH-RESOLUTION PAGE
+7010   PRINT
+7020   PRINT “WHICH HIGH-RESOLUTION PAGE DO YOU WANT”
+7030   PRINT “TO PRINT (1 OR 2)”;
+7040   INPUT ANSWER$
+7050   IF ANSWER$ = “1” THEN POKE HPAGE,32
+7060   IF ANSWER$ = “2” THEN POKE HPAGE,64
+7070   IF ANSWER$ = “1” OR ANSWER$ = “2” THEN GOTO 7100
+7080   GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+7090   GOTO 7000: REM    TRY AGAIN
+7100   RETURN
+8000   REM    INVERSE GRAPHICS
+8010   PRINT
+8020   PRINT “DO YOU WANT TO USE INVERSE MODE (Y/N)”;
+8030   INPUT ANSWER$
+8040   IF ANSWER$ = “N” THEN POKE INVER,255
+8050   IF ANSWER$ = “Y” THEN POKE INVER,0
+
+
+
+
+                                                               51
+8060 IF ANSWER$ = “N” OR ANSWER$ = “Y” THEN GOTO 8090
+8070 GOSUB 10000: REM    YOUR ANSWER WAS NOT VALID
+8080 GOTO 8000: REM    TRY AGAIN
+8090 RETURN
+9000 REM     SLOT FIND
+9010 FOR SLOT = 1 TO 7
+9020 SADDR = -16384 + 256 * SLOT
+9030 IF PEEK (SADDR + 23) = 201 AND PEEK(SADDR + 55) = 207 AND
+      PEEK (SADDR + 76) = 234 THEN RETURN
+9040 NEXT SLOT
+9050 PRINT : PRINT “NO SILENTYPE PRINTER INSTALLED!”
+9060 PRINT “ PROGRAM ABORTED!”
+9070 POP : END
+10000 REM    YOUR ANSWER WAS NOT VALID
+10010 PRINT
+10020 PRINT BEL$;BEL$;BEL$
+10030 PRINT “**************************************”
+10040 PRINT “YOUR ANSWER WAS NOT VALID. TRY AGAIN.”
+10050 PRINT “**************************************”
+10060 RETURN
+
+
+
+
+52
+APPENDIX D
+THE PASCAL PARAMETER
+PROCEDURES
+To be able to use the Pascal procedures and functions described in
+Chapter 3, your Pascal program must contain the following procedure
+and function definitions. Enter them into your program exactly as
+shown. Note that the first four (ROMENABLE, SETBYTEVALUE, BYTEVALUE,
+and SEND) are used by other procedures and functions; you should not
+try to use them in your main program.
+
+PROCEDURE ROMENABLE; (*Don’t use in main program*)
+  CONST ROMSOFF=-12289;
+         ROMON= -16128;
+  TYPE WINDOW=PACKED ARRAY[0..0] OF 0..255;
+  VAR ADDR:INTEGER;
+       P:^WINDOW;
+  BEGIN
+    ADDR:=ROMSOFF;
+    MOVELEFT(ADDR,P,2);
+    P^[0]:=0;
+    ADDR:=ROMON;
+    MOVELEFT(ADDR,P,2);
+    P^[0]:=0;
+  END;
+
+PROCEDURE SETBYTEVALUE(LOC,VALUE:INTEGER); (*Don’t use in main
+program*)
+  TYPE WINDOW=PACKED ARRAY[0..0] OF 0..255;
+  VAR ADDR:INTEGER;
+       P:^WINDOW;
+  BEGIN
+    ROMENABLE;
+    ADDR:=LOC;
+    MOVELEFT(ADDR,P,2);
+    P^[0]:=VALUE
+  END;
+
+FUNCTION BYTEVALUE(LOC:INTEGER):INTEGER; (*Don’t use in main
+program*)
+  TYPE WINDOW=PACKED ARRAY[0..0] OF 0..255;
+  VAR ADDR:INTEGER;
+       P:^WINDOW;
+  BEGIN
+    ROMENABLE;
+    ADDR:=LOC;
+    MOVELEFT(ADDR,P,2);
+    BYTEVALUE:=P^[0]
+  END;
+
+
+
+
+                                                                       53
+PROCEDURE SEND(CH:CHAR); (*Don’t use in main program*)
+  CONST PRINTUNIT=6;
+  BEGIN
+    UNITWRITE(PRINTUNIT,CH,1,0,12)
+  END;
+
+PROCEDURE SETUNIDIRECT;
+  CONST MAXBYTE=255;
+        DIRECTION=-12529;
+  BEGIN
+    SETBYTEVALUE(DIRECTION, MAXBYTE)
+  END;
+
+PROCEDURE SETBIDIRECT;
+  CONST MINBYTE=0;
+        DIRECTION=-12529;
+  BEGIN
+    SETBYTEVALUE(DIRECTION, MINBYTE)
+  END;
+
+FUNCTION UNIDIRECT: BOOLEAN;
+  CONST MAXBYTE=255;
+         MINBYTE=0;
+         DIRECTION=-12529;
+  BEGIN
+    CASE BYTEVALUE(DIRECTION) OF
+       MINBYTE: UNIDIRECT:=FALSE;
+       MAXBYTE: UNIDIRECT:=TRUE
+    END
+  END;
+
+PROCEDURE SETNEGATIVE;
+  CONST MINBYTE=0;
+        FLIP=-12524;
+  BEGIN
+    SETBYTEVALUE(FLIP, MINBYTE)
+  END;
+
+PROCEDURE SETPOSITIVE;
+  CONST MAXBYTE=255;
+        FLIP=-12524;
+  BEGIN
+    SETBYTEVALUE(FLIP, MAXBYTE)
+  END;
+
+
+
+
+54
+FUNCTION NEGATIVE: BOOLEAN;
+  CONST MAXBYTE=255;
+         MINBYTE=0;
+         FLIP=-12524;
+  BEGIN
+    CASE BYTEVALUE(FLIP) OF
+       MINBYTE: NEGATIVE:=TRUE;
+       MAXBYTE: NEGATIVE:=FALSE
+    END
+  END;
+
+PROCEDURE SETDARK(DARKNESS: INTEGER);
+  CONST INTEN=-12528;
+  BEGIN
+    IF DARKNESS<0 THEN DARKNESS:=0;
+    IF DARKNESS>7 THEN DARKNESS:=7;
+    SETBYTEVALUE(INTEN, DARKNESS)
+  END;
+
+FUNCTION DARK: INTEGER;
+  CONST INTEN=-12528;
+  BEGIN
+    DARK:=BYTEVALUE(INTEN)
+  END;
+
+PROCEDURE SETFORM(LENGTH: INTEGER);
+  CONST FORMLENGTH=-12531;
+  BEGIN
+    IF LENGTH<0 THEN LENGTH:=0;
+    IF LENGTH>255 THEN LENGTH:=255;
+    SETBYTEVALUE(FORMLENGTH,LENGTH)
+  END;
+
+FUNCTION FORM: INTEGER;
+  CONST FORMLENGTH=-12531
+  BEGIN
+    FORM:=BYTEVALUE(FORMLENGTH)
+  END;
+
+PROCEDURE SETSPACE(LENGTH: INTEGER);
+  CONST INCR=-12530;
+  BEGIN
+    IF LENGTH<1 THEN LENGTH:=1;
+    IF LENGTH>252 THEN LENGTH:=252;
+    SETBYTEVALUE(INCR,LENGTH)
+  END;
+
+FUNCTION SPACE: INTEGER;
+  CONST INCR=-12530;
+  BEGIN
+    SPACE:=BYTEVALUE(INCR)
+  END;
+
+
+
+
+                                        55
+FUNCTION LEFTMARGIN: INTEGER;
+  CONST LMAR=-12527;
+  BEGIN
+    LEFTMARGIN:=BYTEVALUE(LMAR)
+  END;
+
+FUNCTION RIGHTMARGIN: INTEGER;
+  CONST RMAR=-12526;
+  BEGIN
+    RIGHTMARGIN:=BYTEVALUE(RMAR)
+  END;
+
+PROCEDURE SETLEFTMARGIN(POSITION: INTEGER);
+  CONST LMAR=-12527;
+  BEGIN
+    IF POSITION>=RIGHTMARGIN THEN POSITION:=RIGHTMARGIN-1;
+    IF POSITION<0 THEN POSITION:=0;
+    SETBYTEVALUE(LMAR,POSITION)
+  END;
+
+PROCEDURE SETRIGHTMARGIN(POSITION: INTEGER);
+  CONST RMAR=-12526
+  BEGIN
+    IF POSITION<=LEFTMARGIN THEN POSITION:=LEFTMARGIN+1;
+    IF POSITION>83 THEN POSITION:=83;
+    SETBYTEVALUE(RMAR,POSITION)
+  END;
+
+PROCEDURE PRINTBUFFER;
+  CONST CF=6; (*ASCII CODE FOR CONTROL-F*)
+  BEGIN
+    SEND(CHR(CF))
+  END;
+
+PROCEDURE CLEARBUFFER;
+  CONST PRINTUNIT=6;
+  BEGIN
+    UNITCLEAR(PRINTUNIT)
+  END;
+
+PROCEDURE FORMFEED;
+  CONST FF=12; (*ASCII CODE FOR FORM-FEED*)
+  BEGIN
+    SEND(CHR(FF))
+  END;
+
+
+
+
+56
+PROCEDURE PRINTPIC;
+  CONST CQ=17; (*ASCII CODE FOR CONTROL-Q*)
+  VAR BIDIRECT:BOOLEAN;
+  BEGIN
+    BIDIRECT:=NOT UNIDIRECT;
+    IF BIDIRECT THEN SETUNIDIRECT;
+    SEND(CHR(CQ));
+    IF BIDIRECT THEN SETBIDIRECT
+  END;
+
+PROCEDURE RESTORE;
+  BEGIN
+    SETBIDIRECT;
+    SETPOSITIVE;
+    SETDARK(5);
+    SETFORM(40);
+    SETSPACE(2);
+    SETLEFTMARGIN(2);
+    SETRIGHTMARGIN(81)
+  END;
+
+If you are an experienced Apple Pascal user, you may wish to create
+an Intrinsic UNIT containing these procedures and functions, and
+place it In the SYSTEM.LIBRARY file. Then you can use the procedures
+and functions in Pascal programs without having to define them in
+each program. The Apple Pascal Language Reference Manual contains
+the necessary information for creating such a UNIT.
+
+The following is a summary of the procedure and function calls you
+can use in a Pascal program if it contains the definitions given
+above.
+
+SETUNIDIRECT
+This procedure sets unidirectional printing.
+
+SETBIDIRECT
+This procedure sets bidirectional printing (this is the default).
+
+UNIDIRECT
+This is a Boolean function which returns TRUE if unidirectional
+printing is set or FALSE if bidirectional printing is set.
+
+SETNEGATIVE
+This procedure sets negative printing of graphics.
+
+SETPOSITIVE
+This procedure sets positive printing of graphics (this is the
+default).
+
+NEGATIVE
+This is a Boolean function which returns TRUE if negative printing
+is set or FAlSE if positive printing is set.
+
+SETDARK(DARKNESS)
+This procedure sets the Silentype's darkness parameter to DARKNESS,
+
+                                                                       57
+which should be an integer value from 0 to 7. If DARKNESS is less
+than 0 it will be changed to 0; if DARKNESS is greater than 7 it
+will be changed to 7. The default is 5.
+
+DARK
+This integer function returns the current darkness setting.
+
+SETFORM(LENGTH)
+This procedure sets the amount of vertical space, in printer units,
+to be sent by the FORMFEED procedure to LENGTH, which should be an
+integer value from 0 to 255. If LENGTH is less than 0 it will be
+changed to 0; if LENGTH is greater than 255, it will be changed to
+255. The default is 40.
+
+FORM
+This integer function returns the current amount of vertical space,
+in printer units, to be produced by the FORMFEED procedure.
+
+SETSPACE(LENGTH)
+This procedure sets the number of printer units between lines to
+LENGTH, which should be an integer value from 1 to 252. If LENGTH is
+less than 1, it will be changed to 1; if LENGTH is greater than 252,
+it will be changed to 252. The default is 2.
+
+SPACE
+This integer function returns the current number of printer units
+between lines.
+
+LEFTMARGIN
+This integer function returns the current left margin setting.
+
+RIGHTMARGIN
+This integer function returns the current right margin setting.
+
+SETLEFTMARGIN(POSITION)
+This procedure sets the left margin to POSITION, which should be an
+integer value greater than or equal to 0 and less than the current
+right margin setting. If POSITION is less than 0, it will be changed
+to 0, and if POSITION is greater than or equal to the current right
+margin, it will be changed to RIGHTMARGIN-1. The default is 2.
+
+SETRIGHTMARGIN (POSITION)
+This procedure sets the right margin to POSITION, which should be an
+integer value less than or equal to 84 and greater than the current
+left margin setting. If POSITION is greater than 84, it will be
+changed to 84; and if POSITION is less than or equal to the current
+left margin, it will be changed to LEFTMARGIN+1. The default is 81.
+
+FORMFEED
+This procedure causes the printer to execute a form-feed (i.e., it
+moves the paper a certain number of units of vertical space.) The
+amount of vertical space can be changed by the SETFORM procedure.
+The default is 40 units.
+
+
+58
+PRINTPIC
+This procedure causes the printer to print the current graphics
+display.
+
+RESTORE
+This restores a11 the printer's parameters to their defau1t va1ues.
+
+PRINTBUFFER
+This procedure causes the contents of the printer's interna1 buffer
+to printed.
+
+CLEARBUFFER
+This procedure causes the contents of the printer's interna1 buffer
+to be thrown away.
+
+
+
+
+                                                                      59
+APPENDIX E
+SAMPLE CHARACTER SET
+This appendix shows the character set printed by the Silentype when
+you use both upper and lower case alphabets. For example, you may
+use both upper and lower case when you edit text using Apple Writer.
+
+
+
+
+60
+INDEX
+                                 CTRL-M 46
+                                 CTRL-P 13
+                                 CTRL-Q 11, 18, 34, 40, 46
+                                 CTRL-T 13-14, 46
+                                 cursor 13
+                                 C800 ROM 20
+
+A
+                                 D
+additional paper 44
+Apple Service Center 44          DARK 26, 58
+Apple Writer 31                  darkness (see intensity)
+Applesoft BASIC 1, 3, 12, 13     default settings 21, 23, 26,
+Applesoft prompt 13              31, 37, 38
+ASCII 28                         default values, restoring 21
+ASCII Table of Characters        diagnostic 44
+47-48                            direction 45
+                                 Disk Operating System (see DOS)
+                                 DOS 13, 16, 19, 28
+B                                double spacing 33
+                                 dumping the buffer (see buffer)
+backspace key 13, 15             D$ 28, 29
+BASIC 3, 5, 12-16, 28-41
+
+                                 E
+BASIC Parameter program
+28-41,49-52
+BASIC tabs (see tab)
+bearings 4, 43                   echo (see screen echo)
+bi-directional 16, 19, 23, 27,   emptying the buffer (see
+33-34                            buffer)
+blinking cursor (see cursor)     ERR 44
+BLOCKWRITE 10                    error checking 19
+Boolean 28, 57
+buffer 14-15, 21, 37             F
+C                                Filer 9, 10
+                                 flushing the buffer (see
+care of the printer 43           buffer)
+changeable parameters 19, 29     FORM 22, 58
+character height 32              form feed 19, 22, 31-32, 45
+character set 59                 FORMFEED 21-22, 58
+CHR$ 18
+CLEARBUFFER 21, 59               G
+Coldstart 19-20, 40
+connector slots 5                graphics 9, 45
+Console: 11                         page 2 39-40, 45
+control characters 9, 17            Pascal graphics 11-12, 27
+Control Functions 46                BASIC graphics 17-18, 34,
+CTRL 9                           40
+CTRL-C 11, 18, 46
+CTRL-D 17, 29
+CTRL-F 15, 18, 37, 46            H
+CTRL-G 29
+CTRL-H 46                        hexadecimal 28
+CTRL-J 17, 32, 46                high-resolution graphics (see
+CTRL-L 31, 46                    graphics)
+
+                                                                   61
+high-resolution page (see        margin discrepancy 23-24,
+                                 34-35
+graphics, page 2)                margin variance (see margin
+                                 discrepancy)
+I                                margins 19, 26-27, 37-39, 45
+                                 maximum character spaces 38
+                                 memory location 40
+initialization 28, 31            Monitor 1, 3, 13, 16, 28-41
+   from BASIC 12                 Monitor prompt 13
+   from the Monitor 13
+Integer BASIC 1, 3, 12, 13
+Integer BASIC prompt 13          N
+intensity 25, 36-37, 45
+intensity table 25               NEGATIVE 28, 57
+INTERACTIVE 10, 20               negative graphics (see inverse
+interface card 4-7, 9, 15, 19,   graphics)
+20, 44                           negative margin settings 38
+   High Speed Serial interface   negative printing (see inverse
+card 20                          printing)
+   Graphics Tablet interface
+card 20                          negative negative
+internal identifier 10
+inverse graphics 19, 27-28,
+40, 45
+                                 O
+inverse printing (see inverse
+graphics)
+IN#0 16                          P
+IN#1 16
+                                 page feed (see form feed)
+J                                page 2 (see graphics page 2)
+                                 paper increment 31
+                                 paper replacement diagram 43
+                                 paper roll 4 (see paper)
+K                                paper steps 22, 31, 32
+                                 paper, checking 3-4
+knob   43                        paper, replacing 43-44
+                                 paper, storing 44
+L                                Parameter Table 45
+                                 Pascal 1, 3, 9-12, 19, 20-28
+                                 Pascal Editor 9, 11
+left margin 19                   Pascal Parameter Procedures
+LEFTMARGIN 27, 58                20-28, 53-59
+left-pointing arrow (see         Pascal volume number 9
+backspace)                       peripheral cards 5
+line feed 13, 17 (see line       POKE 14, 20, 31, 34, 37, 39
+spacing)                         power supply 4
+line increment 45                print alignment 33
+line spacing 19, 22, 32          print direction 19 (see bi-
+lower case characters (see       directional and uni-
+character set                    directional)
+                                 print head recalibration (see
+M                                recalibration)
+                                 print speed 23
+machine language    3            PRINTBUFFER 21
+                                 PRINTBUFFER 59
+                                 printer buffer (see buffer)
+62
+printer cable 6-7                 thermal paper (see paper)
+printer cord (see printer         toggle (see screen toggle)
+cable)                            Transfer 9, 10, 11
+printer head 12, 16, 17, 23,      triple spacing 33
+33, 43                            typing mode 15-17
+PRINTER: 10, 11, 20, 27, 59
+PR# 28
+PR#0 13, 16, 44
+                                  U
+PR#1 12, 16
+                                  UNIDIRECT 23, 57
+                                  UNITWRITE 10
+Q                                 uni-directional 19, 23, 27,
+                                  33-34
+                                  unpacking   3
+R
+                                  V
+RAM 4, 6, 20
+recalibration 23, 33
+RESET 11, 17, 38, 44
+resetting margins (see margins)
+                                  W
+RESTORE 21, 59
+restoring default values 21       Warmstart 19-20
+REWRITE 10, 20                    window 14
+right margin 19                   WRITE 10
+RIGHTMARGIN 27, 58                WRITELN 10, 20
+ROM, C800 5
+                                  X
+S
+screen echo 13-14, 16             Y
+screen formatting 12, 14
+screen toggle 14
+SETBIDIRECT 23, 57
+SETDARK 26, 57                    Z
+SETFORM 22, 58
+SETLEFTMARGIN 26-27, 58
+SETNEGATIVE 27, 57
+SETPOSITIVE 28, 57
+SETRIGHTMARGIN 26-27, 58
+SETSPACE 22, 58
+SETUNIDIRECT 23, 57
+single spacing 33
+SPACE 22, 58
+special symbols
+static 4
+stopping the Silentype 11, 13
+SYNTAX ERROR 13, 18
+
+
+T
+tab 14, 16
+TEXT 10, 18, 20
+text file 10
+
+
+                                                                63
+
