@@ -1,32 +1,70 @@
-; silentype_sr.pio — 16-bit shift-out to the printer's 74LS673.
-; Pins: OUT base = SD, SIDE-SET base = SC.  XC (store clock) is pulsed by the CPU
-; after the FIFO drains, because the store must happen exactly once per word and
-; the 555 ceiling is retriggered by SC·XC — keeping it out of PIO is simpler to reason about.
+; silentype_sr.pio — one complete 74LS673 transaction per FIFO word: 16 data bits,
+; then the store, then back to idle. Nothing about the printer bus is left to the CPU.
 ;
-; 74LS673 shifts on the falling edge of its SH̅ C̅K̅, which the printer inverts from SC,
-; so the shift happens on the RISING edge of SC at the connector. Data must be stable
-; before SC rises. Bit 0 goes out first (lands at Y00).
+; Pins: OUT base = SD (GP2, 1 pin). SIDE-SET base = SC (GP3), 2 pins: bit0 = SC, bit1 = XC (GP4).
+; All three go through a non-inverting 74AHCT125 to DB-9 pins 4 (SD), 9 (SC), 8 (XC).
+;
+; What the printer does with them (schematic 050-0023-01; see HARDWARE-INTERFACE.md §2):
+;   SC  -> 74LS00 inverter -> 74LS673 SH CK (pin 2, negative-edge) : shift on SC RISING edge
+;   XC  -> 74LS673 ST CK (pin 5, positive-edge)                     : latch Y00..Y15 on XC RISING edge
+;   SC AND XC both high -> 74LS673 ST CLR (pin 4, active low)        : ALL 16 OUTPUTS CLEARED (async)
+;   The 555 is NOT triggered by SC/XC. It watches the head driver outputs (MC14082 AND of the
+;   seven ULN2003 head channels) and pulls ST CLR low if any element stays on for ~5-6 ms.
+; First bit shifted ends up at Y15 after 16 clocks, so the word goes out MSB first: the CPU
+; pushes (word << 16) and OUT shifts LEFT, taking OSR[31] = word bit 15 first.
+;
+; Waveform per word (PIO clock 2 MHz → 1 cycle = 0.5 µs; set by shiftreg.c):
+;   idle            SC=1 XC=0 SD=0          (Apple card's state after sendState: last write $0C)
+;   16× bit         SD=bit while SC=1 (1.0 µs) ; SC=0 (1.0 µs) ; SC=1 (shift edge) (0.5 µs)
+;                   → SD set-up before the shift edge 2.0 µs, hold after it 0.5 µs, SC low 1.0 µs
+;   store           SD=0, SC=0          2.0 µs   (card write $1C: SC forced low BEFORE XC rises)
+;                   XC=1 (latch edge)   2.0 µs   (card write $18: SC low, so SC·XC=0 → no clear)
+;                   XC=0                2.0 µs   (card write $1C)
+;                   SC=1 → idle, IRQ 0           (card write $0C: SC back high; this 17th rising
+;                                                 edge shifts a 0 into the SHIFT register only — the
+;                                                 storage register/outputs are untouched)
+; The side-set value 3 (SC=1 XC=1 = clear) is never emitted by this program.
+;
+; Budget: .side_set 2 (not opt) leaves 3 delay bits → max [7]; largest used is [3]. 9 instructions.
 
 .program silentype_sr
-.side_set 1
-    pull block          side 0
-    set x, 15           side 0
+.side_set 2
+.wrap_target
+    pull block          side 1        ; idle SC=1 XC=0 until a word arrives (OSR = word << 16)
+    set x, 15           side 1
 bitloop:
-    out pins, 1         side 0 [3]    ; present bit, SC low
-    jmp x-- bitloop     side 1 [3]    ; SC high: shift. 74LS673 tPW min ~20 ns; this is ~1 µs at 4 MHz
-    irq set 0           side 0        ; word done → CPU pulses XC
+    out pins, 1         side 1 [1]    ; SD = OSR[31] (word bit 15 first); SC still high, no edge
+    nop                 side 0 [1]    ; SC falls (printer ignores this edge)
+    jmp x-- bitloop     side 1        ; SC rises → 74LS673 shifts SD in; SD held until next out
+    mov pins, null      side 0 [3]    ; SD=0, SC low  — must precede XC high (SC·XC = clear)
+    nop                 side 2 [3]    ; XC rises with SC low → ST CK latches all 16 outputs
+    nop                 side 0 [3]    ; XC falls (no effect), SC still low
+    irq set 0           side 1        ; SC high → idle; tell the CPU the store has happened
+.wrap
 
 % c-sdk {
-static inline void silentype_sr_program_init(PIO pio, uint sm, uint offset, uint pin_sd, uint pin_sc) {
+#include "hardware/timer.h"   // busy_wait_us
+
+// pin_sd: SD. pin_sc: SC; XC MUST be pin_sc + 1 (2-pin side-set). clkdiv: clk_sys / 2 MHz.
+// Leaves the bus at SC=1 XC=0 SD=0 (idle), after first holding SC=XC=1 for ~10 µs, which
+// asynchronously clears the 74LS673 storage register (all head/motor outputs off, Y08 R/W̅ = 0).
+static inline void silentype_sr_program_init(PIO pio, uint sm, uint offset, uint pin_sd, uint pin_sc,
+                                             float clkdiv) {
+    const uint pin_xc = pin_sc + 1;
     pio_sm_config c = silentype_sr_program_get_default_config(offset);
     sm_config_set_out_pins(&c, pin_sd, 1);
-    sm_config_set_sideset_pins(&c, pin_sc);
-    sm_config_set_out_shift(&c, true /*shift right: LSB first*/, false, 16);
-    sm_config_set_clkdiv(&c, 37.5f);          // 150 MHz / 37.5 = 4 MHz → ~1 µs per half-clock
-    pio_gpio_init(pio, pin_sd); pio_gpio_init(pio, pin_sc);
-    pio_sm_set_consecutive_pindirs(pio, sm, pin_sd, 1, true);
-    pio_sm_set_consecutive_pindirs(pio, sm, pin_sc, 1, true);
+    sm_config_set_sideset_pins(&c, pin_sc);                     // side-set bit0 = SC, bit1 = XC
+    sm_config_set_out_shift(&c, false /*shift LEFT: MSB first*/, false /*no autopull*/, 32);
+    sm_config_set_clkdiv(&c, clkdiv);
+    // pio_sm_init exec()s a JMP whose side-set field is 0 (drives SC=XC=0 internally), so do it
+    // BEFORE forcing the pin levels below; nothing reaches the pads until pio_gpio_init.
     pio_sm_init(pio, sm, offset, &c);
-    pio_sm_set_enabled(pio, sm, true);
+    const uint32_t m_sd = 1u << pin_sd, m_sc = 1u << pin_sc, m_xc = 1u << pin_xc;
+    pio_sm_set_pins_with_mask(pio, sm, m_sc | m_xc, m_sd | m_sc | m_xc);   // SD=0 SC=1 XC=1: CLEAR
+    pio_sm_set_pindirs_with_mask(pio, sm, m_sd | m_sc | m_xc, m_sd | m_sc | m_xc);
+    pio_gpio_init(pio, pin_sd); pio_gpio_init(pio, pin_sc); pio_gpio_init(pio, pin_xc);
+    busy_wait_us(10);                                            // ST CLR̅ held low ~10 µs
+    pio_sm_set_pins_with_mask(pio, sm, m_sc, m_sd | m_sc | m_xc);          // SD=0 SC=1 XC=0: idle
+    pio_sm_set_enabled(pio, sm, true);                           // stalls at 'pull block side 1'
 }
 %}
