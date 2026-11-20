@@ -1,0 +1,40 @@
+Ref,Val,Package,PosX,PosY,Rot,Side
+"C1","470uF 25V","CP_Radial_D10.0mm_P5.00mm",17.500000,-47.000000,0.000000,top
+"C2","10uF 25V","CP_Radial_D5.0mm_P2.00mm",21.500000,-8.200000,0.000000,top
+"C3","22uF 10V","CP_Radial_D5.0mm_P2.00mm",42.000000,-7.500000,0.000000,top
+"C4","100nF","C_Disc_D5.0mm_W2.5mm_P5.00mm",50.500000,-44.500000,0.000000,top
+"D1","1N5822","D_DO-201AD_P15.24mm_Horizontal",18.000000,-14.000000,0.000000,top
+"D2","1N5817","D_DO-41_SOD81_P10.16mm_Horizontal",70.000000,-6.500000,180.000000,top
+"D3","BAT85","D_DO-35_SOD27_P7.62mm_Horizontal",27.000000,-36.000000,0.000000,top
+"F1","PTC 2A","Fuse_Bourns_MF-RHT200",19.000000,-3.000000,0.000000,top
+"F2","PTC 0.5A","Fuse_Bourns_MF-RHT050",25.000000,-40.000000,180.000000,top
+"J1","DE-9 female (printer)","DSUB-9_Socket_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm",10.540000,-41.000000,-90.000000,top
+"J2","12V DC in","BarrelJack_CUI_PJ-102AH_Horizontal",13.700000,-8.000000,-90.000000,top
+"J3","UART","PinHeader_1x03_P2.54mm_Vertical",64.000000,-2.200000,90.000000,top
+"LED1","ERR red","LED_D3.0mm",52.000000,-53.700000,0.000000,top
+"LED2","PWR green","LED_D3.0mm",53.500000,-2.600000,180.000000,top
+"Q1","2N3904","TO-92_Inline_Wide",58.500000,-45.500000,0.000000,top
+"R1","47R","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",44.000000,-31.900000,0.000000,top
+"R2","47R","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",44.000000,-28.600000,0.000000,top
+"R3","47R","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",44.000000,-35.200000,0.000000,top
+"R4","4k7","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",16.000000,-32.500000,0.000000,top
+"R5","4k7","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",27.000000,-29.000000,0.000000,top
+"R6","10k","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",16.000000,-36.000000,0.000000,top
+"R7","10k","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",40.000000,-45.000000,0.000000,top
+"R8","4k7","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",40.000000,-53.000000,0.000000,top
+"R9","47k","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",40.000000,-49.000000,0.000000,top
+"R10","1k","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",16.000000,-29.000000,0.000000,top
+"R11","10k","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",27.000000,-32.500000,0.000000,top
+"R12","330R","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",50.000000,-49.800000,0.000000,top
+"R13","1k","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",41.000000,-2.600000,0.000000,top
+"SW1","FEED","SW_PUSH_6mm",66.500000,-47.500000,0.000000,top
+"TP1","SD","TestPoint_Keystone_5000-5004_Miniature",16.000000,-24.500000,0.000000,top
+"TP2","SC","TestPoint_Keystone_5000-5004_Miniature",19.500000,-24.500000,0.000000,top
+"TP3","XC","TestPoint_Keystone_5000-5004_Miniature",23.000000,-24.500000,0.000000,top
+"TP4","MS","TestPoint_Keystone_5000-5004_Miniature",26.500000,-24.500000,0.000000,top
+"TP5","+12V","TestPoint_Keystone_5000-5004_Miniature",30.000000,-24.500000,0.000000,top
+"TP6","+5V","TestPoint_Keystone_5000-5004_Miniature",33.500000,-24.500000,0.000000,top
+"TP7","GND","TestPoint_Keystone_5000-5004_Miniature",37.000000,-24.500000,0.000000,top
+"U1","Pico 2 / Pico 2 W","RaspberryPi_Pico_Common_THT",80.610000,-1.370000,0.000000,top
+"U2","74AHCT541","DIP-20_W7.62mm",64.000000,-40.000000,180.000000,top
+"U3","R-78E5.0-1.0","Converter_DCDC_RECOM_R-78E-0.5_THT",31.000000,-7.500000,0.000000,top

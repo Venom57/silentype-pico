@@ -16,9 +16,10 @@
 // DB-9: 4=SD, 9=SC, 8=XC, 5=MS. The printer contains latch + ULN2003 drivers + 555 ceiling.
 #define PIN_SD             2                 // serial data  → DB9-4 (via level shifter)
 #define PIN_SC             3                 // shift clock  → DB9-9 (rising edge shifts)
-#define PIN_XC             4                 // store clock  → DB9-8 (edge latches all 16 outputs)
+#define PIN_XC             4                 // store clock  → DB9-8 (rising edge latches; MUST be PIN_SC+1: PIO side-set; SC=XC=1 clears)
 #define PIN_MS             5                 // margin switch ← DB9-5 (active low; pull-up)
-#define PIN_HEAD_STROBE    9                 // optional carrier one-shot re-arm (U5) — printer already has a 555
+#define PIN_BUS_EN         6                 // carrier v1.0: high = 74AHCT541 drives the bus (via Q1). Low/reset/
+                                             // unpowered = bus released; carrier pull-ups hold SC=XC=1 = latch CLEAR.
 #define PIN_HOME_SENSE     PIN_MS
 #define PIN_PAPER_SENSE    21                // unused — no paper sensor on this printer
 #define PIN_BTN_FEED       22
@@ -32,7 +33,7 @@
 #define PIN_CARR_FIRST     17
 #define PIN_FEED_FIRST     21
 
-// 74LS673 word layout: bit0 shifted first → Y00
+// 74LS673 word layout: word bit N = output YN; bit 15 is shifted first (first-in lands at Y15)
 #define SR_CARR_SHIFT      0                 // bits 0-3 carriage phases
 #define SR_FEED_SHIFT      4                 // bits 4-7 paper phases
 #define SR_RW_BIT          8                 // write 0

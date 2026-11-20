@@ -6,10 +6,15 @@ SHA-256 `a56f4e16…fafdd90ab`). Volume `SITYPE`, files `BIG.DRIVER` (7680 B) an
 `SMALL.DRIVER` (6144 B); both carry the string `.SILENTYPE (C) 1980 Apple` / `Apple 1.1`.
 Same mechanism timing in both; SMALL has a smaller font.
 
-The Apple II interface-card C800 ROM has **not** been found. The SOS driver drives the
-identical printer mechanism and was written in the same era by the same company, so
-its constants are the best available ground truth. Where the Apple /// hardware differs
-from the Apple II card (it does — see §2), that's noted.
+> **Superseded in part (M0b).** This was the first source found. The Apple II card ROM
+> (341-0039-00), the card schematics and the printer schematic were found later and are now
+> the primary references: see `HARDWARE-INTERFACE.md`. Where they disagree with the notes
+> below (store sequence, bit order, the 555's role, timing-table reading), they win.
+
+When this analysis was written the Apple II interface-card ROM had not been found. The SOS
+driver drives the identical printer mechanism and was written in the same era by the same
+company, so its constants were the best available ground truth. Where the Apple /// hardware
+differs from the Apple II card (it does — see §2), that's noted.
 
 `BIG.DRIVER.dis` is a linear py65 disassembly, base $0000 = start of driver body
 (file offset $0200, after the SOS driver-file comment header). Addresses below use that base.

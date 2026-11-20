@@ -117,6 +117,29 @@ typedef struct {
   bool     failed;
 } st_job_t;
 
+// Wait for the ACK that echoes `cmd`. The firmware ACKs BAND and FEED when they are
+// *queued*, and withholds the ACK while its queue is full (back-pressure), so allow a
+// band's print time. Every command we send is ACKed, so an ACK echoing a different
+// command means the stream is out of step: fail rather than mis-attribute it.
+static bool expect_ack(pappl_job_t *job, pappl_device_t *dev, uint8_t cmd, int timeout_ms) {
+  uint8_t ack[64]; uint16_t len = 0;
+  int r = read_frame(dev, ack, &len, timeout_ms);
+  if (r != RSP_ACK || len < 2) {
+    papplLogJob(job, PAPPL_LOGLEVEL_ERROR, "No ACK from Pico for cmd 0x%02x (%s)", cmd, r < 0 ? "timeout" : "unexpected reply");
+    return false;
+  }
+  if (ack[0] != cmd) {
+    papplLogJob(job, PAPPL_LOGLEVEL_ERROR, "ACK out of step: expected cmd 0x%02x, got 0x%02x", cmd, ack[0]);
+    return false;
+  }
+  if (ack[1] != ACK_OK) {
+    papplLogJob(job, PAPPL_LOGLEVEL_ERROR, "Pico rejected cmd 0x%02x: %s", cmd,
+                ack[1] == ACK_ERRSTATE ? "printer in error state" : ack[1] == ACK_CRC ? "crc" : "invalid");
+    return false;
+  }
+  return true;
+}
+
 static bool flush_band(pappl_job_t *job, pappl_device_t *dev, st_job_t *j) {
   if (j->rows_in_band == 0) return true;
   // Pad missing rows (end of page) with white.
@@ -124,18 +147,16 @@ static bool flush_band(pappl_job_t *job, pappl_device_t *dev, st_job_t *j) {
   uint8_t payload[6 + ST_MAX_COLS];
   payload[0] = j->width & 0xFF; payload[1] = j->width >> 8;
   payload[2] = j->intensity; payload[3] = ST_FEED_STEPS; payload[4] = 0; payload[5] = 0;
+  // Column byte: bit 6 = TOP head element, bit 0 = BOTTOM, bit 7 unused (docs/protocol.md).
+  // Raster row r of the band (0 = top) therefore goes to bit HEAD_DOTS-1-r.
   for (unsigned x = 0; x < j->width; x++) {
     uint8_t col = 0;
     for (unsigned r = 0; r < HEAD_DOTS; r++)
-      if (j->rows[r][x >> 3] & (0x80 >> (x & 7))) col |= (uint8_t)(1u << r);   // PWG black_1: 1 = black
+      if (j->rows[r][x >> 3] & (0x80 >> (x & 7))) col |= (uint8_t)(1u << (HEAD_DOTS - 1 - r));   // PWG black_1: 1 = black
     payload[6 + x] = col;
   }
   if (!send_frame(dev, CMD_BAND, payload, (uint16_t)(6 + j->width))) return false;
-  uint8_t ack[64]; uint16_t len;
-  if (read_frame(dev, ack, &len, 10000) != RSP_ACK || ack[1] != ACK_OK) {
-    papplLogJob(job, PAPPL_LOGLEVEL_ERROR, "Pico rejected band: %s", ack[1] == ACK_ERRSTATE ? "printer in error state" : "invalid/crc");
-    return false;
-  }
+  if (!expect_ack(job, dev, CMD_BAND, 10000)) return false;
   j->rows_in_band = 0;
   return true;
 }
@@ -144,9 +165,8 @@ static bool st_rstartjob(pappl_job_t *job, pappl_pr_options_t *opt, pappl_device
   (void)opt;
   st_job_t *j = calloc(1, sizeof *j);
   papplJobSetData(job, j);
-  send_frame(dev, CMD_RESET, NULL, 0);                 // home, clear any latched error
-  uint8_t ack[64]; uint16_t len; read_frame(dev, ack, &len, 5000);
-  return true;
+  // Home + clear any latched error. RESET is ACKed immediately (homing runs async).
+  return send_frame(dev, CMD_RESET, NULL, 0) && expect_ack(job, dev, CMD_RESET, 5000);
 }
 static bool st_rstartpage(pappl_job_t *job, pappl_pr_options_t *opt, pappl_device_t *dev, unsigned page) {
   (void)dev; (void)page;
@@ -172,7 +192,8 @@ static bool st_rendpage(pappl_job_t *job, pappl_pr_options_t *opt, pappl_device_
   st_job_t *j = papplJobGetData(job);
   if (!flush_band(job, dev, j)) return false;
   uint8_t feed[2] = { 40, 0 };                           // TODO: page gap from manual
-  return send_frame(dev, CMD_FEED, feed, 2);
+  // FEED is queued in order behind the page's bands and back-pressured like a band.
+  return send_frame(dev, CMD_FEED, feed, 2) && expect_ack(job, dev, CMD_FEED, 10000);
 }
 static bool st_rendjob(pappl_job_t *job, pappl_pr_options_t *opt, pappl_device_t *dev) {
   (void)opt; (void)dev;

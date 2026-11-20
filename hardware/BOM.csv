@@ -1,18 +1,38 @@
-Ref,Qty,Part,Description,Example MPN,Notes,Est USD
-U1,1,Raspberry Pi Pico 2,RP2350 MCU board,SC1632,PIO drives the 74LS673 shift interface,5.00
-U2,1,74AHCT125,Quad 3.3V->5V TTL buffer for SD/SC/XC (3 used),SN74AHCT125N,Printer inputs are 74LS with 3k pull-ups,0.60
-U5,0,74HC123 (OPTIONAL),Carrier one-shot gating XC for a tighter head ceiling than the printer's 555 (~6 ms),SN74HC123N,Decide at M2 after scoping the 555 window,0.60
-R1,1,10k,MS pull-up to 3V3,generic,Margin switch is open-to-GND,0.02
-R2,1,100R,Series on MS into GP5,generic,,0.02
-C1-C2,2,100nF,Decoupling U2 (+5V) and at J1,generic,,0.10
-C7,1,1000uF 25V,+12V bulk at J1 (printer has 3300uF internally - this is just for lead inductance),Panasonic FC,,0.80
-C8,1,100uF 10V,+5V bulk,generic,,0.30
-J1,1,DE-9 female + hood,Printer connector (printer has a male plug on its cable),generic,TA27850 pinout,1.50
-J3,1,Screw terminals 2x2,+5V and +12V input,Phoenix MKDS,Bench supply during dev; later a single 12V brick + 5V buck,1.20
-J4,1,2x20 sockets,Pico 2 socketing,generic,,1.00
-F1,1,Polyfuse 2A,+12V rail,Littelfuse 30R200,Resize after head element resistance measured,0.50
-F2,1,Polyfuse 500mA,+5V rail,Littelfuse 30R050,,0.40
-SW1,1,Tactile,Feed/self-test,generic,,0.20
-LED1-2,2,LED + 1k,Status/error,generic,,0.20
-TP1-5,5,Test points,SD SC XC MS +12V,Keystone 5001,,1.00
-PCB1,1,Protoboard,Carrier - tiny now; a 5x7cm proto is plenty,BusBoard SB300,,4.00
+Refs,Qty,Value,Part,Footprint
+C1,1,470uF 25V,electrolytic 470uF/25V low-ESR,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm
+C2,1,10uF 25V,electrolytic 10uF/25V,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm
+C3,1,22uF 10V,electrolytic 22uF/10V,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm
+C4,1,100nF,ceramic 100nF,Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm
+D1,1,1N5822,1N5822 (reverse-polarity crowbar),Diode_THT:D_DO-201AD_P15.24mm_Horizontal
+D2,1,1N5817,1N5817 (5V -> Pico VSYS),Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal
+D3,1,BAT85,BAT85 (clamp MS_IN to 3V3),Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal
+F1,1,PTC 2A,Bourns MF-RHT200,Fuse:Fuse_Bourns_MF-RHT200
+F2,1,PTC 0.5A,Bourns MF-RHT050,Fuse:Fuse_Bourns_MF-RHT050
+H1 H2 H3 H4,4,M3,M3 standoff,MountingHole:MountingHole_3.2mm_M3
+J1,1,DE-9 female (printer),"DE-9 socket (female), right-angle PCB, 2.77 x 2.84 mm pitch, 9.12 mm hole-to-edge",Connector_Dsub:DSUB-9_Socket_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm
+J2,1,12V DC in,CUI PJ-102AH,Connector_BarrelJack:BarrelJack_CUI_PJ-102AH_Horizontal
+J3,1,UART,1x3 2.54 mm header,Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical
+LED1,1,ERR red,3 mm red LED,LED_THT:LED_D3.0mm
+LED2,1,PWR green,3 mm green LED,LED_THT:LED_D3.0mm
+Q1,1,2N3904,2N3904 (E-B-C),Package_TO_SOT_THT:TO-92_Inline_Wide
+R1 R2 R3,3,47R,47R 1/4W,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R4 R5 R8,3,4k7,4.7k 1/4W,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R6 R7 R11,3,10k,10k 1/4W,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R9,1,47k,47k 1/4W,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R10 R13,2,1k,1k 1/4W,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R12,1,330R,330R 1/4W,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+SW1,1,FEED,6x6 mm tactile,Button_Switch_THT:SW_PUSH_6mm
+TP1,1,SD,Keystone 5000,TestPoint:TestPoint_Keystone_5000-5004_Miniature
+TP2,1,SC,Keystone 5000,TestPoint:TestPoint_Keystone_5000-5004_Miniature
+TP3,1,XC,Keystone 5000,TestPoint:TestPoint_Keystone_5000-5004_Miniature
+TP4,1,MS,Keystone 5000,TestPoint:TestPoint_Keystone_5000-5004_Miniature
+TP5,1,+12V,Keystone 5000,TestPoint:TestPoint_Keystone_5000-5004_Miniature
+TP6,1,+5V,Keystone 5000,TestPoint:TestPoint_Keystone_5000-5004_Miniature
+TP7,1,GND,Keystone 5001,TestPoint:TestPoint_Keystone_5000-5004_Miniature
+U1,1,Pico 2 / Pico 2 W,"Raspberry Pi Pico 2 or Pico 2 W, on 2x 1x20 sockets",Module:RaspberryPi_Pico_Common_THT
+U2,1,74AHCT541,SN74AHCT541N,Package_DIP:DIP-20_W7.62mm
+U3,1,R-78E5.0-1.0,RECOM R-78E5.0-1.0,Converter_DCDC:Converter_DCDC_RECOM_R-78E-0.5_THT
+,2,1x20 female header 2.54 mm,Pico sockets (U1),
+,1,DIP-20 socket,for U2 (recommended),
+,4,M3 standoff + screw,for H1-H4,
+,1,12 V 2 A supply,"5.5 x 2.1 mm plug, centre positive",
