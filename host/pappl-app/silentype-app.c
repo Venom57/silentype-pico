@@ -124,10 +124,12 @@ static bool flush_band(pappl_job_t *job, pappl_device_t *dev, st_job_t *j) {
   uint8_t payload[6 + ST_MAX_COLS];
   payload[0] = j->width & 0xFF; payload[1] = j->width >> 8;
   payload[2] = j->intensity; payload[3] = ST_FEED_STEPS; payload[4] = 0; payload[5] = 0;
+  // Column byte: bit 6 = TOP head element, bit 0 = BOTTOM, bit 7 unused (docs/protocol.md).
+  // Raster row r of the band (0 = top) therefore goes to bit HEAD_DOTS-1-r.
   for (unsigned x = 0; x < j->width; x++) {
     uint8_t col = 0;
     for (unsigned r = 0; r < HEAD_DOTS; r++)
-      if (j->rows[r][x >> 3] & (0x80 >> (x & 7))) col |= (uint8_t)(1u << r);   // PWG black_1: 1 = black
+      if (j->rows[r][x >> 3] & (0x80 >> (x & 7))) col |= (uint8_t)(1u << (HEAD_DOTS - 1 - r));   // PWG black_1: 1 = black
     payload[6 + x] = col;
   }
   if (!send_frame(dev, CMD_BAND, payload, (uint16_t)(6 + j->width))) return false;
