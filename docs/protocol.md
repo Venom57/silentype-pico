@@ -33,13 +33,23 @@ Parser resyncs by hunting for 0xA5.
 ### BAND payload
 ```
 u16 width_cols
-u8  intensity      // 1..MAX_INTENSITY
-u8  feed_steps     // paper advance after band; 0 = overprint
+u8  intensity      // 0..MAX_INTENSITY (= 7); values > 7 → firmware DEFAULT_INTENSITY
+u8  feed_steps     // paper advance after band; 0 = firmware default FEED_STEPS_PER_BAND
 u8  flags          // bit0: force forward pass (default: engine alternates direction)
 u8  reserved
-u8  cols[width_cols]   // bit i = head element i. Element count = HEAD_DOTS
-                        // (≤ 8 fits one byte; if M1 finds >8, this becomes u16)
+u8  cols[width_cols]   // one byte per column, left to right; see bit order below
 ```
+
+Column byte bit order (HEAD_DOTS = 7):
+
+| bit | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+|-----|---|---|---|---|---|---|---|---|
+| dot | unused (send 0) | **top** | | | | | | **bottom** |
+
+Bit i drives head latch output Y(9+i); per the printer schematic (J4) Y15 is the top
+dot and Y09 the bottom, matching the Apple /// driver's font table (bit 6 = top row,
+e.g. 'T' first column = 0x40). So raster row r of a band (r = 0 at the top) goes to
+bit `HEAD_DOTS − 1 − r`. Rows padded past the end of a page/image are blank (0).
 
 ## Replies (Pico → host) — same frame format
 
@@ -63,7 +73,7 @@ u16 reserved
 ### SET_PARAM ids
 | id | Parameter | Range |
 |----|-----------|-------|
-| 0x01–0x05 | BURN_US[1..5] µs | 1..BURN_HARD_LIMIT_US |
+| 0x01–0x08 | burn µs for intensity level 0..7 (**id = 0x01 + level**: 0x01 = level 0, 0x08 = level 7) | 1..BURN_HARD_LIMIT_US |
 | 0x10 | carriage step interval µs | 300..20000 |
 | 0x11 | inter-column cooldown µs | 0..20000 |
 | 0x12 | reverse-pass offset steps (signed) | -50..50 |
