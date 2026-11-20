@@ -1,5 +1,7 @@
 # Silentype hardware interface — definitive
 
+Readable summary with the bus timing diagram: [printer interface](../printer-interface.md). This file is the evidence, signal by signal.
+
 Sources (all in this directory tree, all from the Apple II Documentation Project
 mirror at mirrors.apple2.org.za/retro/):
 

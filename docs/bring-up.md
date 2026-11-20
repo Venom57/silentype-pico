@@ -1,5 +1,7 @@
 # Bring-up, test plan and measurement log
 
+[README](../README.md) · [Design overview](../docs/design-overview.md) · [Printer interface](../docs/printer-interface.md) · [Firmware design](../docs/firmware-design.md) · [Host software](../docs/host-software.md) · [Carrier board](../hardware/pcb/README.md) · **Bring-up and tests**
+
 Nothing has run on real hardware yet. Verified so far, all in software: column timing and queue
 ordering (`firmware/test`), the PIO program (assembled with `pioasm`, cycle-level model of the
 PIO, the 74LS673 and Apple's card), bit order and dot orientation (traced from the card ROM and

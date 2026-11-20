@@ -1,5 +1,9 @@
 # Carrier board v1.0
 
+[README](../../README.md) · [Design overview](../../docs/design-overview.md) · [Printer interface](../../docs/printer-interface.md) · [Firmware design](../../docs/firmware-design.md) · [Host software](../../docs/host-software.md) · **Carrier board** · [Bring-up and tests](../../docs/bring-up.md)
+
+![Assembled carrier board, KiCad 3D render](../../docs/images/render-iso.png)
+
 100 × 56 mm, 2-layer, all through-hole. Routed, **DRC clean (0 errors, 0 unconnected)**,
 Gerbers exported; not yet ordered. The whole board is generated from `build_carrier.py`.
 
@@ -46,6 +50,27 @@ jar (the linux-arm64 native CLI crashes after its first pass). Steps:
 | Margin switch | R10 1 k, R11 10 k to 3V3, D3 BAT85 | MS → GP5, clamped to 3.3 V |
 | Interface | SW1 feed (GP22), LED1 error (GP26, R12), LED2 power (R13), J3 UART (GP0/GP1) | Bench use |
 | Test points | TP1 SD, TP2 SC, TP3 XC, TP4 MS, TP5 +12 V, TP6 +5 V, TP7 GND | Scope access |
+
+## Schematic
+
+Drawn from the generator's net list; `build_carrier.py` is authoritative.
+
+![Power: 12 V input, protection, 5 V regulator](../../docs/images/schematic-power.png)
+
+![Printer bus: 74AHCT541 buffer, series damping, fail-safe bus enable](../../docs/images/schematic-bus.png)
+
+![Margin switch input, feed button, error LED, debug UART](../../docs/images/schematic-inputs.png)
+
+## Renders
+
+| Bare PCB, front | Bare PCB, back (mirrored) |
+|---|---|
+| ![Bare PCB front](../../docs/images/render-bare-top.png) | ![Bare PCB back](../../docs/images/render-bare-bottom.png) |
+
+![Assembled, from above](../../docs/images/render-top.png)
+
+Resistors carry their real 4-band codes (models from `gen_resistor_models.py`); each electrolytic
+has a bold "+" beside its positive pad; diodes are marked "K" at the cathode.
 
 ## Layout and rules
 

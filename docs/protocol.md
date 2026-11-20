@@ -1,5 +1,9 @@
 # Band Protocol (host ⇄ Pico) over USB CDC serial
 
+[README](../README.md) · [Design overview](../docs/design-overview.md) · [Printer interface](../docs/printer-interface.md) · [Firmware design](../docs/firmware-design.md) · [Host software](../docs/host-software.md) · [Carrier board](../hardware/pcb/README.md) · [Bring-up and tests](../docs/bring-up.md)
+
+Transport choice, flow control and the host programs: [host software](host-software.md).
+
 Transport: **USB CDC-ACM**. Enumerates as a serial port on macOS (`/dev/cu.usbmodem*`)
 and Linux (`/dev/ttyACM*`) with no driver. Chosen over printer class 7 because PAPPL
 owns the device: a class-7 interface gets claimed by the macOS printer class driver
@@ -82,3 +86,15 @@ u16 reserved
 
 Geometry (`MAX_COLS`, `HEAD_DOTS`, native DPI) comes from `firmware/src/config.h`.
 Host code reads the same values — single source of truth.
+
+## Example frames
+
+```
+STATUS request          a5 03 00 00 bd
+RESET                   a5 04 00 00 ab
+FEED 40 steps           a5 02 02 00 28 00 ee
+BAND, 3 columns, lvl 1  a5 01 09 00 03 00 01 00 00 00 7f 41 7f fa
+ACK for a BAND, OK      a5 8f 02 00 01 00 9e
+```
+
+CRC-8 is polynomial 0x07, initial value 0, no reflection, no final XOR (0xF4 for "123456789").

@@ -5,6 +5,8 @@ built on a Raspberry Pi Pico 2, with a host-side PAPPL printer application that 
 to macOS and Linux as an IPP Everywhere printer (no driver install). The printer itself is not
 modified: the carrier board plugs into its original DE-9 cable.
 
+![Carrier board v1.0 with a Raspberry Pi Pico on sockets, KiCad 3D render](docs/images/render-iso.png)
+
 ## Why this works
 
 The Silentype has no processor. Apple used the Trendcom mechanism without Trendcom's
@@ -16,24 +18,43 @@ paper stepper), a 555 head-on watchdog and a margin switch. Anything that produc
 
 ## Architecture
 
-```
- macOS / Linux app
-        │  print dialog
-        ▼
-      CUPS ──IPP──► silentype-app (PAPPL, host/pappl-app/)
-                        │  1-bit raster → 7-dot bands → framed BAND/FEED commands
-                        ▼  USB CDC serial (ACK = queued; back-pressure when full)
-                  Pico 2 firmware (firmware/)
-                        │  core 0: TinyUSB CDC, frame parser, software guard
-                        │  core 1: print engine (fixed column period, motion, homing)
-                        │  PIO:    16-bit word shift + store on SD/SC/XC
-                        ▼
-                  Carrier board v1.0 (hardware/pcb/)
-                        │  74AHCT541 3.3 V→5 V buffer, bus-enable fail-safe,
-                        │  12 V in + 5 V regulator, margin-switch input
-                        ▼  DE-9 (Apple KB TA27850 pinout)
-                  Apple Silentype (unmodified)
-```
+![System architecture: host computer, Pico 2 firmware, carrier board, Apple Silentype](docs/images/architecture.png)
+
+The host turns pages into 7-dot bands; the Pico turns bands into exactly timed 16-bit words; the
+carrier converts levels and fails safe; the printer, unchanged, latches and drives. Details in the
+[design overview](docs/design-overview.md).
+
+## Documentation
+
+| Document | What it covers |
+|---|---|
+| [Design overview](docs/design-overview.md) | Architecture, design principles, design-decision log, glossary |
+| [Printer interface](docs/printer-interface.md) | Sources, printer electronics, DE-9 pinout, the 16-bit word, bus timing diagram, Apple's card decode, print timing tables, motion, corrections log |
+| [Firmware design](docs/firmware-design.md) | Execution model, PIO transport, column schedule, motion, queue and errors, safety, configuration and SET_PARAM, tests, open issues |
+| [Host software](docs/host-software.md) | USB transport, ACK flow control, PAPPL app, `send_band.py`, installation, open issues |
+| [Band protocol](docs/protocol.md) | Wire format: frames, commands, payloads, example bytes |
+| [Carrier board](hardware/pcb/README.md) | Build pipeline, circuit, schematic sheets, renders, layout rules |
+| [Bill of materials](hardware/BOM.md) | Component choices; [`BOM.csv`](hardware/BOM.csv) generated from the board |
+| [Bring-up and tests](docs/bring-up.md) | What is verified, bench procedure with pass criteria, milestone plan, measurement log |
+| [Known issues](docs/KNOWN-ISSUES.md) | Audit trail and every open issue |
+| [Hardware interface evidence](docs/firmware-archaeology/HARDWARE-INTERFACE.md) | Signal-by-signal evidence from Apple's schematics and ROM |
+| [Firmware README](firmware/README.md) | Build, file map, pins |
+
+## Gallery
+
+| Bare PCB, front | Bare PCB, back (mirrored) |
+|---|---|
+| ![Bare PCB front: silkscreen, pads, tracks and ground pour](docs/images/render-bare-top.png) | ![Bare PCB back: board title between the Pico pin rows](docs/images/render-bare-bottom.png) |
+
+| Printer bus schematic | Bus timing |
+|---|---|
+| ![74AHCT541 buffer and fail-safe bus enable](docs/images/schematic-bus.png) | ![Bits shift on SC's rising edge; XC latches while SC is low](docs/images/bus-timing.png) |
+
+| Firmware execution model | Host ACK flow |
+|---|---|
+| ![Two cores, shared queue, PIO](docs/images/execution-model.png) | ![ACK means queued, not printed](docs/images/ack-sequence.png) |
+
+More: [power and input schematics](hardware/pcb/README.md#schematic), [assembled top view](docs/images/render-top.png).
 
 ## Repository map
 
@@ -48,6 +69,7 @@ paper stepper), a 555 head-on watchdog and a margin switch. Anything that produc
 | `host/linux/`, `host/macos/` | udev rule, systemd unit, launchd agent |
 | `docs/protocol.md` | Band protocol (host ⇄ Pico) |
 | `docs/signals.md` | DE-9 signal map and bus waveform |
+| `docs/*.md` | Design documents (see Documentation above); `docs/images/` holds renders and diagrams |
 | `docs/bring-up.md` | Bench bring-up procedure, milestone test plan, measurement log |
 | `docs/KNOWN-ISSUES.md` | Audit trail and open issues |
 | `docs/firmware-archaeology/` | Apple /// driver, Apple II card ROM, schematics, `HARDWARE-INTERFACE.md` (the definitive interface) |
