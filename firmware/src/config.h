@@ -18,7 +18,8 @@
 #define PIN_SC             3                 // shift clock  → DB9-9 (rising edge shifts)
 #define PIN_XC             4                 // store clock  → DB9-8 (rising edge latches; MUST be PIN_SC+1: PIO side-set; SC=XC=1 clears)
 #define PIN_MS             5                 // margin switch ← DB9-5 (active low; pull-up)
-#define PIN_HEAD_STROBE    9                 // optional carrier one-shot re-arm (U5) — printer already has a 555
+#define PIN_BUS_EN         6                 // carrier v1.0: high = 74AHCT541 drives the bus (via Q1). Low/reset/
+                                             // unpowered = bus released; carrier pull-ups hold SC=XC=1 = latch CLEAR.
 #define PIN_HOME_SENSE     PIN_MS
 #define PIN_PAPER_SENSE    21                // unused — no paper sensor on this printer
 #define PIN_BTN_FEED       22

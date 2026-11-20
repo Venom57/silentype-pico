@@ -10,7 +10,8 @@
 //   1. HARDWARE (inside the printer): a 555 watchdog on the head driver outputs. If any
 //      element stays on ~5-6 ms continuously it clears the whole 74LS673 latch (motors too).
 //      Stores do not retrigger it; it re-arms once all elements are off (HARDWARE-INTERFACE §2).
-//   2. HARDWARE (optional, carrier): U5 one-shot on GP9 — tighter ceiling, see BOM.
+//   2. HARDWARE (carrier v1.0): bus enable (GP6 -> Q1 -> '541 OE). Dropping it releases the
+//      bus and the carrier pull-ups hold SC=XC=1, clearing every latch output at once.
 //   3. SOFTWARE: a timer-IRQ guard (core0 alarm pool, survives a core1 hang) latches
 //      an all-off word past BURN_HARD_LIMIT_US. Catches bugs.
 // Layer 3 is NOT a hardware watchdog and must not be described as one.
@@ -58,7 +59,12 @@ static inline void set_error(uint8_t e) { engine_error = e; engine_state = 2; }
 
 // ---- software guard ----------------------------------------------------------
 static alarm_id_t guard_id;
-static int64_t guard_cb(alarm_id_t id, void *user) { (void)id; (void)user; latch(0); return 0; }
+static volatile bool guard_tripped;
+// Runs on core0 (alarm IRQ). Must not touch the PIO: core1 may be mid-sr_write. Dropping the
+// bus enable is one SIO write and clears the printer's outputs in hardware.
+static int64_t guard_cb(alarm_id_t id, void *user) {
+    (void)id; (void)user; sr_bus_enable(false); guard_tripped = true; return 0;
+}
 
 // ---- head --------------------------------------------------------------------
 static uint16_t heat[HEAD_DOTS];                   // thermal history, 0..65535
@@ -135,7 +141,6 @@ static void pulse(uint8_t head7, absolute_time_t t_on, uint16_t us, uint16_t *mA
     if (!head7 || !us) return;
     if (us > BURN_HARD_LIMIT_US) us = BURN_HARD_LIMIT_US;
     busy_wait_until(t_on);
-    gpio_put(PIN_HEAD_STROBE, 1);                                 // re-arm optional U5
     guard_id = add_alarm_in_us(BURN_HARD_LIMIT_US, guard_cb, NULL, true);
     absolute_time_t on = get_absolute_time();
     latch(head7);                                                 // dots ON
@@ -144,7 +149,6 @@ static void pulse(uint8_t head7, absolute_time_t t_on, uint16_t us, uint16_t *mA
     busy_wait_until(delayed_by_us(on, us));
     latch(0);                                                     // dots OFF
     cancel_alarm(guard_id);
-    gpio_put(PIN_HEAD_STROBE, 0);
     if (mA_out) *mA_out = mA;
 }
 
@@ -164,6 +168,7 @@ static bool head_burn(uint8_t col_bits, uint8_t lvl, absolute_time_t t0) {
     prev2 = prev1; prev1 = col_bits;
     head_mA_last = mA;
     heat_update(col_bits);
+    if (guard_tripped) return false;                              // burn overran: bus is down
     int nd = __builtin_popcount(col_bits);
     if (nd && ISENSE_MIN_mA_PER_DOT && mA < nd * ISENSE_MIN_mA_PER_DOT) return false;
     if (nd && ISENSE_MAX_mA_PER_DOT && mA > nd * ISENSE_MAX_mA_PER_DOT) return false;
@@ -305,6 +310,7 @@ static void engine_loop(void) {
     for (;;) {
         if (req_reset) {
             abort_req = false; req_reset = false;
+            guard_tripped = false; sr_bus_enable(true);  // re-enable after a guard trip
             latch(0);
             q_tail = q_head;
             memset(heat, 0, sizeof heat);
@@ -334,9 +340,8 @@ static void engine_loop(void) {
 // ---- core0-facing API ------------------------------------------------------------
 void engine_init(void) {
     memcpy(burn_us, BURN_US, sizeof burn_us); memcpy(preheat_us, PREHEAT_US_TAB, sizeof preheat_us); memcpy(off_us, OFF_US, sizeof off_us);
-    gpio_init(PIN_HEAD_STROBE); gpio_set_dir(PIN_HEAD_STROBE, GPIO_OUT); gpio_put(PIN_HEAD_STROBE, 0);
     gpio_init(PIN_MS); gpio_set_dir(PIN_MS, GPIO_IN); gpio_pull_up(PIN_MS);      // margin switch to GND
-    sr_init();                                                                   // latches all-off word
+    sr_init();                                       // bus enable + latches all-off word
     multicore_launch_core1(engine_loop);
 }
 

@@ -8,6 +8,7 @@
 #include "pico/stdlib.h"
 #include "hardware/pio.h"
 #include "hardware/clocks.h"
+#include "hardware/gpio.h"
 #include "config.h"
 #include "shiftreg.h"
 #include "silentype_sr.pio.h"
@@ -20,7 +21,11 @@ _Static_assert(PIN_XC == PIN_SC + 1, "XC must be the GPIO after SC: they share o
 static PIO  pio = pio0;
 static uint sm, offset;
 
+void sr_bus_enable(bool on) { gpio_put(PIN_BUS_EN, on); }
+
 void sr_init(void) {
+    gpio_init(PIN_BUS_EN); gpio_set_dir(PIN_BUS_EN, GPIO_OUT);
+    sr_bus_enable(false);                          // printer held cleared while the PIO comes up
     offset = pio_add_program(pio, &silentype_sr_program);
     sm = pio_claim_unused_sm(pio, true);
     pio_interrupt_clear(pio, SR_DONE_IRQ);
@@ -28,6 +33,7 @@ void sr_init(void) {
     // storage register (whatever it powered up with, incl. Y08=R/W̅) before anything is stored.
     silentype_sr_program_init(pio, sm, offset, PIN_SD, PIN_SC,
                               (float)clock_get_hz(clk_sys) / (float)SR_PIO_HZ);
+    sr_bus_enable(true);                           // bus idle (SC=1 XC=0): leaves the clear state
     sr_write(0);                                   // then latch an explicit all-off word
 }
 

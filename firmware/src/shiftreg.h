@@ -6,6 +6,7 @@
 //   [3..0]  carriage-motor phases Y03..Y00
 // On the wire bit 15 is shifted first (first-in ends at Y15), as in Apple's card ROM.
 #pragma once
+#include <stdbool.h>
 #include <stdint.h>
 
 // Claims a PIO SM, briefly asserts the printer's storage-register clear (SC=XC=1), then
@@ -20,3 +21,8 @@ void     sr_init(void);
 void     sr_write(uint16_t word);
 
 uint16_t sr_make(uint8_t head7, uint8_t carr4, uint8_t feed4);
+
+// Carrier bus enable (PIN_BUS_EN). false releases SD/SC/XC; the carrier's pull-ups then hold
+// SC=XC=1, which asynchronously CLEARS every latch output (head and motors) within ~1 µs.
+// A single SIO write: safe from any core or IRQ. sr_init() leaves the bus enabled.
+void     sr_bus_enable(bool on);

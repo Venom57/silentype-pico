@@ -55,6 +55,7 @@ void stdio_uart_init(void) {}
 
 // ---- shift register: record every latched word ----
 void sr_init(void) { sr_write(0); }
+void sr_bus_enable(bool on) { (void)on; }
 uint16_t sr_make(uint8_t head7, uint8_t carr4, uint8_t feed4) {
     return (uint16_t)(((head7 & 0x7Fu) << SR_HEAD_SHIFT) | ((feed4 & 0xFu) << SR_FEED_SHIFT) | (carr4 & 0xFu));
 }
