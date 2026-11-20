@@ -7,8 +7,9 @@
 // here touches a head or motor line directly.
 //
 // Head safety:
-//   1. HARDWARE (inside the printer): a 555 (~6 ms) retriggered by the store clock
-//      gates the head ULN2003. A latched-on head with a dead host turns off in ~6 ms.
+//   1. HARDWARE (inside the printer): a 555 watchdog on the head driver outputs. If any
+//      element stays on ~5-6 ms continuously it clears the whole 74LS673 latch (motors too).
+//      Stores do not retrigger it; it re-arms once all elements are off (HARDWARE-INTERFACE §2).
 //   2. HARDWARE (optional, carrier): U5 one-shot on GP9 — tighter ceiling, see BOM.
 //   3. SOFTWARE: a timer-IRQ guard (core0 alarm pool, survives a core1 hang) latches
 //      an all-off word past BURN_HARD_LIMIT_US. Catches bugs.
@@ -137,7 +138,7 @@ static void pulse(uint8_t head7, absolute_time_t t_on, uint16_t us, uint16_t *mA
     gpio_put(PIN_HEAD_STROBE, 1);                                 // re-arm optional U5
     guard_id = add_alarm_in_us(BURN_HARD_LIMIT_US, guard_cb, NULL, true);
     absolute_time_t on = get_absolute_time();
-    latch(head7);                                                 // dots ON (also retriggers printer 555)
+    latch(head7);                                                 // dots ON
     busy_wait_until(delayed_by_us(on, us / 2));
     uint16_t mA = read_head_mA();
     busy_wait_until(delayed_by_us(on, us));
