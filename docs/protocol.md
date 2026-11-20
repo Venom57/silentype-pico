@@ -24,7 +24,7 @@ Parser resyncs by hunting for 0xA5.
 | CMD | Name | Payload | Action |
 |-----|------|---------|--------|
 | 0x01 | BAND | header + column data | Queue one band |
-| 0x02 | FEED | `u16 steps` | Paper feed only |
+| 0x02 | FEED | `u16 steps` | Paper feed, queued in order with bands (0 = no-op). Back-pressured like BAND |
 | 0x03 | STATUS | none | Reply with STATUS frame |
 | 0x04 | RESET | none | Abort, clear queue, clear error, home |
 | 0x05 | SET_PARAM | `u8 id, u32 value` | Bench tuning, RAM only, refused while printing. Burn values capped at BURN_HARD_LIMIT_US |

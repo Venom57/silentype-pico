@@ -1,24 +1,13 @@
-# Carrier Board — v0.5 (serial interface)
+# Carrier board — superseded
 
-**The SVGs in this directory are from v0.3 and are WRONG for the real interface.**
-They show a 15-line parallel driver board. The real board is below; the generators
-will be rewritten once the bench confirms the DB-9 wiring (M1).
+The carrier is now designed in `hardware/pcb/` (v1.0): a generated, routed, DRC-clean KiCad
+board with Gerbers. See `hardware/pcb/README.md` for the circuit and `hardware/BOM.csv` for parts.
 
-```
-                 ┌────────────────────────┐
-  USB ◄─────────►│ Pico 2 (U1)            │
-                 │  GP2 SD  ──► U2a ──────┼──► J1-4  SD
-                 │  GP3 SC  ──► U2b ──────┼──► J1-9  SC
-                 │  GP4 XC  ──► U2c ──────┼──► J1-8  XC   (optionally via U5 one-shot)
-                 │  GP5 MS  ◄── R2 100R ──┼──◄ J1-5  MS   (R1 10k pull-up to 3V3)
-                 │  GP9 STROBE (opt→U5)   │
-                 │  GP0/1 UART            │
-                 └────────────────────────┘
-   +5V  ─F2─┬─ U2 VCC ─ J1-2            J1-3 Logic GND ─┐
-            └─ C8                        J1-7 Power GND ─┴─ GND (star at J3)
-   +12V ─F1─── C7 ──────── J1-6          J1-1 Shield → chassis
-```
+The files in this directory are historical:
 
-U2 = 74AHCT125 (OE̅ tied low). Nothing else. Place U2 right at J1.
-
-Pin assignment mirrors `firmware/src/config.h` (`PIN_SD/SC/XC/MS`).
+- `carrier-schematic.svg`, `pinout-connection.svg` and their generators `gen_schematic.py`,
+  `gen_pinout.py` show the v0.3 design: a 15-line parallel driver board with a 74HC123
+  monostable, FETs and a current shunt. That design was abandoned once the printer schematic
+  showed the printer already contains its own shift register, drivers and watchdog.
+- The v0.5 plan (74AHCT125 + pull-up + DE-9) became v1.0 with a 74AHCT541, a bus-enable
+  fail-safe and an on-board 5 V regulator.

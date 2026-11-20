@@ -38,10 +38,10 @@ R_AX = ("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 PARTS = {
     # --- connectors -------------------------------------------------------------------
     "U1": ("Module", "RaspberryPi_Pico_Common_THT", PICO_X, PICO_Y, 0,
-           "Pico 2 / Pico 2 W", "SC1631 / SC1632 on 2x 1x20 sockets", PICO_NETS),
+           "Pico 2 / Pico 2 W", "Raspberry Pi Pico 2 or Pico 2 W, on 2x 1x20 sockets", PICO_NETS),
     "J1": ("Connector_Dsub",
            "DSUB-9_Socket_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm",
-           10.54, 41.0, 270, "DE-9 female (printer)", "Amphenol L717SDE09PA4CH4R or eq.",
+           10.54, 41.0, 270, "DE-9 female (printer)", "DE-9 socket (female), right-angle PCB, 2.77 x 2.84 mm pitch, 9.12 mm hole-to-edge",
            {"1": "GND", "2": "+5V_PRN", "3": "GND", "4": "SD_5V", "5": "MS_5V", "6": "+12V",
             "7": "GND", "8": "XC_5V", "9": "SC_5V", "SH": "GND"}),
     "J2": ("Connector_BarrelJack", "BarrelJack_CUI_PJ-102AH_Horizontal", 13.7, 8.0, 270,

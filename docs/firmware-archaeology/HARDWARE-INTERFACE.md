@@ -33,7 +33,7 @@ its DB-9 bracket — irrelevant to us. **The carrier board drives a DB-9.** The 
 Inputs SC/XC have 3 kΩ pull-ups to +5 V and are 74LS inputs; SD goes to a 74LS673 pin.
 **All are 5 V TTL.** 3.3 V on a 74LS input is a legal high (VIH 2.0 V), so a direct
 Pico connection would *probably* work, but the pull-ups will source current into 3.3 V
-GPIO. Use a 74AHCT125/245 level shifter — same as planned.
+GPIO. The carrier drives them through a 74AHCT541 buffer (see `hardware/pcb/README.md`).
 
 ## 2. Printer electronics (from 050-0023-01) and the bus protocol
 
@@ -80,8 +80,9 @@ colour list and the schematic). ULN2003 COM pins clamp to +12 V.
   storage register — motors included. It re-arms itself as soon as all elements are off.
   Pre-heat + main burn must stay well under ≈5 ms (the ROM's worst case is 0.7 + 2.7 ms), and
   every burn must end with an explicit head-off word (the ROM's third `sendState`).
-- Our carrier-board 74HC123 one-shot remains redundant with this watchdog; it would only add
-  a tighter ceiling (1.5 ms vs ≈5-6 ms). Decision still deferred to M2; BOM keeps U5 optional.
+- The carrier v1.0 uses this clear as its fail-safe instead of the earlier optional 74HC123
+  one-shot (U5, dropped): when GP6 is low, or the Pico is in reset or unpowered, the 74AHCT541
+  releases the bus and the carrier's 4.7 kΩ pull-ups hold SC = XC = 1, so the printer stays cleared.
 
 ### Apple II card bus decode (050-0024-01; ROM writes to `$C081+slot·16`)
 
@@ -165,16 +166,17 @@ including Y08), then idles and latches an all-zero word. `sr_write()` also masks
 | Bit order (first-in → Y15) | inferred from ROM order + schematic wiring (+ /// driver); not bench-tested |
 | 74LS673 edge polarities (shift on SH CK̅ falling, store on ST CK rising, async clear) | inferred from schematic bubbles; datasheet not in repo |
 | 555 ceiling ≈5-6 ms; clears motors as well as head | computed from R1/C1; **measure** |
-| ns-level SC/XC skew through the 74AHCT125 at the store/clear | not modelled |
+| ns-level SC/XC skew through the 74AHCT541 at the store/clear | not modelled |
 
 At M2, with a scope on DB-9 pins 4/9/8 and a logic probe on 74LS673 pins 4 (ST CLR̅) and 5:
 confirm ST CLR̅ never pulses during `sr_write()`; confirm one ST CK rising edge per word with SC
 low; latch a single head bit and a single carriage phase and confirm which ULN output pulls low;
 hold one dot on and time the 555 clear (and confirm the motors drop too).
 
-**Carrier-board note:** while the Pico is in reset its pins float. Pull SC and XC up (to 3V3
-on the 74AHCT125 inputs) and SD down, so an unprogrammed / resetting Pico presents SC=XC=1 =
-"clear" to the printer, like the Apple card does on reset.
+**Carrier-board note (implemented in v1.0):** while the Pico is in reset its pins float, so the
+carrier's bus enable (GP6 → Q1 → 74AHCT541 OE̅, default off) releases the bus and pull-ups on
+the printer side hold SC = XC = 1 and SD low. An unprogrammed or resetting Pico therefore presents
+"clear" to the printer, as the Apple card does on reset.
 
 ## 3. Apple II card timing (ROM 341-0039-00, `printDotColumn` in silentype.s)
 

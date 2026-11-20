@@ -1,5 +1,8 @@
 # Known Issues — audit of the June v0 draft
 
+> This file is an audit trail, oldest first. Earlier sections describe designs since superseded
+> (parallel driver board, 74HC123 one-shot, current shunt). The current state is the **v0.6** section at the end.
+
 Status key: **FIXED** in this tree · **OPEN** needs bench/ROM data · **DOC** text corrected
 
 ## Code that was broken
@@ -93,3 +96,48 @@ Everything is in `docs/firmware-archaeology/` and `docs/reference/`.
 
 **Stale in the tree:** `hardware/schematic/*.svg` and the generators (v0.3 parallel design),
 `docs/reverse-engineering.md` §3 bench table (half its rows are now answered). Both marked.
+
+## v0.6 — code review fixes and carrier v1.0 (2026-11-19)
+
+### Fixed by the review
+
+| # | Issue | Fix |
+|---|---|---|
+| R1 | Word shifted LSB first — reversed against both Apple drivers; carriage phases would have fired head elements and feed phase 3 would have set Y08 (the 673's R/W̅) | PIO shifts MSB first (`word << 16`, shift-left); `sr_write` forces bit 8 = 0 |
+| R2 | Store sequence and the 555's role misunderstood (thought: 555 triggered by SC·XC) | Schematic decode: SC·XC = **clear**; the 555 is a head-on watchdog. Whole transaction moved into PIO with the store done while SC is low |
+| R3 | Host tools put the top raster row in bit 0 (the bottom dot) — every band upside down | Row r → bit 6 − r in `silentype-app.c` and `send_band.py`; `protocol.md` documents bit 6 = top |
+| R4 | Column period depended on content (blank columns ~4× faster steps) | Fixed slots scheduled against each column's start time; identical period per level |
+| R5 | FEED bypassed the queue and ran mid-page; a second FEED overwrote the first | FEED queued in order with bands, back-pressured like BAND; RESET/error discard it |
+| R6 | `send_band.py image`/`feed`/`setparam` broken by argparse order | Subcommands; `burn LEVEL US`; CRC-checked replies; missing ACK/NAK reported |
+| R7 | SET_PARAM burn ids documented as 0x01 = level 1; firmware uses 0x01 = level 0 | Docs and `protocol.h` corrected (id = 0x01 + level); `PARAM_BURN_US_LVL()` |
+| — | PAPPL app never read the FEED ACK, so ACKs paired with the wrong commands | `expect_ack()` checks the echoed command and result for every frame |
+| — | Software guard wrote to the PIO from a core-0 IRQ, racing core 1 | Guard drops GP6 (carrier bus enable) instead; printer cleared in hardware |
+
+### Carrier v1.0 (`hardware/pcb/`)
+
+Generated from `build_carrier.py`, routed with Freerouting, DRC clean (0 errors, 0 unconnected),
+Gerbers exported. 74AHCT541 buffer; Q1 bus enable on GP6 with SC/XC pull-ups so a released bus
+clears the printer (replaces the optional 74HC123 one-shot U5, now dropped); 12 V jack with PTC
+and crowbar; R-78E 5 V; Pico 2 / 2 W on sockets with antenna keepout. Pin GP9 (U5 strobe) removed
+from the firmware; GP6 = `PIN_BUS_EN` added.
+
+### Still open
+
+| Severity | Area | Issue |
+|---|---|---|
+| Critical | PAPPL app | `papplDeviceWrite` is buffered and never flushed — no frame is ever sent |
+| Critical | PAPPL app | Device-list callback returns `void` (GCC 14+ error) and has its stop/continue logic inverted |
+| High | PAPPL app | RESET at job start aborts the previous job's queued bands and page feed |
+| Medium | Firmware | RESET during a paper feed leaves a feed coil energised |
+| Medium | Firmware | Paper feed steps every 4 ms; Apple used ~8–11 ms |
+| Medium | Firmware | ROM "pre-heat" column is really a post-step settle; ROM burns include ~440 µs shift time. Tables not yet reinterpreted |
+| Medium | PAPPL app | Media width in wrong units; 60 dpi vertical (should be ~40); 480 vs 560 columns |
+| Low | PAPPL app | Darkness → intensity 1..5, default 3 (firmware default is 1, range 0..7) |
+| Low | Firmware | Burns set within ~50 µs of the 3000 µs cap trip the guard every column |
+| Low | Firmware | Half-received frame survives a USB reconnect; homing reach 735 vs ROM 792 steps; `engine_state` written by both cores |
+| Low | Firmware | Feed button (GP22) and error LED (GP26) not yet used |
+| Low | Firmware | Dead code: parallel-GPIO pin names, ADC current-sense path |
+| Low | PAPPL app | Probes every `/dev/ttyACM*`; driver `format` without a print-file callback |
+
+Bench items (head resistance, 555 time-out, column count, burn level, reverse offset) are tracked
+in `docs/bring-up.md`.

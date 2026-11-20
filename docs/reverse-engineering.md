@@ -1,67 +1,47 @@
-# Phase 0 — Reverse Engineering Checklist & Measurement Log
+# Phase 0 — Reverse engineering checklist
 
-Nothing downstream is trustworthy until this file is filled in.
+Phase 0 (documents and firmware sources) is complete. What remains needs the bench and is
+tracked in `docs/bring-up.md`. The definitive interface description is
+`docs/firmware-archaeology/HARDWARE-INTERFACE.md`.
 
-## 1. Documents to acquire
+## 1. Documents
 
-- [ ] *Apple Silentype Operation and Reference Manual* — archive.org. Programming
-      info (intensity POKEs, control codes), paper spec, service detail.
-- [ ] Silentype **interface card schematic** — Apple II Documentation Project
-      mirrors (mirrors.apple2.org.za / asimov). Also Apple Service Technical
-      Procedures for the Silentype.
-- [ ] Apple KB **TA27850 "Silentype: Pinouts"** via web.archive.org.
-- [ ] Trendcom 200 documentation (mechanically identical; Trendcom kept the
-      onboard controller, so its docs describe the mechanism directly).
+- [x] *Apple Silentype Operation and Reference Manual* — `docs/reference/` (PDF + text).
+- [x] Interface card schematics **050-0024-00 / -01** — `docs/firmware-archaeology/apple2-card/`.
+- [x] **Printer schematic 050-0023-01** ("Deserializer/Driver Circuit") — `docs/firmware-archaeology/printer/`.
+- [x] Apple KB **TA27850 "Silentype: Pinouts"** — `docs/reference/silentype-pinouts-TA27850.txt`.
+- [x] Trendcom 100 manual — `docs/reference/trendcom100-manual.pdf` (the Trendcom 200 manual was not found).
 
-## 2. Firmware sources (timing ground truth)
+## 2. Firmware sources
 
-Two independent sources contain the drive logic. Get at least one:
+- [x] **Apple II card ROM 341-0039-00** (2 KB) with Marc Ressl's 2010 commented disassembly
+      `silentype.s` — Apple II Documentation Project mirror (under *Interface Cards / Serial*).
+      Note: Ressl's `$27`/`$35` labels are swapped and his I/O bit labels are wrong.
+- [x] **Apple /// SOS `.SILENTYPE` driver v1.1** — apple3.org, Apple Diskware 681-0009-A;
+      disassembled in `docs/firmware-archaeology/BIG.DRIVER.dis`.
 
-- [ ] **Apple II Silentype card C800 ROM** (2 KB). Look in Apple II Documentation
-      Project ROM archives and asimov. Do **not** assume an emulator ships it —
-      AppleWin/MAME are not known to emulate the card.
-- [x] **Apple /// SOS `.SILENTYPE` driver** — FOUND: apple3.org, Apple Diskware
-      681-0009-A. Disassembled; see `docs/firmware-archaeology/README.md`.
+| Constant | Value | Source |
+|---|---|---|
+| Head elements | **7** (Y15 top … Y09 bottom) | /// font table max $7F; schematic J4 |
+| Word format | 16 bits, MSB first: head 15–9, R/W̅ 8 = 0, paper 7–4, carriage 3–0 | card ROM `sendState`; schematic |
+| Store | XC rising edge with SC low; SC·XC high = clear | card schematic + ROM writes `$1C $18 $1C $0C` |
+| Burn tables | 8 levels, main 549–2744 µs (default level 5) | card ROM `defaultVars` |
+| Column sequence | step → settle → cold-dot word → all-dot word → off | card ROM `printDotColumn`; /// `$0B7B` |
+| Stepper | one-hot wave drive {1,8,4,2}; 4032 µs/step when moving | /// `$0A58`, `$0AC0` |
+| Paper feed | ~8 ms/step (///), ~11 ms/step (card ROM) | /// `$0AAE`; card `doFormFeed` |
+| Columns per line | 80 characters ≈ 560 columns (ruler check pending) | card ROM `printerRowNum` |
+| Paper steps per inch | ≈ 40 | manual p. 21 |
+| Home sensor | margin switch to GND, active low | schematic |
+| Paper-out sensor | none | schematic |
+| Bidirectional trim | −4 µs per column on reverse passes (///) | /// `$0BB4` |
 
-Disassemble (6502 — `da65`, Ghidra w/ 6502, Virtual ][ debugger) and record:
+## 3. Still needs the bench
 
-| Constant | Value found | Address | Notes |
-|---|---|---|---|
-| Stepper phase table (carriage) | one-hot {1,8,4,2} | $0A58 | wave drive |
-| Step interval + ramp profile | 4032 µs, no ramp | $0AC0 | column period governs while printing |
-| Head burn time per intensity | 640 µs (+256 dark); 512 pre-heat; 2624 off | DIB cfg $65–$6A | one level + dark flag in ///; II POKE table still unknown |
-| Inter-column cooldown | 2624 + 512 µs | $65/$66, $69/$6A | |
-| Head element count | **7** | font $0DA1+ | max glyph byte $7F |
-| Paper feed steps per band | TBD | | ⇒ native vertical DPI |
-| Columns per line | TBD | | ⇒ raster width |
-| Sensor polling / polarity | $C061 bit7 high = home | $0ADA | 792-step search, 16-step debounce |
-| Head-enable vs motion sequencing | step → preheat → burn → off | $0B7B | per column |
-| Reverse-pass column offset | −4 µs/column timing trim, not steps | $0BB4 | tunable |
+Head element resistance and current, the 555 time-out, the 74LS673 shift direction on a scope,
+column count and dot pitch on paper, the best burn level, and the reverse-pass offset. See the
+measurement log in `docs/bring-up.md`.
 
-## 3. Bench characterization (printer unpowered unless stated)
+## 4. Exit criteria
 
-| Measurement | Expected | Measured | Notes |
-|---|---|---|---|
-| **Head element count** | 7 (ROM-confirmed) | | sanity-check at connector |
-| Head element resistance, each | matched ±10% | | |
-| Dead/weak elements? | none | | |
-| Head element return path | ? | | VMOT common inside printer, or on connector? decides shunt placement |
-| Stepper type (carriage) | 4-φ unipolar likely | | |
-| Stepper coil resistance | | | ⇒ drive current; ULN2003A is 500 mA/ch |
-| Second motor for paper feed? | from schematic | | or clutch off carriage motor |
-| Supply rails required | +5 V + motor/head rail | | what did the card feed it? |
-| Head current, 1 dot / all dots | | | sizes FETs, F1, C7 |
-| Sensors present | home, paper-out? | | switch / opto |
-| Sensor logic levels | | | |
-| Connector at printer | 26-pin 2×13 | | **expect ~5 logic lines: SDATA, SCLK, 2 strobes, SENSE + power/GND** — find them |
-
-## 4. Ground truth capture (if a working Apple II + card is available)
-
-- [ ] Logic analyzer on head dots, motor phases, sensors during self-test,
-      a text line, a graphics dump, intensity min vs max.
-- [ ] Save to `docs/captures/` (sigrok `.sr`). Diff against ROM constants.
-
-## 5. Exit criteria
-
-`grep -r TBD_FROM_ROM firmware/` returns nothing, `HEAD_DOTS` is confirmed,
-and `docs/signals.md` is continuity-verified.
+`grep TBD_FROM_ROM firmware/src/config.h` returns nothing, and every row of the measurement log
+in `docs/bring-up.md` is filled in.
