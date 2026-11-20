@@ -1,6 +1,7 @@
 // print_engine.c — core1 real-time mechanism control.
 // Owns every GPIO that can burn paper or stall a motor. core0 talks to it only
-// through the band queue and volatile request flags. No USB, malloc or printf here.
+// through the band queue (bands and FEEDs, executed strictly in order) and volatile
+// request flags (RESET, SELFTEST). No USB, malloc or printf here.
 //
 // All outputs go through the printer's 74LS673 via sr_write() (shiftreg.c). Nothing
 // here touches a head or motor line directly.
@@ -23,9 +24,14 @@
 #include "print_engine.h"
 #include "shiftreg.h"
 
+// One queue entry. width == 0 marks a feed-only entry (CMD_FEED): no columns are
+// printed, the paper advances feed_steps (> 0) and bands_printed is not incremented.
+// Queuing FEED through the same ring keeps it in order with the bands before it.
+// (Same sizeof as before: the u16 feed_steps fills what used to be padding.)
 typedef struct {
-    uint16_t width;
-    uint8_t  intensity, feed_steps, flags;
+    uint16_t width;                                 // 0 = feed-only entry
+    uint16_t feed_steps;                            // band: advance after band, 0 = default; feed-only: steps
+    uint8_t  intensity, flags;
     uint8_t  cols[MAX_COLS];
 } band_t;
 
@@ -39,7 +45,6 @@ static uint8_t cur_carr, cur_feed;                 // latched motor phases (pers
 static inline void latch(uint8_t head7) { sr_write(sr_make(head7, cur_carr, cur_feed)); }
 
 static volatile bool     req_reset, req_selftest, abort_req;
-static volatile uint16_t req_feed_steps;
 
 // ---- runtime-tunable copies of config constants (SET_PARAM, RAM only) --------
 static uint16_t burn_us[INTENSITY_LEVELS], preheat_us[INTENSITY_LEVELS], off_us[INTENSITY_LEVELS];
@@ -86,33 +91,74 @@ static inline void heat_update(uint8_t col_bits) {
 // ROM column sequence (SOS driver $0B7B): pre-heat cold elements 512 µs, burn all
 // elements BURN_US, then INTER_COL_COOLDOWN_US off. "Cold" = off for the previous two
 // columns. prev1/prev2 persist across columns within a pass and reset at band start.
+//
+// Column timing is CONTENT-INDEPENDENT. The carriage stepper is open-loop and steps
+// once per column, so the column period IS its step interval; the Apple ROMs spend
+// the same time on every column whatever its dots. Each column is a fixed schedule
+// against absolute time from its start t0:
+//
+//   [t0, t0+PRE)            pre-heat slot: cold elements on (head off if none cold)
+//   [t0+PRE, t0+PRE+BURN)   burn slot: all elements on for the heat_adjust()'d burn,
+//                           head off for the rest of the slot
+//   [t0+PRE+BURN, t0+P)     off slot: head off
+//
+//   PRE  = min(preheat_us[lvl], BURN_HARD_LIMIT_US)
+//   BURN = min(burn_us[lvl],    BURN_HARD_LIMIT_US)
+//   P    = PRE + BURN + max(off_us[lvl] + COLUMN_TAIL_US, MIN_OFF_SLOT_US)
+//
+// Slots are scheduled from t0, not by summing busy-waits, so sr_write() latency does
+// not accumulate. A blank column spends the whole period with the head off.
+//
+// TODO(timing): PREHEAT_US_TAB is probably a post-step settle delay in the ROM, not a
+// cold-element pre-heat. Kept as-is here (separate known issue).
 static uint8_t prev1, prev2;
 
-static inline bool pulse(uint8_t head7, uint16_t us, uint16_t *mA_out) {
-    if (!head7 || !us) { if (mA_out) *mA_out = 0; return true; }
+// Floor on the off slot: the head-off write (one sr_write, ~20 µs) plus any pre-heat
+// overrun must land inside the column even if SET_PARAM sets the cooldown to 0.
+#define MIN_OFF_SLOT_US 100u
+
+static inline uint32_t slot_preheat_us(uint8_t lvl) { return preheat_us[lvl] < BURN_HARD_LIMIT_US ? preheat_us[lvl] : BURN_HARD_LIMIT_US; }
+static inline uint32_t slot_burn_us(uint8_t lvl)    { return burn_us[lvl]    < BURN_HARD_LIMIT_US ? burn_us[lvl]    : BURN_HARD_LIMIT_US; }
+static inline uint32_t column_period_us(uint8_t lvl) {
+    uint32_t off = (uint32_t)off_us[lvl] + COLUMN_TAIL_US;
+    return slot_preheat_us(lvl) + slot_burn_us(lvl) + (off > MIN_OFF_SLOT_US ? off : MIN_OFF_SLOT_US);
+}
+
+// One head-on pulse: waits for t_on, latches head7, holds it `us` from the moment
+// the on-write began, then latches the head off. Length is measured from the actual
+// on-write (not t_on), so a late start never shortens the burn; the overrun is
+// absorbed by the following slot. Writes nothing for an empty mask — the caller's
+// absolute schedule still spends the slot's time, with the head off.
+static void pulse(uint8_t head7, absolute_time_t t_on, uint16_t us, uint16_t *mA_out) {
+    if (mA_out) *mA_out = 0;
+    if (!head7 || !us) return;
     if (us > BURN_HARD_LIMIT_US) us = BURN_HARD_LIMIT_US;
+    busy_wait_until(t_on);
     gpio_put(PIN_HEAD_STROBE, 1);                                 // re-arm optional U5
     guard_id = add_alarm_in_us(BURN_HARD_LIMIT_US, guard_cb, NULL, true);
+    absolute_time_t on = get_absolute_time();
     latch(head7);                                                 // dots ON (also retriggers printer 555)
-    busy_wait_us(us / 2);
+    busy_wait_until(delayed_by_us(on, us / 2));
     uint16_t mA = read_head_mA();
-    busy_wait_us(us - us / 2);
+    busy_wait_until(delayed_by_us(on, us));
     latch(0);                                                     // dots OFF
     cancel_alarm(guard_id);
     gpio_put(PIN_HEAD_STROBE, 0);
     if (mA_out) *mA_out = mA;
-    return true;
 }
 
-static bool head_burn(uint8_t col_bits, uint8_t lvl) {
+// Burns one column that starts at t0. Returns with the head off, inside the off slot;
+// the caller waits for the column end (column_end()) before the next step.
+static bool head_burn(uint8_t col_bits, uint8_t lvl, absolute_time_t t0) {
     col_bits &= (1u << HEAD_DOTS) - 1u;
-    uint16_t burn = heat_adjust(col_bits, burn_us[lvl]);
+    uint16_t burn = heat_adjust(col_bits, burn_us[lvl]);          // <= burn slot; rest of slot is head-off
     uint8_t  cold = col_bits & (uint8_t)~(prev1 | prev2);
     uint16_t mA   = 0;
+    uint32_t pre  = slot_preheat_us(lvl);
 
-    pulse(cold,     preheat_us[lvl], NULL);                       // word 1: pre-heat cold elements
-    pulse(col_bits, burn,            &mA);                        // word 2: main burn, all elements
-    // word 3 (head off) is the inter-column cooldown, applied by the caller.
+    pulse(cold,     t0,                     (uint16_t)pre, NULL); // word 1: pre-heat cold elements
+    pulse(col_bits, delayed_by_us(t0, pre), burn,          &mA);  // word 2: main burn, all elements
+    // word 3 (head off) fills the rest of the column; the caller waits it out.
 
     prev2 = prev1; prev1 = col_bits;
     head_mA_last = mA;
@@ -123,6 +169,18 @@ static bool head_burn(uint8_t col_bits, uint8_t lvl) {
     return true;
 }
 static inline void head_history_reset(void) { prev1 = prev2 = 0; }
+
+// Waits for the end of the column that started at t0 and returns it (= the next
+// column's start). If the column overran, the next one starts now: a late column is
+// stretched, never followed by a compressed one (an open-loop stepper tolerates a
+// slow step, not a fast one).
+static absolute_time_t column_end(absolute_time_t t0, uint32_t period_us) {
+    absolute_time_t t_end = delayed_by_us(t0, period_us);
+    absolute_time_t now   = get_absolute_time();
+    if (absolute_time_diff_us(now, t_end) < 0) return now;
+    busy_wait_until(t_end);
+    return t_end;
+}
 
 // ---- motion ------------------------------------------------------------------
 static uint32_t carr_phase_idx, feed_phase_idx;
@@ -191,18 +249,21 @@ static uint32_t bands_since_home;
 static void print_band(const band_t *b) {
     if (paper_out()) { set_error(ERR_PAPER_OUT); return; }
     uint8_t  lvl  = b->intensity <= MAX_INTENSITY ? b->intensity : DEFAULT_INTENSITY;
-    uint32_t dwell = off_us[lvl] + COLUMN_TAIL_US;
+    uint32_t period = column_period_us(lvl);                    // same for every column of the band
     bool forced_fwd = b->flags & 0x01;
     int  dir = forced_fwd ? +1 : carr_dir;
 
+    // One carriage step per column, always at a column boundary and always with the
+    // head off (carr_step latches head=0), so step-to-step time == period both ways.
     if (dir > 0) {
         if (carr_pos != 0) carr_move(-carr_pos);                // forced forward: go home first
         head_history_reset(); motion_begin(); printing_pass = true;
+        absolute_time_t t0 = get_absolute_time();
         for (uint16_t c = 0; c < b->width; c++) {
             if (abort_req) { printing_pass = false; return; }
-            if (!head_burn(b->cols[c], lvl)) { printing_pass = false; set_error(ERR_HEAD_FAULT); return; }
-            busy_wait_us(dwell);
-            carr_step(+1);
+            if (!head_burn(b->cols[c], lvl, t0)) { printing_pass = false; set_error(ERR_HEAD_FAULT); return; }
+            t0 = column_end(t0, period);
+            carr_step(+1);                                      // step at end of column
         }
         printing_pass = false; carr_dir = -1;
     } else {
@@ -211,11 +272,12 @@ static void print_band(const band_t *b) {
         int32_t target = (int32_t)b->width + reverse_offset;
         if (carr_pos != target) carr_move(target - carr_pos);
         head_history_reset(); motion_begin(); printing_pass = true;
+        absolute_time_t t0 = get_absolute_time();
         for (int32_t c = (int32_t)b->width - 1; c >= 0; c--) {
             if (abort_req) { printing_pass = false; return; }
-            carr_step(-1);
-            if (!head_burn(b->cols[c], lvl)) { printing_pass = false; set_error(ERR_HEAD_FAULT); return; }
-            busy_wait_us(dwell);
+            carr_step(-1);                                      // step at start of column
+            if (!head_burn(b->cols[c], lvl, t0)) { printing_pass = false; set_error(ERR_HEAD_FAULT); return; }
+            t0 = column_end(t0, period);
         }
         printing_pass = false; carr_dir = +1;
     }
@@ -250,19 +312,21 @@ static void engine_loop(void) {
             continue;
         }
         if (engine_state == 2) {
-            if (q_head != q_tail) q_tail = q_head;
-            req_feed_steps = 0; req_selftest = false;
+            if (q_head != q_tail) q_tail = q_head;           // discards queued bands AND feeds
+            req_selftest = false;
             tight_loop_contents(); continue;
         }
-        if (req_feed_steps) { uint16_t n = req_feed_steps; req_feed_steps = 0; paper_feed(n); continue; }
         if (req_selftest)   { req_selftest = false; engine_state = 1; selftest_pattern(); if (engine_state != 2) engine_state = 0; continue; }
         if (q_head == q_tail) { engine_state = 0; tight_loop_contents(); continue; }
 
         engine_state = 1;
-        print_band(&queue[q_tail % BAND_QUEUE_DEPTH]);
+        const band_t *b = &queue[q_tail % BAND_QUEUE_DEPTH];
+        bool is_band = b->width != 0;                     // read before q_tail++ frees the slot
+        if (is_band) print_band(b);
+        else         paper_feed(b->feed_steps);           // FEED, in order with the bands before it
         __dmb();
         q_tail++;
-        if (engine_state != 2) bands_printed++;
+        if (is_band && engine_state != 2) bands_printed++;
     }
 }
 
@@ -288,8 +352,22 @@ queue_result_t engine_queue_band(const uint8_t *payload, uint16_t len) {
     q_head++;
     return QUEUE_OK;
 }
+// FEED payload: u16 steps (LE). Queued as a feed-only entry so it runs after every
+// band queued before it, and back-pressures like a band when the ring is full.
+// A 0-step FEED is a no-op: QUEUE_OK without using a slot (nothing to order).
+queue_result_t engine_queue_feed(const uint8_t *payload, uint16_t len) {
+    if (engine_state == 2) return QUEUE_ERRSTATE;
+    if (len != 2) return QUEUE_INVALID;
+    uint16_t steps = (uint16_t)(payload[0] | (payload[1] << 8));
+    if (steps == 0) return QUEUE_OK;
+    if (q_head - q_tail >= BAND_QUEUE_DEPTH) return QUEUE_FULL;
+    band_t *b = &queue[q_head % BAND_QUEUE_DEPTH];
+    b->width = 0; b->feed_steps = steps; b->intensity = 0; b->flags = 0;
+    __dmb();
+    q_head++;
+    return QUEUE_OK;
+}
 void engine_request_reset(void)          { abort_req = true; req_reset = true; }
-void engine_request_feed(uint16_t steps) { req_feed_steps = steps; }
 void engine_request_selftest(void)       { req_selftest = true; }
 void engine_set_error(uint8_t err)       { set_error(err); }
 

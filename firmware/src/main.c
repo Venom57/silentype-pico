@@ -1,6 +1,6 @@
 // main.c — core0: TinyUSB CDC + frame parser. Mechanism work is on core1.
 //
-// Flow control: when the band queue is full we simply stop reading the CDC FIFO.
+// Flow control: when the band queue (bands + FEEDs) is full we simply stop reading the CDC FIFO.
 // TinyUSB NAKs the host once its RX buffer fills; the host's write() blocks.
 
 #include <string.h>
@@ -26,22 +26,24 @@ static void send_frame(uint8_t cmd, const void *payload, uint16_t len) {
 }
 static void send_ack(uint8_t cmd, uint8_t result) { uint8_t p[2] = { cmd, result }; send_frame(RSP_ACK, p, 2); }
 
+// ACK a queue attempt (BAND or FEED). Returns false on QUEUE_FULL: no ACK, the frame
+// stays in rx and is retried later (back-pressure). ACK_OK means "queued", not "done".
+static bool ack_queue_result(uint8_t cmd, queue_result_t r) {
+    switch (r) {
+    case QUEUE_OK:       send_ack(cmd, ACK_OK);       return true;
+    case QUEUE_INVALID:  send_ack(cmd, ACK_INVALID);  return true;   // consumed, not spun on
+    case QUEUE_ERRSTATE: send_ack(cmd, ACK_ERRSTATE); return true;
+    case QUEUE_FULL:     return false;                                // back-pressure
+    }
+    return true;
+}
+
 // Returns true if the frame was consumed (ACK/NAK sent); false = retry later (queue full).
 static bool handle_frame(const proto_hdr_t *h, const uint8_t *payload) {
     status_t st;
     switch (h->cmd) {
-    case CMD_BAND:
-        switch (engine_queue_band(payload, h->len)) {
-        case QUEUE_OK:       send_ack(h->cmd, ACK_OK);       return true;
-        case QUEUE_INVALID:  send_ack(h->cmd, ACK_INVALID);  return true;  // consumed, not spun on
-        case QUEUE_ERRSTATE: send_ack(h->cmd, ACK_ERRSTATE); return true;
-        case QUEUE_FULL:     return false;                                 // back-pressure
-        }
-        return true;
-    case CMD_FEED:
-        if (h->len != 2) { send_ack(h->cmd, ACK_INVALID); return true; }
-        engine_request_feed((uint16_t)(payload[0] | (payload[1] << 8)));
-        send_ack(h->cmd, ACK_OK); return true;
+    case CMD_BAND: return ack_queue_result(h->cmd, engine_queue_band(payload, h->len));
+    case CMD_FEED: return ack_queue_result(h->cmd, engine_queue_feed(payload, h->len));   // queued behind bands
     case CMD_STATUS:   engine_fill_status(&st); send_frame(RSP_STATUS, &st, sizeof st); return true;
     case CMD_RESET:    engine_request_reset();    send_ack(h->cmd, ACK_OK); return true;
     case CMD_SELFTEST: engine_request_selftest(); send_ack(h->cmd, ACK_OK); return true;
