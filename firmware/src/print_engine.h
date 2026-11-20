@@ -6,8 +6,8 @@ enum engine_err { ERR_NONE = 0, ERR_CRC, ERR_HEAD_FAULT, ERR_HOME_TIMEOUT, ERR_P
 typedef enum { QUEUE_OK = 0, QUEUE_FULL, QUEUE_INVALID, QUEUE_ERRSTATE } queue_result_t;
 void           engine_init(void);
 queue_result_t engine_queue_band(const uint8_t *band_payload, uint16_t len);
-void           engine_request_reset(void);       // abort + clear + rehome (async)
-void           engine_request_feed(uint16_t steps);
+queue_result_t engine_queue_feed(const uint8_t *feed_payload, uint16_t len);  // u16 steps, runs in order with bands
+void           engine_request_reset(void);       // abort + clear queue (bands + feeds) + rehome (async)
 void           engine_request_selftest(void);
 void           engine_set_error(uint8_t err);    // e.g. ERR_CRC from parser
 bool           engine_set_param(uint8_t id, uint32_t value);   // bench tuning, RAM only
