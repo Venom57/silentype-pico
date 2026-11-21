@@ -118,8 +118,9 @@ PARTS = {
 M3D = "${KICAD10_3DMODEL_DIR}/"
 RENDER_MODELS = {
     "J2": [(M3D + "Connector_BarrelJack.3dshapes/BarrelJack_Horizontal.step", -90, (0, 0, 0))],
-    "F1": [(M3D + "Capacitor_THT.3dshapes/C_Disc_D7.5mm_W2.5mm_P5.00mm.step", 13.2, (0, 0, 0))],
-    "F2": [(M3D + "Capacitor_THT.3dshapes/C_Disc_D7.5mm_W2.5mm_P5.00mm.step", 13.2, (0, 0, 0))],
+    # PTC fuses: generated models (gen_resistor_models.py), sized per part
+    "F1": [("${KIPRJMOD}/models/PTC_MF-RHT200.wrl", 0, (0, 0, 0))],
+    "F2": [("${KIPRJMOD}/models/PTC_MF-RHT050.wrl", 0, (0, 0, 0))],
     # KiCad 10.0.7 on aarch64 crashes (SIGBUS/SIGSEGV) loading most CP_Radial/C_Radial STEP
     # files, including CP_Radial_D10.0mm_P5.00mm and every 4-6.3 mm can. The D10 dual-pitch
     # model loads, so it stands in for C1 and, scaled to a 5 mm can, for C2/C3.
@@ -283,7 +284,11 @@ def add_text(board, text, x, y, size=1.0, layer=pcbnew.F_SilkS, rot=0, bold=Fals
 # Reference-designator placement. "body": centred on the part between its first two pads
 # (axial parts: the label sits inside the body outline). (dx, dy): offset from the part origin.
 REF_IN_BODY = {"R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R11", "R12", "R13",
-               "D1", "D2", "D3", "F1", "F2"}
+               "D1", "D2", "D3"}
+# Fuses: the reference is replaced by a label naming the part type and rating, placed in clear
+# board space beside the part (the pads leave no room inside the outline), so the small PTC
+# discs read as fuses on the bare board.   ref: (label, x, y) in mm
+FUSE_LABELS = {"F1": ("F1 PTC 2A", 21.5, 0.95), "F2": ("F2 PTC 0.5A", 33.4, 39.4)}
 REF_OFFSET = {"Q1": (2.54, 3.6, 0), "C3": (1.0, 3.7, 0), "C2": (-4.3, 0.0, 0), "C1": (8.8, 0.0, 0),
               "LED1": (5.6, 0.0, 0), "LED2": (-1.27, 3.2, 0), "C4": (2.5, 0.0, 0),
               "U3": (2.54, -3.6, 0),
@@ -312,6 +317,9 @@ def place_references(board):
 
 def add_silkscreen(board):
     place_references(board)
+    for ref, (label, x, y) in FUSE_LABELS.items():
+        board.FindFootprintByReference(ref).Reference().SetVisible(False)
+        add_text(board, label, x, y, 0.8, bold=True)
     # Back side, between the Pico's pin rows (no pads there on the back).
     add_text(board, "SILENTYPE-PICO CARRIER v1.0", 86.0, 24.0, 1.4, layer=pcbnew.B_SilkS, rot=90, bold=True)
     add_text(board, "Apple Silentype USB controller", 89.2, 24.0, 1.0, layer=pcbnew.B_SilkS, rot=90)

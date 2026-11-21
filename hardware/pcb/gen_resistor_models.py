@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gen_resistor_models.py: VRML 3D models of axial resistors with the correct colour code.
+"""gen_resistor_models.py: VRML 3D models for the renders: colour-coded resistors and PTC fuses.
 
 KiCad's R_Axial model is one plain body for every value, so the renders could not show
 which resistor is which. This writes models/R_<value>.wrl for each value on the board:
@@ -98,13 +98,72 @@ def model(ohms):
 
 VALUES = {"47R": 47, "330R": 330, "1k": 1000, "4k7": 4700, "10k": 10000, "47k": 47000}
 
+# Bourns MF-RHT radial PTCs: flat yellow epoxy-dipped body on two kinked legs. KiCad has no model.
+# Footprint pads: pad 1 at the origin, pad 2 at (+5.1, +1.2) mm in board coordinates (y down),
+# i.e. (5.1, -1.2) in model coordinates (y up). The body stands upright over the pad line.
+PTC_YELLOW = (0.93, 0.76, 0.16)
+PTCS = {"MF-RHT200": (7.4, 9.5, 3.0), "MF-RHT050": (5.6, 7.4, 3.0)}   # width, height, thickness (mm)
+
+
+def _slab(cx, cy, ux, uy, w, z0, h, t, rgb):
+    """Upright rounded slab: width w along unit vector (ux, uy), thickness t across it,
+    from z0 to z0 + h, with a semicircular top."""
+    import math
+    nx, ny = -uy, ux                                   # across the slab
+    r = w / 2
+    outline = [(-r, z0), (r, z0)]                      # (along, z) profile, counter-clockwise
+    for k in range(SEG // 2 + 1):
+        a = math.pi * k / (SEG // 2)
+        outline.append((r * math.cos(a), z0 + h - r + r * math.sin(a)))
+    ring = {}
+    for side in (-t / 2, t / 2):
+        ring[side] = [(cx + a * ux + side * nx, cy + a * uy + side * ny, z) for a, z in outline]
+    back, front = ring[-t / 2], ring[t / 2]
+    n = len(outline)
+    # Each face gets its own vertices (KiCad's VRML reader averages normals over shared
+    # vertices) and is wound counter-clockwise seen from outside (its raytracer lights only
+    # the front of a face), checked against the body's centroid.
+    allp = back + front
+    c = [sum(v[i] for v in allp) / len(allp) for i in range(3)]
+
+    def outward(poly):
+        a, b, d = poly[0], poly[1], poly[2]
+        u = [b[i] - a[i] for i in range(3)]
+        v = [d[i] - a[i] for i in range(3)]
+        nrm = (u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0])
+        fc = [sum(p[i] for p in poly) / len(poly) for i in range(3)]
+        out_dir = [fc[i] - c[i] for i in range(3)]
+        return poly if sum(nrm[i] * out_dir[i] for i in range(3)) > 0 else poly[::-1]
+
+    faces = [back, front] + [[back[k], back[(k + 1) % n], front[(k + 1) % n], front[k]] for k in range(n)]
+    out = ""
+    for poly in faces:
+        poly = outward(poly)
+        out += _shape(poly, [tuple(range(len(poly)))], rgb, 0.25)
+    return out
+
+
+def ptc_model(w, h, t):
+    import math
+    x2, y2 = 5.1, -1.2
+    L = math.hypot(x2, y2)
+    ux, uy = x2 / L, y2 / L
+    base = 2.2                                         # body sits on the kinks above the board
+    parts = [_slab(x2 / 2, y2 / 2, ux, uy, w, base, h, t, PTC_YELLOW)]
+    for (x, y) in ((0.0, 0.0), (x2, y2)):
+        parts.append(_cylinder((x, y, -3.0), (x, y, base + 0.4), 0.6, LEAD, shiny=0.6))
+    return "#VRML V2.0 utf8\n" + "".join(parts)
+
 
 def main():
     os.makedirs(OUT, exist_ok=True)
     for name, ohms in VALUES.items():
         with open(os.path.join(OUT, f"R_{name}.wrl"), "w") as f:
             f.write(model(ohms))
-    print(f"wrote {len(VALUES)} resistor models -> {OUT}")
+    for name, dims in PTCS.items():
+        with open(os.path.join(OUT, f"PTC_{name}.wrl"), "w") as f:
+            f.write(ptc_model(*dims))
+    print(f"wrote {len(VALUES)} resistor and {len(PTCS)} PTC models -> {OUT}")
 
 
 if __name__ == "__main__":

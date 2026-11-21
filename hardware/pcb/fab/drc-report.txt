@@ -1,5 +1,5 @@
 ** Drc report for silentype-carrier.kicad_pcb **
-** Created on 2026-11-19T22:36:04 **
+** Created on 2026-11-20T12:52:31 **
 ** Report includes: Errors, Warnings, Exclusions **
 
 ** Found 11 DRC violations **
