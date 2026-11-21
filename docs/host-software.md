@@ -30,8 +30,9 @@ after a job's last ACK, because up to 8 bands and the page feed may still be pri
 ## PAPPL printer app (`host/pappl-app/`)
 
 A local IPP Everywhere server, so macOS and Linux add the Silentype from the ordinary print dialog.
-Checked against the PAPPL 1.4.12 headers with `-Wall -Wextra -Werror`; its job and device code
-pass a fake-Pico test. Not yet linked against libpappl or run under CUPS.
+Builds against libpappl 1.4.12 with no warnings, and its job and device code pass a fake-Pico
+test. Run under a real PAPPL server, it added the printer and printed a PNG end to end to a fake
+Pico. Not yet tried from a desktop print dialog or with a real printer.
 
 ```
 make -C host/pappl-app            # needs PAPPL >= 1.4 (Arch: pacman -S pappl)
@@ -85,7 +86,8 @@ Arch); install the app to `/usr/local/bin/`; create a `silentype` user in the se
 
 | Severity | Issue | Next step |
 |---|---|---|
-| Medium | Not yet linked against libpappl or run under CUPS | `pacman -S pappl`, `make`, add the printer, print a test page (M7) |
+| Medium | PNG/JPEG sent straight to the app print squeezed sideways: PAPPL's image scaler assumes square pixels, and the printer is 75 × 40 dpi | Advertise 75 × 75 dpi and merge rows 75 → 40 in the driver, or accept it (PDFs rendered by CUPS at the printer's resolution are not affected; to verify at M7) |
+| Medium | Not yet tried from a desktop print dialog | Add the printer in macOS / GNOME and print a PDF (M7) |
 | Medium | 75 × 40 dpi and 560 columns are estimates | Ruler check on a real print (M1); change `ST_XDPI`, `ST_MAX_COLS` |
 | Low | Listing probes every port on macOS (no sysfs USB ID check there) | Match the USB ID through IOKit, or rely on the device URI |
 
@@ -93,4 +95,5 @@ Fixed in v0.7: frames were left in PAPPL's write buffer and never sent; the devi
 had the wrong return type and inverted stop logic; RESET at job start discarded the previous
 job's queued bands; wrong media units, dpi and column count; darkness range; a non-existent
 raster-type constant (`PAPPL_RASTER_TYPE_BLACK_1`); a raw `format` with no print-file callback;
-replies split across USB packets read as a time-out. See [`KNOWN-ISSUES.md`](KNOWN-ISSUES.md).
+replies split across USB packets read as a time-out; `ppm` 0, which PAPPL rejects when adding
+the printer; no `force_raster_type`, so PAPPL sent 8-bit lines and every page printed blank. See [`KNOWN-ISSUES.md`](KNOWN-ISSUES.md).

@@ -6,8 +6,8 @@ Nothing has run on real hardware yet. Verified so far, all in software: column t
 ordering (`firmware/test`), the PIO program (assembled with `pioasm`, cycle-level model of the
 PIO, the 74LS673 and Apple's card), bit order and dot orientation (traced from the card ROM and
 the Apple /// font), `send_band.py` (unit tests), the PAPPL app's job and device code (`make -C host/pappl-app test`,
-against a fake Pico on a pseudo-terminal) and the PCB (KiCad DRC, 0 errors). The PAPPL app has
-not yet been linked against libpappl or run under CUPS.
+against a fake Pico on a pseudo-terminal) and the PCB (KiCad DRC, 0 errors). The PAPPL app also
+ran under a real PAPPL 1.4.12 server: printer added, a PNG printed end to end to a fake Pico.
 
 ## Equipment
 

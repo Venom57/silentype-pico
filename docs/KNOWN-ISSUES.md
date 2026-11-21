@@ -155,6 +155,13 @@ job-start RESET makes it fail.
 | Low | Darkness → intensity 1..5, default 3 | 0..7; `printer-darkness-configured` 14 → intensity 1 |
 | Low | Probed every `/dev/ttyACM*` with STATUS | Linux: only ports with USB ID 1209:0001 |
 | Low | Raw `format` set with no print-file callback | Removed: raster only |
+| Critical | Found on the real server: `ppm` 0, so PAPPL refused to add the printer (reported as a bad printer name) | `ppm = 1` |
+| Critical | Found on the real server: without `force_raster_type` PAPPL sends 8-bit lines; read as bits, every page printed blank | `force_raster_type = BLACK_1`; pages that are not 1-bit are refused |
 
-Still open: not yet linked against libpappl or run under CUPS; dpi and columns await the M1
-ruler check; listing on macOS still probes every `cu.usbmodem*` port.
+End to end: built against libpappl 1.4.12; an isolated `silentype-app server` added the printer
+on a fake Pico and printed a PNG, 63 bands of 560 columns plus the page feed, which decode to
+the right image, the right way up and centred.
+
+Still open: PNG/JPEG sent straight to the app print squeezed sideways (PAPPL's image scaler
+assumes square pixels; 75 × 40 dpi is not); not yet tried from a desktop print dialog; dpi and
+columns await the M1 ruler check; listing on macOS still probes every `cu.usbmodem*` port.

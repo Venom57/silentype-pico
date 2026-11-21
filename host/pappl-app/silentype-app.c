@@ -315,6 +315,10 @@ static bool st_rstartjob(pappl_job_t *job, pappl_pr_options_t *opt, pappl_device
 static bool st_rstartpage(pappl_job_t *job, pappl_pr_options_t *opt, pappl_device_t *dev, unsigned page) {
   (void)dev; (void)page;
   st_job_t *j = papplJobGetData(job);
+  if (opt->header.cupsBitsPerPixel != 1) {   // we pack bits; 8-bit lines would print blank
+    papplLogJob(job, PAPPL_LOGLEVEL_ERROR, "Expected 1-bit raster, got %u bits per pixel", opt->header.cupsBitsPerPixel);
+    return false;
+  }
   unsigned w = opt->header.cupsWidth;
   if (w > ST_MAX_LINE * 8) w = ST_MAX_LINE * 8;
   // Centre the printable columns on the page (margins are already blank in the raster).
@@ -371,11 +375,15 @@ static bool st_driver_cb(pappl_system_t *sys, const char *driver_name, const cha
   (void)sys; (void)device_uri; (void)device_id; (void)attrs; (void)data;
   if (strcmp(driver_name, "silentype")) return false;
   papplCopyString(d->make_and_model, "Apple Silentype (Pico)", sizeof d->make_and_model);
+  d->ppm = 1;                      // required > 0: a page is ~63 bands of 560 columns, 1-2 min
   d->rstartjob_cb = st_rstartjob; d->rstartpage_cb = st_rstartpage; d->rwriteline_cb = st_rwriteline;
   d->rendpage_cb  = st_rendpage;  d->rendjob_cb    = st_rendjob;    d->status_cb     = st_status;
   // No d->format: this driver takes raster only (a raw format needs a printfile_cb).
   d->orient_default = IPP_ORIENT_PORTRAIT;
-  d->raster_types = PAPPL_PWG_RASTER_TYPE_BLACK_1;           // PAPPL dithers; we just pack
+  // raster_types only advertises accepted input; force_raster_type makes PAPPL dither
+  // everything (PNG, JPEG, 8-bit PWG raster) to 1 bit before calling rwriteline.
+  d->raster_types = PAPPL_PWG_RASTER_TYPE_BLACK_1;
+  d->force_raster_type = PAPPL_PWG_RASTER_TYPE_BLACK_1;
   d->color_supported = PAPPL_COLOR_MODE_MONOCHROME; d->color_default = PAPPL_COLOR_MODE_MONOCHROME;
   d->num_resolution = 1; d->x_resolution[0] = ST_XDPI; d->y_resolution[0] = ST_YDPI;
   d->x_default = ST_XDPI; d->y_default = ST_YDPI;

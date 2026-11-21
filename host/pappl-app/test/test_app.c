@@ -22,6 +22,7 @@ static int print_page(pappl_device_t *dev, unsigned rows, int darkness) {
   pappl_job_t job = { 0 };
   pappl_pr_options_t opt; memset(&opt, 0, sizeof opt);
   opt.header.cupsWidth = PAGE_W; opt.header.cupsHeight = rows; opt.header.cupsBytesPerLine = (PAGE_W + 7) / 8;
+  opt.header.cupsBitsPerPixel = 1;
   opt.darkness_configured = 14; opt.print_darkness = darkness;
   unsigned char line[(PAGE_W + 7) / 8];
   if (!st_rstartjob(&job, &opt, dev)) { fprintf(stderr, "  startjob failed\n"); st_rendjob(&job, &opt, dev); return 2; }
@@ -44,13 +45,20 @@ static int darkness_table(void) {
   for (size_t i = 0; i < sizeof t / sizeof t[0]; i++) {
     pappl_job_t job = { 0 }; st_job_t j; memset(&j, 0, sizeof j); job.data = &j;
     pappl_pr_options_t opt; memset(&opt, 0, sizeof opt);
-    opt.header.cupsWidth = PAGE_W; opt.darkness_configured = d.darkness_configured; opt.print_darkness = t[i].dk;
+    opt.header.cupsWidth = PAGE_W; opt.header.cupsBitsPerPixel = 1; opt.darkness_configured = d.darkness_configured; opt.print_darkness = t[i].dk;
     st_rstartpage(&job, &opt, NULL, 1);
     if (j.intensity != t[i].want) { fprintf(stderr, "  darkness %d -> %u, want %u\n", t[i].dk, j.intensity, t[i].want); bad = 1; }
     if (j.width != ST_MAX_COLS || j.x_offset != OFFSET) { fprintf(stderr, "  width %u offset %u\n", j.width, j.x_offset); bad = 1; }
   }
   if (d.media_default.size_width != 21590 || d.left_right != d.media_default.left_margin ||
-      d.x_default != 75 || d.y_default != 40 || d.darkness_supported != 8) { fprintf(stderr, "  driver data wrong\n"); bad = 1; }
+      d.x_default != 75 || d.y_default != 40 || d.darkness_supported != 8 ||
+      d.ppm <= 0 || d.force_raster_type != PAPPL_PWG_RASTER_TYPE_BLACK_1 || !d.rstartjob_cb || !d.rwriteline_cb || !d.make_and_model[0]) {   /* PAPPL rejects these */ fprintf(stderr, "  driver data wrong\n"); bad = 1; }
+  {  // an 8-bit page must be refused, not printed blank
+    pappl_job_t job = { 0 }; st_job_t j; memset(&j, 0, sizeof j); job.data = &j;
+    pappl_pr_options_t opt; memset(&opt, 0, sizeof opt);
+    opt.header.cupsWidth = PAGE_W; opt.header.cupsBitsPerPixel = 8;
+    if (st_rstartpage(&job, &opt, NULL, 1)) { fprintf(stderr, "  8-bit page accepted\n"); bad = 1; }
+  }
   fprintf(stderr, "  margins %d (1/100 mm), darkness_configured %d\n", d.left_right, d.darkness_configured);
   return bad;
 }

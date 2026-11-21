@@ -105,7 +105,7 @@ The PCB fab package is `hardware/pcb/fab/silentype-carrier-gerbers.zip` (2 layer
 | Reverse engineering | Done: Apple /// driver, Apple II card ROM, printer and card schematics, DE-9 pinout |
 | Firmware | Written; host-simulated tests pass; **not yet built with the real Pico SDK** |
 | Carrier PCB v1.0 | Routed, DRC clean (0 errors, 0 unconnected), Gerbers exported; not yet ordered |
-| PAPPL app | Checked against the PAPPL 1.4.12 headers (`-Wall -Wextra -Werror`); job and device code pass a fake-Pico test (`make -C host/pappl-app test`); not yet linked against libpappl or run under CUPS |
+| PAPPL app | Builds against libpappl 1.4.12 with no warnings; fake-Pico test passes (`make -C host/pappl-app test`); a real PAPPL server added the printer and printed a PNG end to end to a fake Pico. Not yet tried from a desktop print dialog or with a real printer |
 | Bench | Not started |
 
 ## Milestones
