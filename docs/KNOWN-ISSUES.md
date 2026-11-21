@@ -121,23 +121,40 @@ clears the printer (replaces the optional 74HC123 one-shot U5, now dropped); 12 
 and crowbar; R-78E 5 V; Pico 2 / 2 W on sockets with antenna keepout. Pin GP9 (U5 strobe) removed
 from the firmware; GP6 = `PIN_BUS_EN` added.
 
-### Still open
+### Still open (PAPPL rows moved to v0.7 below)
 
 | Severity | Area | Issue |
 |---|---|---|
-| Critical | PAPPL app | `papplDeviceWrite` is buffered and never flushed — no frame is ever sent |
-| Critical | PAPPL app | Device-list callback returns `void` (GCC 14+ error) and has its stop/continue logic inverted |
-| High | PAPPL app | RESET at job start aborts the previous job's queued bands and page feed |
 | Medium | Firmware | RESET during a paper feed leaves a feed coil energised |
 | Medium | Firmware | Paper feed steps every 4 ms; Apple used ~8–11 ms |
 | Medium | Firmware | ROM "pre-heat" column is really a post-step settle; ROM burns include ~440 µs shift time. Tables not yet reinterpreted |
-| Medium | PAPPL app | Media width in wrong units; 60 dpi vertical (should be ~40); 480 vs 560 columns |
-| Low | PAPPL app | Darkness → intensity 1..5, default 3 (firmware default is 1, range 0..7) |
 | Low | Firmware | Burns set within ~50 µs of the 3000 µs cap trip the guard every column |
 | Low | Firmware | Half-received frame survives a USB reconnect; homing reach 735 vs ROM 792 steps; `engine_state` written by both cores |
 | Low | Firmware | Feed button (GP22) and error LED (GP26) not yet used |
 | Low | Firmware | Dead code: parallel-GPIO pin names, ADC current-sense path |
-| Low | PAPPL app | Probes every `/dev/ttyACM*`; driver `format` without a print-file callback |
 
 Bench items (head resistance, 555 time-out, column count, burn level, reverse offset) are tracked
 in `docs/bring-up.md`.
+
+## v0.7 — PAPPL app fixed and tested (2026-11-21)
+
+Checked against the PAPPL 1.4.12 headers (`-Wall -Wextra -Werror`, GCC 16). New test
+`make -C host/pappl-app test` runs the app's own job and device callbacks, with PAPPL stubbed, against a
+fake Pico on a pseudo-terminal: 11 scenarios. Mutation-checked: reverting the bit order or the
+job-start RESET makes it fail.
+
+| Severity | Issue | Fix |
+|---|---|---|
+| Critical | `papplDeviceWrite` buffers and nothing flushed it: no frame was ever sent | Frames written straight to the port (full-write loop); the device write callback also handles partial writes |
+| Critical | Device-list callback returned `void`; stop/continue inverted | Returns `bool`; stops when PAPPL's callback returns true; the glob no longer skips macOS ports |
+| High | RESET at job start discarded the previous job's queued bands and page feed | Poll STATUS until idle; RESET only to clear an error, then wait for the re-home |
+| High | Firmware reported idle while homing after RESET or boot | `engine_state` = busy while homing (`print_engine.c`); `protocol.md` updated |
+| High | `PAPPL_RASTER_TYPE_BLACK_1` does not exist (compile error) | `PAPPL_PWG_RASTER_TYPE_BLACK_1` |
+| Medium | Media width in wrong units; 60 × 60 dpi; 480 columns | 8.5 × 11 in in hundredths of a mm; 75 × 40 dpi; 560 columns, centred by side margins |
+| Medium | A reply split across USB packets read as a time-out | Replies read with a deadline until complete |
+| Low | Darkness → intensity 1..5, default 3 | 0..7; `printer-darkness-configured` 14 → intensity 1 |
+| Low | Probed every `/dev/ttyACM*` with STATUS | Linux: only ports with USB ID 1209:0001 |
+| Low | Raw `format` set with no print-file callback | Removed: raster only |
+
+Still open: not yet linked against libpappl or run under CUPS; dpi and columns await the M1
+ruler check; listing on macOS still probes every `cu.usbmodem*` port.

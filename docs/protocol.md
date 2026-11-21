@@ -64,7 +64,7 @@ bit `HEAD_DOTS − 1 − r`. Rows padded past the end of a page/image are blank 
 
 ### STATUS (16 bytes)
 ```
-u8  state        // 0 idle, 1 printing, 2 error
+u8  state        // 0 idle (homed, queue empty), 1 busy (printing, feeding or homing), 2 error
 u8  error_code   // 0 none, 1 crc, 2 head_fault, 3 home_timeout, 4 paper_out, 5 invalid_band
 u8  buffer_bands
 u8  buffer_max

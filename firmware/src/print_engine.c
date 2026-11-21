@@ -305,7 +305,10 @@ static void selftest_pattern(void) {
 // ---- core1 loop ----------------------------------------------------------------
 static void engine_loop(void) {
     latch(0);
+    bool was_error = engine_state == 2;                 // keep an error latched before core 1 started
+    if (!was_error) engine_state = 1;                   // busy while homing: hosts poll STATUS for idle
     if (!carriage_home()) set_error(ERR_HOME_TIMEOUT);
+    else if (!was_error) engine_state = 0;
 
     for (;;) {
         if (req_reset) {
@@ -314,8 +317,8 @@ static void engine_loop(void) {
             latch(0);
             q_tail = q_head;
             memset(heat, 0, sizeof heat);
-            engine_error = ERR_NONE; engine_state = 0;
-            if (!carriage_home()) set_error(ERR_HOME_TIMEOUT);
+            engine_error = ERR_NONE; engine_state = 1;       // busy while homing
+            if (!carriage_home()) set_error(ERR_HOME_TIMEOUT); else engine_state = 0;
             continue;
         }
         if (engine_state == 2) {

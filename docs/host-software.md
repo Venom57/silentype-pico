@@ -30,22 +30,31 @@ after a job's last ACK, because up to 8 bands and the page feed may still be pri
 ## PAPPL printer app (`host/pappl-app/`)
 
 A local IPP Everywhere server, so macOS and Linux add the Silentype from the ordinary print dialog.
-Written against the PAPPL 1.4 API from memory; **not yet compiled**, with blocking bugs (below).
+Checked against the PAPPL 1.4.12 headers with `-Wall -Wextra -Werror`; its job and device code
+pass a fake-Pico test. Not yet linked against libpappl or run under CUPS.
 
 ```
-make -C host/pappl-app
+make -C host/pappl-app            # needs PAPPL >= 1.4 (Arch: pacman -S pappl)
+make -C host/pappl-app test       # fake Pico on a pty; no printer needed
 ./silentype-app server -o listen-hostname=localhost
 ./silentype-app add -d silentype -v serial:///dev/ttyACM0 -m silentype
 ```
 
-- **Device scheme.** Its own `serial://` scheme talks to the port directly (no libusb). Listing
-  probes `/dev/ttyACM*` and `/dev/cu.usbmodem*` with STATUS and reports only real Silentype-Picos.
-- **Driver.** 1-bit black raster (CUPS dithers); 60 × 60 dpi and 480 columns (both wrong, see
-  issues); continuous roll media; print-darkness → intensity.
-- **Job flow.** RESET + ACK at job start. Every 7 raster lines become one BAND (line r → bit 6 − r),
-  sent and ACK-checked. At page end the partial band is padded white, then FEED 40 (~1 inch).
-  Every ACK is checked for the right command echo and an OK result.
-- **Status.** STATUS maps the engine's error state to IPP printer-state-reasons.
+- **Device scheme.** Its own `serial://` scheme talks to the port directly (no libusb). Frames
+  are written straight to the port, never through PAPPL's write buffer, so each one reaches the
+  Pico before the app waits for its reply. Replies are read with a deadline and resynchronise on
+  noise or a bad CRC. Listing only probes ports whose USB ID is the Silentype-Pico's (1209:0001,
+  read from sysfs on Linux) and reports those that answer STATUS.
+- **Driver.** 1-bit black raster (PAPPL dithers); 75 × 40 dpi (≈ 560 columns over 7.5 in; one
+  raster row per paper step); 8.5 × 11 in roll media with side margins that leave exactly 560
+  columns, centred; print-darkness → intensity 0–7, default 1 (`printer-darkness-configured` 14).
+- **Job flow.** At job start the app polls STATUS until the printer is idle. A previous job's
+  bands and page feed may still be printing, so it never resets a busy printer; it sends RESET
+  only to clear an error, then waits for the re-home. Every 7 raster lines become one BAND (line
+  r → bit 6 − r), sent and ACK-checked. At page end the partial band is padded white, then FEED 40
+  (≈ 1 inch). Every ACK is checked for the right command echo and an OK result.
+- **Status.** STATUS maps the engine's error state to IPP printer-state-reasons (paper-out →
+  media-empty, anything else → other).
 
 ## Bench tool (`host/tools/send_band.py`)
 
@@ -74,14 +83,14 @@ Arch); install the app to `/usr/local/bin/`; create a `silentype` user in the se
 
 ## Open issues
 
-| Severity | Issue | Fix |
+| Severity | Issue | Next step |
 |---|---|---|
-| Critical | `papplDeviceWrite` is buffered and never flushed: no frame is ever sent | Flush after each frame |
-| Critical | Device-list callback returns `void` (GCC 14+ error); stop/continue logic inverted | Return `bool`; stop when the callback returns true |
-| High | RESET at job start aborts the previous job's queued bands and page feed | Poll STATUS until idle first, or RESET only after an error |
-| Medium | Media width in wrong units (576 mm vs 203.2 mm) | 20320 hundredths of a mm |
-| Medium | 60 dpi vertical; one dot row is one paper step (~40/in) | 40 dpi vertical |
-| Medium | 480 columns vs the firmware's 560 | One shared header |
-| Low | Darkness → intensity 1–5, default 3 | 0–7, default 1 |
-| Low | Probes every `/dev/ttyACM*` | Match VID/PID or use `/dev/silentype` |
-| Low | Driver `format` without a print-file callback | Check on first compile |
+| Medium | Not yet linked against libpappl or run under CUPS | `pacman -S pappl`, `make`, add the printer, print a test page (M7) |
+| Medium | 75 × 40 dpi and 560 columns are estimates | Ruler check on a real print (M1); change `ST_XDPI`, `ST_MAX_COLS` |
+| Low | Listing probes every port on macOS (no sysfs USB ID check there) | Match the USB ID through IOKit, or rely on the device URI |
+
+Fixed in v0.7: frames were left in PAPPL's write buffer and never sent; the device-list callback
+had the wrong return type and inverted stop logic; RESET at job start discarded the previous
+job's queued bands; wrong media units, dpi and column count; darkness range; a non-existent
+raster-type constant (`PAPPL_RASTER_TYPE_BLACK_1`); a raw `format` with no print-file callback;
+replies split across USB packets read as a time-out. See [`KNOWN-ISSUES.md`](KNOWN-ISSUES.md).

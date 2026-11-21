@@ -5,8 +5,9 @@
 Nothing has run on real hardware yet. Verified so far, all in software: column timing and queue
 ordering (`firmware/test`), the PIO program (assembled with `pioasm`, cycle-level model of the
 PIO, the 74LS673 and Apple's card), bit order and dot orientation (traced from the card ROM and
-the Apple /// font), `send_band.py` (unit tests), and the PCB (KiCad DRC, 0 errors). The PAPPL
-app has only been syntax-checked.
+the Apple /// font), `send_band.py` (unit tests), the PAPPL app's job and device code (`make -C host/pappl-app test`,
+against a fake Pico on a pseudo-terminal) and the PCB (KiCad DRC, 0 errors). The PAPPL app has
+not yet been linked against libpappl or run under CUPS.
 
 ## Equipment
 
@@ -35,7 +36,7 @@ Add one layer at a time with the supply current-limited; do not continue until t
 7. **Walk the intensity up** one level at a time toward Apple's default 5; record the chosen
    level and burn times in `firmware/src/config.h`.
 8. **Images, then the printer app.** `send_band.py image chart.png`; then a page from the PAPPL
-   app once its blocking bugs are fixed (`docs/KNOWN-ISSUES.md`).
+   app (`docs/host-software.md`).
 
 ## Milestone test plan
 
