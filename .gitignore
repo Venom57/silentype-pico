@@ -1,5 +1,6 @@
 firmware/build/
 host/pappl-app/silentype-app
+host/pappl-app/test/test_app
 __pycache__/
 *.uf2
 docs/captures/

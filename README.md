@@ -85,6 +85,9 @@ cmake -B build -S firmware && cmake --build build      # → build/silentype.uf2
 # firmware tests on the PC (gcc only)
 make -C firmware/test
 
+# printer-app tests against a fake Pico (needs PAPPL headers)
+make -C host/pappl-app test
+
 # carrier PCB: regenerate, route, DRC, Gerbers, renders (KiCad 10, Java 25, Freerouting 2.5)
 make -C hardware/pcb FREEROUTING_JAR=/path/to/freerouting-2.5.0.jar
 
@@ -102,7 +105,7 @@ The PCB fab package is `hardware/pcb/fab/silentype-carrier-gerbers.zip` (2 layer
 | Reverse engineering | Done: Apple /// driver, Apple II card ROM, printer and card schematics, DE-9 pinout |
 | Firmware | Written; host-simulated tests pass; **not yet built with the real Pico SDK** |
 | Carrier PCB v1.0 | Routed, DRC clean (0 errors, 0 unconnected), Gerbers exported; not yet ordered |
-| PAPPL app | Written against PAPPL 1.4 from memory; not compiled; known blocking bugs (`docs/KNOWN-ISSUES.md`) |
+| PAPPL app | Builds against libpappl 1.4.12 with no warnings; fake-Pico test passes (`make -C host/pappl-app test`); a real PAPPL server added the printer and printed a PNG end to end to a fake Pico. Not yet tried from a desktop print dialog or with a real printer |
 | Bench | Not started |
 
 ## Milestones
